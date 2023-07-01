@@ -2,14 +2,20 @@ package com.Koupag.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
-public class Roles {
+public class Roles  implements GrantedAuthority {
     @Id
-   /* @GeneratedValue(strategy = GenerationType.IDENTITY)*/
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String name;
+    private String authority;
+
+    public Roles(String roles) {
+    }
 }

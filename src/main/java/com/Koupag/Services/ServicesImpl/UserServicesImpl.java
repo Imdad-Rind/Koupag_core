@@ -22,9 +22,10 @@ public class UserServicesImpl implements UserService {
     }
 
     @Override
-    public void creteNewUser(UserDTO userDTO) {
+    public UserModel creteNewUser(UserDTO userDTO) {
         UserModel newUser = mapper.mayToEntity(userDTO);
         userRepository.save(newUser);
+        return newUser;
     }
 
     /*@Override

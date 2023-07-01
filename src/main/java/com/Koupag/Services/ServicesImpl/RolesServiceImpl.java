@@ -17,6 +17,12 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     public Optional<Roles> getByName(String name) {
-        return rolesRepository.findByName(name);
+        return rolesRepository.findByAuthority(name);
+    }
+
+    @Override
+    public Roles CreateNewRole(Roles roles) {
+        rolesRepository.save(roles);
+        return roles;
     }
 }
