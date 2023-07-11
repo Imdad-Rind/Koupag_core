@@ -44,16 +44,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserModel registerUser(RegisterDTO registerDTO) {
+    public UserModel registerUser(RegisterDTO registerDTO) throws Exception {
+            Roles userRole = rolesService.getByName("USER").get();
+            Set<Roles> authorities = new HashSet<>();
 
-        Roles userRole = rolesService.getByName("USER").get();
-        Set<Roles> authorities = new HashSet<>();
+            authorities.add(userRole);
 
-        authorities.add(userRole);
-
-        final UserModel newUser = userMapper.DTOtoUser(registerDTO, authorities);
-
-        return userService.creteNewUser(newUser);
+            final UserModel newUser = userMapper.DTOtoUser(registerDTO, authorities);
+            final UserModel user = userService.creteNewUser(newUser);
+            if(user == null){
+                throw new Exception("user already exists");
+            }
+            return user;
     }
 
     @Override

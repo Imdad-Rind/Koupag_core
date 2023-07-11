@@ -21,10 +21,13 @@ public class AuthController {
 
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO){
-        authenticationService.registerUser(registerDTO);
-        return new ResponseEntity<>("User register success!",HttpStatus.OK);
-
+    public ResponseEntity<Optional<LoginResponseDTO>> register(@RequestBody RegisterDTO registerDTO){
+        try {
+            authenticationService.registerUser(registerDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Optional.empty(),HttpStatus.UNAUTHORIZED);
+        }
+        return login(new LoginDTO(registerDTO.getUsername(),registerDTO.getPassword()));
     }
 
     @PostMapping("login")
