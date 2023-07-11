@@ -1,39 +1,31 @@
 package com.Koupag.Services.ServicesImpl;
 
-import com.Koupag.DTO.UserDTO;
-import com.Koupag.Mappers.UserMapper;
+import com.Koupag.DTO.RegisterDTO;
+import com.Koupag.Model.Roles;
 import com.Koupag.Model.UserModel;
 import com.Koupag.Repository.UserRepository;
 import com.Koupag.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServicesImpl implements UserService {
 
     private UserRepository userRepository;
-    private UserMapper mapper;
     @Autowired
-    public UserServicesImpl(UserRepository userRepository,UserMapper mapper) {
+    public UserServicesImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.mapper = mapper;
     }
 
     @Override
-    public UserModel creteNewUser(UserDTO userDTO) {
-        UserModel newUser = mapper.mayToEntity(userDTO);
-        userRepository.save(newUser);
-        return newUser;
+    public UserModel creteNewUser(UserModel userModel) {
+        userRepository.save(userModel);
+        return userModel;
     }
-
-    /*@Override
-    public UserDTO getUserById(long id) {
-        Optional<UserModel> foundUser = userRepository.findById(id);
-        //var userToBeReturned = mayToDTO(foundUser);
-        return null ;
-    }*/
 
     @Override
     public Optional<UserModel> getUserByUserName(String username) {

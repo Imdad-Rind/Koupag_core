@@ -5,9 +5,11 @@ import com.Koupag.DTO.LoginResponseDTO;
 import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Model.UserModel;
 
+import java.util.Optional;
+
 public interface AuthenticationService {
 
     public UserModel registerUser(RegisterDTO registerDTO);
-    public LoginResponseDTO loginUser(LoginDTO loginDTO);
+    public Optional<LoginResponseDTO> loginUser(LoginDTO loginDTO);
 
 }

@@ -14,13 +14,16 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
+    private String name;
+    @Column(unique = true)
+    private String phoneNumber;
+    @Column(unique = true)
+    private String emailAddress;
     @Column(unique = true)
     String username;
     String password;
@@ -32,7 +35,10 @@ public class UserModel implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Roles> authorities;
 
-    public UserModel(String username, String password, Set<Roles> authorities) {
+    public UserModel(String name,String phoneNumber,String emailAddress,String username, String password, Set<Roles> authorities) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
         this.username = username;
         this.password = password;
         this.authorities = authorities;

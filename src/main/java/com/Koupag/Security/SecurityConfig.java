@@ -48,16 +48,18 @@ public class SecurityConfig {
          httpSecurity.authorizeHttpRequests(
                         request -> request
                                 .requestMatchers(toH2Console()).permitAll()
-                                .requestMatchers("/api/auth/**","/home/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
+//         httpSecurity.csrf(csrf -> csrf.disable());
         httpSecurity.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
         httpSecurity.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
         httpSecurity .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()))
                 .headers(headers -> headers.frameOptions().disable());
+        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**")).headers(headers -> headers.frameOptions().disable());
         return httpSecurity.build();
 
     }

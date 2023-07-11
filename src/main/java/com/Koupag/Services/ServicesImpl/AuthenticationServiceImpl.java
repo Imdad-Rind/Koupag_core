@@ -15,11 +15,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -29,37 +29,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private UserService userService;
     private RolesService rolesService;
-    private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private MyTokenService myTokenService;
+    private UserMapper userMapper;
 
     @Autowired
-    public AuthenticationServiceImpl(UserService userService, RolesService rolesService,
-                                     PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
-                                     MyTokenService myTokenService) {
+    public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager,
+                                     MyTokenService myTokenService, UserMapper userMapper) {
         this.userService = userService;
         this.rolesService = rolesService;
-        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.myTokenService = myTokenService;
+        this.userMapper = userMapper;
     }
 
     @Override
     public UserModel registerUser(RegisterDTO registerDTO) {
-        String encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
-        Roles userRole = rolesService.getByName("USER").get();
 
+        Roles userRole = rolesService.getByName("USER").get();
         Set<Roles> authorities = new HashSet<>();
 
         authorities.add(userRole);
 
-        var newUser = UserMapper.mayToDTO(new UserModel(registerDTO.getUsername(), encodedPassword, authorities));
+        final UserModel newUser = userMapper.DTOtoUser(registerDTO, authorities);
 
         return userService.creteNewUser(newUser);
     }
 
     @Override
-    public LoginResponseDTO loginUser(LoginDTO loginDTO) {
+    public Optional<LoginResponseDTO> loginUser(LoginDTO loginDTO) {
         try{
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword())
@@ -68,10 +66,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String token = myTokenService.generateJwt(auth);
 
             //return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
-            return new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token);
+//            return new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token);
+            return Optional.of(new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token));
 
         } catch(AuthenticationException e){
-            return new LoginResponseDTO(null, "");
+            return Optional.empty();
         }
     }
 

@@ -1,25 +1,29 @@
 package com.Koupag.Mappers;
 
-import com.Koupag.DTO.UserDTO;
+import com.Koupag.DTO.RegisterDTO;
+import com.Koupag.Model.Roles;
 import com.Koupag.Model.UserModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 public class  UserMapper {
 
-    public static UserDTO mayToDTO(UserModel user){
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setUsername(user.getUsername());
-        userDTO.setPassword(user.getPassword());
-        return userDTO;
+    private PasswordEncoder passwordEncoder;
+
+    public UserMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public static UserModel mayToEntity(UserDTO userDTO){
+    public UserModel DTOtoUser(RegisterDTO user, Set<Roles> authorities){
         UserModel userModel = new UserModel();
-        userModel.setId(userDTO.getId());
-        userModel.setUsername(userDTO.getUsername());
-        userModel.setPassword(userDTO.getPassword());
+        userModel.setName(user.getName());
+        userModel.setAuthorities(authorities);
+        userModel.setPhoneNumber(user.getPhoneNumber());
+        userModel.setUsername(user.getUsername());
+        userModel.setPassword(passwordEncoder.encode(user.getPassword()));
         return userModel;
     }
 }

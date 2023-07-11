@@ -1,5 +1,6 @@
 package com.Koupag;
 
+import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Mappers.UserMapper;
 import com.Koupag.Model.Roles;
 import com.Koupag.Model.UserModel;
@@ -9,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class KoupagCoreApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(RolesService rolesService, UserService userService, PasswordEncoder passwordEncode){
+	CommandLineRunner run(RolesService rolesService, UserService userService){
 		return args ->{
 			if(rolesService.getByName("ADMIN").isPresent()) return;
 			Roles adminRole = rolesService.CreateNewRole(new Roles("ADMIN"));
@@ -31,9 +31,14 @@ public class KoupagCoreApplication {
 			Set<Roles> roles = new HashSet<>();
 			roles.add(adminRole);
 
-			UserModel admin = new UserModel(1l, "admin", passwordEncode.encode("password"), roles);
-
-			userService.creteNewUser(UserMapper.mayToDTO(admin));
+//			userService.creteNewUser(new UserModel(
+//					"Admin",
+//					"03232579202",
+//					"balochrasheed888@gmail.com",
+//					"admin",
+//					"password",
+//					roles
+//			));
 		};
 	}
 

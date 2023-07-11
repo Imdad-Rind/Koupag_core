@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public class RolesServiceImpl implements RolesService {
-    private RolesRepository rolesRepository;
+    private final RolesRepository rolesRepository;
 
     public RolesServiceImpl(RolesRepository rolesRepository) {
         this.rolesRepository = rolesRepository;
