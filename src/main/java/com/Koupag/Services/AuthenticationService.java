@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AuthenticationService {
 
-    public UserModel registerUser(RegisterDTO registerDTO);
+    public UserModel registerUser(RegisterDTO registerDTO) throws Exception;
     public Optional<LoginResponseDTO> loginUser(LoginDTO loginDTO);
 
 }

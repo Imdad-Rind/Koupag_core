@@ -1,11 +1,11 @@
 package com.Koupag.DTO;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginDTO {
     private String username;
     private String password;
