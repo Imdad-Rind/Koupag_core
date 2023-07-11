@@ -31,14 +31,6 @@ public class KoupagCoreApplication {
 			Set<Roles> roles = new HashSet<>();
 			roles.add(adminRole);
 
-//			userService.creteNewUser(new UserModel(
-//					"Admin",
-//					"03232579202",
-//					"balochrasheed888@gmail.com",
-//					"admin",
-//					"password",
-//					roles
-//			));
 		};
 	}
 
