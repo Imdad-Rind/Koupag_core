@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/home")
 public class HomeController {
     @GetMapping("/hi")
-    public ResponseEntity<String> hello(@RequestHeader String token){
-        return new ResponseEntity<>("Hello, ur token is: "+token, HttpStatus.OK);
+    public ResponseEntity<String> hello(){
+        return new ResponseEntity<>("Hello", HttpStatus.OK);
     }
 }
