@@ -22,6 +22,7 @@ public class  UserMapper {
         userModel.setName(user.getName());
         userModel.setAuthorities(authorities);
         userModel.setPhoneNumber(user.getPhoneNumber());
+        userModel.setEmailAddress(user.getEmailAddress());
         userModel.setUsername(user.getUsername());
         userModel.setPassword(passwordEncoder.encode(user.getPassword()));
         return userModel;
