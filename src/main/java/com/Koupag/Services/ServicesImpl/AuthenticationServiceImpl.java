@@ -66,8 +66,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             String token = myTokenService.generateJwt(auth);
 
-            //return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
-//            return new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token);
+           /* //return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
+            // return new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token);*/
             return Optional.of(new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token));
 
         } catch(AuthenticationException e){

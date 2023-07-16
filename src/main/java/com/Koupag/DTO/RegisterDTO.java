@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class RegisterDTO {
     private String name;
+    private String cnic;
     private String phoneNumber;
     private String emailAddress;
     private String username;

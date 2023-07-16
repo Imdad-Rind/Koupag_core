@@ -21,6 +21,8 @@ public class  UserMapper {
         UserModel userModel = new UserModel();
         userModel.setName(user.getName());
         userModel.setAuthorities(authorities);
+        userModel.setEmailAddress(user.getEmailAddress());
+        userModel.setCNIC(user.getCnic());
         userModel.setPhoneNumber(user.getPhoneNumber());
         userModel.setEmailAddress(user.getEmailAddress());
         userModel.setUsername(user.getUsername());
