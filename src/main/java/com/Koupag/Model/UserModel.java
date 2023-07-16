@@ -21,6 +21,8 @@ public class UserModel implements UserDetails {
     Long Id;
     private String name;
     @Column(unique = true)
+    private String CNIC;
+    @Column(unique = true)
     private String phoneNumber;
     @Column(unique = true)
     private String emailAddress;
