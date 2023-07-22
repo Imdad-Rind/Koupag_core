@@ -14,9 +14,11 @@ import lombok.Setter;
 public class VolunteerModel extends UserModel {
     @OneToOne(mappedBy = "volunteerId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @Transient
     DonationRequest request;
 
     @OneToOne(mappedBy = "volunteerId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @Transient
     OrganizationDonation donation;
 }

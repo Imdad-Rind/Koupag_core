@@ -18,5 +18,6 @@ public class SurplusMaterialModel extends RequestItemModel{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
-    String marerialType;
+    String materialType;
+
 }

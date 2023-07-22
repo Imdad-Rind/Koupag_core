@@ -26,6 +26,7 @@ public class KoupagCoreApplication {
 		return args ->{
 			if(rolesService.getByName("ADMIN").isPresent()) return;
 			Roles adminRole = rolesService.CreateNewRole(new Roles("ADMIN"));
+			rolesService.CreateNewRole(new Roles("USER"));
 			rolesService.CreateNewRole(new Roles("DONOR"));
 			rolesService.CreateNewRole(new Roles("VOLUNTEER"));
 			rolesService.CreateNewRole(new Roles("RECIPIENT"));

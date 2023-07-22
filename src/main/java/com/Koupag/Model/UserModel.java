@@ -27,8 +27,10 @@ public class UserModel implements UserDetails {
     @Column(unique = true)
     private String emailAddress;
     @Column(unique = true)
-    String username;
-    String password;
+    private String username;
+    private String password;
+    @Transient
+    private String userType;
 
 
 
