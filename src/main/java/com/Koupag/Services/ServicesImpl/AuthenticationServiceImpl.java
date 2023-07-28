@@ -2,14 +2,10 @@ package com.Koupag.Services.ServicesImpl;
 
 import com.Koupag.DTO.LoginDTO;
 import com.Koupag.DTO.LoginResponseDTO;
-import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Model.Roles;
-import com.Koupag.Model.UserModel;
+import com.Koupag.Model.User;
 import com.Koupag.Mappers.*;
-import com.Koupag.Services.AuthenticationService;
-import com.Koupag.Services.RolesService;
-import com.Koupag.Services.MyTokenService;
-import com.Koupag.Services.UserService;
+import com.Koupag.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,34 +23,40 @@ import java.util.Set;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
 
-    private UserService userService;
-    private RolesService rolesService;
-    private AuthenticationManager authenticationManager;
-    private MyTokenService myTokenService;
-    private UserMapper userMapper;
+    private final UserService userService;
+    private final RolesService rolesService;
+    private final AuthenticationManager authenticationManager;
+    private final MyTokenService myTokenService;
+    private final UserMapper userMapper;
+    private final UserTypeService userTypeService;
 
     @Autowired
     public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager,
-                                     MyTokenService myTokenService, UserMapper userMapper) {
+                                     MyTokenService myTokenService, UserMapper userMapper, UserTypeService userTypeService) {
         this.userService = userService;
         this.rolesService = rolesService;
         this.authenticationManager = authenticationManager;
         this.myTokenService = myTokenService;
         this.userMapper = userMapper;
+        this.userTypeService = userTypeService;
     }
 
     @Override
-    public UserModel registerUser(RegisterDTO registerDTO) throws Exception {
+    public User registerUser(User user) throws Exception {
             Set<Roles> roles = new HashSet<>();
-            for(Roles role :registerDTO.getUserRole()){
-                roles.add(rolesService.getRolesById(role.getId()).get());
+            final var newUserRole = rolesService.getByName(user.getUserType()).get();
+            roles.add(newUserRole);
+            String userTypeRole = user.getUserType();
+            var createdUser = userTypeService.creteNewTypeUser(user,roles,userTypeRole);
+
+            if(createdUser == null){
+                final User newUseruser = userService.creteNewUser(user);
+                if(user == null){
+                    throw new Exception("user already exists");
+                }
+                return user;
             }
-            final UserModel newUser = userMapper.DTOtoUser(registerDTO, roles);
-            final UserModel user = userService.creteNewUser(newUser);
-            if(user == null){
-                throw new Exception("user already exists");
-            }
-            return user;
+        return createdUser;
     }
 
     @Override

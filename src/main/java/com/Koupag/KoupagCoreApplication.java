@@ -1,9 +1,6 @@
 package com.Koupag;
 
-import com.Koupag.DTO.RegisterDTO;
-import com.Koupag.Mappers.UserMapper;
 import com.Koupag.Model.Roles;
-import com.Koupag.Model.UserModel;
 import com.Koupag.Services.RolesService;
 import com.Koupag.Services.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +23,7 @@ public class KoupagCoreApplication {
 		return args ->{
 			if(rolesService.getByName("ADMIN").isPresent()) return;
 			Roles adminRole = rolesService.CreateNewRole(new Roles("ADMIN"));
+			rolesService.CreateNewRole(new Roles("USER"));
 			rolesService.CreateNewRole(new Roles("DONOR"));
 			rolesService.CreateNewRole(new Roles("VOLUNTEER"));
 			rolesService.CreateNewRole(new Roles("RECIPIENT"));

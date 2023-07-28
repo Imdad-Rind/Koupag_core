@@ -1,9 +1,6 @@
 package com.Koupag.Model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -11,9 +8,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecipientModel extends UserModel{
+public class Recipient extends User {
     @OneToOne(mappedBy = "recipientId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @Transient
     DonationRequest request;
 
 }

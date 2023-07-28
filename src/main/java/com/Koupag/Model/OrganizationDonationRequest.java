@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Setter
@@ -25,7 +24,7 @@ public class OrganizationDonationRequest {
     Long recipientOrganizationId;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "request_Item_Id", nullable = false)
-    RequestItemModel requestItemId;
+    RequestItem requestItemId;
     int status;
     LocalDateTime creationDateAndTime;
     //LocalDateTime engagedDateAndTime;

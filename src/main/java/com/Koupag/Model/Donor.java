@@ -7,13 +7,15 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class DonorModel extends UserModel{
+public class Donor extends User {
     @OneToOne(mappedBy = "donorId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @Transient
     DonationRequest request;
 
     @OneToOne(mappedBy = "donorId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @Transient
     OrganizationDonation donation;
 
 }

@@ -1,18 +1,16 @@
 package com.Koupag.Security;
 
 import com.Koupag.Model.Roles;
-import com.Koupag.Model.UserModel;
+import com.Koupag.Model.User;
 import com.Koupag.Services.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,8 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModel user = userService.getUserByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-        return new User(user.getUsername(),user.getPassword(),mapRolesToAuthorities((Set<Roles>) user.getAuthorities()));
+        User user = userService.getUserByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),mapRolesToAuthorities((Set<Roles>) user.getAuthorities()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(Set<Roles> roles) {

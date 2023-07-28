@@ -14,9 +14,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SurplusMaterialModel extends RequestItemModel{
+public class SurplusMaterial extends RequestItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
-    String marerialType;
+    String materialType;
+
 }

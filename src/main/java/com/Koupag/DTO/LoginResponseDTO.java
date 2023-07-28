@@ -1,6 +1,6 @@
 package com.Koupag.DTO;
 
-import com.Koupag.Model.UserModel;
+import com.Koupag.Model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponseDTO {
-    private UserModel user;
+    private User user;
     private String jwt;
 }

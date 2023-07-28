@@ -48,7 +48,7 @@ public class SecurityConfig {
          httpSecurity.authorizeHttpRequests(
                         request -> request
                                 .requestMatchers(toH2Console()).permitAll()
-                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**","/api/donation/**").permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
@@ -59,7 +59,7 @@ public class SecurityConfig {
         );
         httpSecurity .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()))
                 .headers(headers -> headers.frameOptions().disable());
-        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**")).headers(headers -> headers.frameOptions().disable());
+        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**","/api/donation/**")).headers(headers -> headers.frameOptions().disable());
         return httpSecurity.build();
 
     }

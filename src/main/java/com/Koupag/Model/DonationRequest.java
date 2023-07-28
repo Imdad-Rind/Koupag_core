@@ -16,16 +16,16 @@ public class DonationRequest {
     Long Id;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "donor_id", nullable = false)
-    DonorModel donorId;
+    Donor donorId;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "recipient_Id", nullable = false)
-    RecipientModel recipientId;
+    Recipient recipientId;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "volunteer_Id", nullable = false)
-    VolunteerModel volunteerId;
+    Volunteer volunteerId;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "request_Item_Id", nullable = false)
-    RequestItemModel requestItemId;
+    RequestItem requestItemId;
     int status;
     LocalDateTime creationDateAndTime;
     LocalDateTime engagedDateAndTime;

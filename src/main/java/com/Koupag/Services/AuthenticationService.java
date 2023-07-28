@@ -2,14 +2,13 @@ package com.Koupag.Services;
 
 import com.Koupag.DTO.LoginDTO;
 import com.Koupag.DTO.LoginResponseDTO;
-import com.Koupag.DTO.RegisterDTO;
-import com.Koupag.Model.UserModel;
+import com.Koupag.Model.User;
 
 import java.util.Optional;
 
 public interface AuthenticationService {
 
-    public UserModel registerUser(RegisterDTO registerDTO) throws Exception;
+    public User registerUser(User user) throws Exception;
     public Optional<LoginResponseDTO> loginUser(LoginDTO loginDTO);
 
 }

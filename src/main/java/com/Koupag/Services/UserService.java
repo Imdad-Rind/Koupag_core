@@ -1,6 +1,6 @@
 package com.Koupag.Services;
 
-import com.Koupag.Model.UserModel;
+import com.Koupag.Model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -9,9 +9,9 @@ import java.util.Optional;
 @Component
 public interface UserService {
 
-    UserModel creteNewUser(UserModel userModel);
+    User creteNewUser(User user);
     //UserModel getUserById(long id);
-    Optional<UserModel> getUserByUserName(String username);
+    Optional<User> getUserByUserName(String username);
     Boolean existsByUsername(String username);
 
 

@@ -4,14 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.*;
 
 @Entity
-public class AddressModel {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Cash extends RequestItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
-    private String areaName;
-    private String UCName;
-    private String cityName;
-
+    Long Id;
+    Double amount;
 }
