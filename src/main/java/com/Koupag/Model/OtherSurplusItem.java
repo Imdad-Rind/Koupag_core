@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OtherSurplusItemModel extends SurplusMaterialModel{
+public class OtherSurplusItem extends SurplusMaterial {
     String OtherSurplusItemDescription;
 }

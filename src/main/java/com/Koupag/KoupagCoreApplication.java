@@ -1,9 +1,6 @@
 package com.Koupag;
 
-import com.Koupag.DTO.RegisterDTO;
-import com.Koupag.Mappers.UserMapper;
 import com.Koupag.Model.Roles;
-import com.Koupag.Model.UserModel;
 import com.Koupag.Services.RolesService;
 import com.Koupag.Services.UserService;
 import org.springframework.boot.CommandLineRunner;

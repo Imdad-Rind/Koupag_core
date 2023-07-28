@@ -1,7 +1,7 @@
 package com.Koupag.Repository;
 
-import com.Koupag.Model.AddressModel;
+import com.Koupag.Model.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AddressRepository extends JpaRepository<AddressModel, Long> {
+public interface AddressRepository extends JpaRepository<Address, Long> {
 }

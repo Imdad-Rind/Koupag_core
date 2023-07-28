@@ -1,6 +1,5 @@
 package com.Koupag.Services.ServicesImpl;
 
-import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Mappers.UserMapper;
 import com.Koupag.Model.*;
 import com.Koupag.Repository.DonorRepository;
@@ -32,20 +31,20 @@ public class UserTypeServiceImpl implements UserTypeService {
 
 
     @Override
-    public UserModel creteNewTypeUser(RegisterDTO registerDTO, Set<Roles> roles, String userTypeRole) {
+    public User creteNewTypeUser(User user, Set<Roles> roles, String userTypeRole) {
         switch (userTypeRole) {
             case "DONOR" -> {
-                var donorUser = mapper.DTOToDonor(registerDTO, roles);
+                var donorUser = mapper.userToDonor(user, roles);
                 creteDonorTypeUser(donorUser);
                 return mapper.donorToUserModel(donorUser, roles);
             }
             case "VOLUNTEER" -> {
-                var volunteerUser = mapper.DTOToVolunteer(registerDTO, roles);
+                var volunteerUser = mapper.userToVolunteer(user, roles);
                 creteVolunteerTypeUser(volunteerUser);
                 return mapper.voluntterToUserModel(volunteerUser, roles);
             }
             case "RECIPIENT" -> {
-                var recipientUser = mapper.DTOToRecipient(registerDTO, roles);
+                var recipientUser = mapper.userToRecipient(user, roles);
                 creteRecipientTypeUser(recipientUser);
                 return mapper.recipientToUserModel(recipientUser, roles);
             }
@@ -54,17 +53,17 @@ public class UserTypeServiceImpl implements UserTypeService {
     }
 
     @Override
-    public void creteDonorTypeUser(DonorModel donorModel) {
-        donorRepository.save(donorModel);
+    public void creteDonorTypeUser(Donor donor) {
+        donorRepository.save(donor);
     }
 
     @Override
-    public void creteVolunteerTypeUser(VolunteerModel volunteerModel) {
+    public void creteVolunteerTypeUser(Volunteer volunteerModel) {
         volunteerRepository.save(volunteerModel);
     }
 
     @Override
-    public void creteRecipientTypeUser(RecipientModel recipientModel) {
-        recipientRepository.save(recipientModel);
+    public void creteRecipientTypeUser(Recipient recipient) {
+        recipientRepository.save(recipient);
     }
 }

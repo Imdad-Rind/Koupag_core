@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public  class RequestItemModel {
+public  class RequestItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;

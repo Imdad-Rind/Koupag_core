@@ -1,8 +1,5 @@
 package com.Koupag.Services.ServicesImpl;
-
-import com.Koupag.DTO.SurplusMaterialDTO;
-import com.Koupag.Mappers.SurplusMaterialMappper;
-import com.Koupag.Model.SurplusMaterialModel;
+import com.Koupag.Model.SurplusMaterial;
 import com.Koupag.Repository.SurplusMaterialRepository;
 import com.Koupag.Services.SurplusMaterialServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +14,9 @@ public class SurplusMaterialServicesImpl implements SurplusMaterialServices {
     }
 
     @Override
-    public void newSurplusMaterialDonationRequest(SurplusMaterialDTO surplus) {
-        SurplusMaterialModel surplusMaterial = new SurplusMaterialMappper().DTOtoSurplusMaterial(surplus);
-        surplusRepo.save(surplusMaterial);
+    public void newSurplusMaterialDonationRequest(SurplusMaterial surplus) {
+        //SurplusMaterial surplusMaterial = new SurplusMaterialMappper().DTOtoSurplusMaterial(surplus);
+        surplusRepo.save(surplus);
 
     }
 }

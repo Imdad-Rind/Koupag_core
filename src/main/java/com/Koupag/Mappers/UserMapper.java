@@ -1,6 +1,5 @@
 package com.Koupag.Mappers;
 
-import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Model.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,8 @@ public class  UserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserModel DTOtoUser(RegisterDTO user, Set<Roles> authorities){
-        UserModel userModel = new UserModel();
+  /*  public User DTOtoUser(RegisterDTO user, Set<Roles> authorities){
+        User userModel = new User();
         userModel.setName(user.getName());
         userModel.setAuthorities(authorities);
         userModel.setEmailAddress(user.getEmailAddress());
@@ -29,13 +28,13 @@ public class  UserMapper {
         userModel.setPassword(passwordEncoder.encode(user.getPassword()));
         return userModel;
     }
-
-    public DonorModel DTOToDonor(RegisterDTO user,Set<Roles> authorities){
-        DonorModel donor = new DonorModel();
+*/
+    public Donor userToDonor(User user, Set<Roles> authorities){
+        Donor donor = new Donor();
         donor.setName(user.getName());
         donor.setAuthorities(authorities);
         donor.setEmailAddress(user.getEmailAddress());
-        donor.setCNIC(user.getCnic());
+        donor.setCNIC(user.getCNIC());
         donor.setUserType(user.getUserType());
         donor.setPhoneNumber(user.getPhoneNumber());
         donor.setUsername(user.getUsername());
@@ -43,12 +42,12 @@ public class  UserMapper {
         return donor;
     }
 
-    public VolunteerModel DTOToVolunteer(RegisterDTO user,Set<Roles> authorities){
-        VolunteerModel volunteer = new VolunteerModel();
+    public Volunteer userToVolunteer(User user, Set<Roles> authorities){
+        Volunteer volunteer = new Volunteer();
         volunteer.setName(user.getName());
         volunteer.setAuthorities(authorities);
         volunteer.setEmailAddress(user.getEmailAddress());
-        volunteer.setCNIC(user.getCnic());
+        volunteer.setCNIC(user.getCNIC());
         volunteer.setUserType(user.getUserType());
         volunteer.setPhoneNumber(user.getPhoneNumber());
         volunteer.setUsername(user.getUsername());
@@ -56,12 +55,12 @@ public class  UserMapper {
         return volunteer;
     }
 
-    public RecipientModel DTOToRecipient(RegisterDTO user,Set<Roles> authorities){
-        RecipientModel recipient = new RecipientModel();
+    public Recipient userToRecipient(User user, Set<Roles> authorities){
+        Recipient recipient = new Recipient();
         recipient.setName(user.getName());
         recipient.setAuthorities(authorities);
         recipient.setEmailAddress(user.getEmailAddress());
-        recipient.setCNIC(user.getCnic());
+        recipient.setCNIC(user.getCNIC());
         recipient.setUserType(user.getUserType());
         recipient.setPhoneNumber(user.getPhoneNumber());
         recipient.setUsername(user.getUsername());
@@ -69,20 +68,20 @@ public class  UserMapper {
         return recipient;
     }
 
-    public UserModel donorToUserModel(DonorModel donorModel,Set<Roles> authorities){
-        UserModel user = new UserModel();
-        user.setName(donorModel.getName());
+    public User donorToUserModel(Donor donor, Set<Roles> authorities){
+        User user = new User();
+        user.setName(donor.getName());
         user.setAuthorities(authorities);
-        user.setEmailAddress(donorModel.getEmailAddress());
-        user.setCNIC(donorModel.getCNIC());
-        user.setUserType(donorModel.getUserType());
-        user.setPhoneNumber(donorModel.getPhoneNumber());
-        user.setUsername(donorModel.getUsername());
-        user.setPassword(passwordEncoder.encode(donorModel.getPassword()));
+        user.setEmailAddress(donor.getEmailAddress());
+        user.setCNIC(donor.getCNIC());
+        user.setUserType(donor.getUserType());
+        user.setPhoneNumber(donor.getPhoneNumber());
+        user.setUsername(donor.getUsername());
+        user.setPassword(passwordEncoder.encode(donor.getPassword()));
         return user;
     }
-    public UserModel voluntterToUserModel(VolunteerModel Model,Set<Roles> authorities){
-        UserModel user = new UserModel();
+    public User voluntterToUserModel(Volunteer Model, Set<Roles> authorities){
+        User user = new User();
         user.setName(Model.getName());
         user.setAuthorities(authorities);
         user.setEmailAddress(Model.getEmailAddress());
@@ -94,8 +93,8 @@ public class  UserMapper {
         return user;
     }
 
-    public UserModel recipientToUserModel(RecipientModel Model,Set<Roles> authorities){
-        UserModel user = new UserModel();
+    public User recipientToUserModel(Recipient Model, Set<Roles> authorities){
+        User user = new User();
         user.setName(Model.getName());
         user.setAuthorities(authorities);
         user.setEmailAddress(Model.getEmailAddress());

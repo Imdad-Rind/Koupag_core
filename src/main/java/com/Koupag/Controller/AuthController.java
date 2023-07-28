@@ -2,8 +2,8 @@ package com.Koupag.Controller;
 
 import com.Koupag.DTO.LoginDTO;
 import com.Koupag.DTO.LoginResponseDTO;
-import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Model.Roles;
+import com.Koupag.Model.User;
 import com.Koupag.Services.AuthenticationService;
 import com.Koupag.Services.RolesService;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/auth/")
@@ -30,13 +29,13 @@ public class AuthController {
         return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
     }
     @PostMapping("register")
-    public ResponseEntity<Optional<LoginResponseDTO>> register(@RequestBody RegisterDTO registerDTO){
+    public ResponseEntity<Optional<LoginResponseDTO>> register(@RequestBody User user){
         try {
-            authenticationService.registerUser(registerDTO);
+            authenticationService.registerUser(user);
         } catch (Exception e) {
             return new ResponseEntity<>(Optional.empty(),HttpStatus.UNAUTHORIZED);
         }
-        return login(new LoginDTO(registerDTO.getUsername(),registerDTO.getPassword()));
+        return login(new LoginDTO(user.getUsername(),user.getPassword()));
     }
 
     @PostMapping("login")

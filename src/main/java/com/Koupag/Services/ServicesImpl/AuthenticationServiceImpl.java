@@ -2,9 +2,8 @@ package com.Koupag.Services.ServicesImpl;
 
 import com.Koupag.DTO.LoginDTO;
 import com.Koupag.DTO.LoginResponseDTO;
-import com.Koupag.DTO.RegisterDTO;
 import com.Koupag.Model.Roles;
-import com.Koupag.Model.UserModel;
+import com.Koupag.Model.User;
 import com.Koupag.Mappers.*;
 import com.Koupag.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +42,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserModel registerUser(RegisterDTO registerDTO) throws Exception {
+    public User registerUser(User user) throws Exception {
             Set<Roles> roles = new HashSet<>();
-            final var newUserRole = rolesService.getByName(registerDTO.getUserType()).get();
+            final var newUserRole = rolesService.getByName(user.getUserType()).get();
             roles.add(newUserRole);
-            String userTypeRole = registerDTO.getUserType();
-            var createdUser = userTypeService.creteNewTypeUser(registerDTO,roles,userTypeRole);
+            String userTypeRole = user.getUserType();
+            var createdUser = userTypeService.creteNewTypeUser(user,roles,userTypeRole);
 
             if(createdUser == null){
-                final UserModel newUser = userMapper.DTOtoUser(registerDTO, roles);
-                final UserModel user = userService.creteNewUser(newUser);
+                final User newUseruser = userService.creteNewUser(user);
                 if(user == null){
                     throw new Exception("user already exists");
                 }

@@ -1,8 +1,7 @@
 package com.Koupag.Controller;
 
-import com.Koupag.DTO.DonationRequestDTO;
-import com.Koupag.DTO.SurplusMaterialDTO;
-import com.Koupag.Mappers.DonationRequestMapper;
+import com.Koupag.Model.DonationRequest;
+import com.Koupag.Model.SurplusMaterial;
 import com.Koupag.Services.DonationRequestService;
 import com.Koupag.Services.SurplusMaterialServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +15,24 @@ public class DonationController {
 
     private final SurplusMaterialServices surplusMaterialServices;
     private final DonationRequestService donationRequestService;
-    private final DonationRequestMapper donationRequestMapper;
 
     @Autowired
     public DonationController(SurplusMaterialServices surplusMaterialServices,
-                              DonationRequestService donationRequestService, DonationRequestMapper donationRequestMapper) {
+                              DonationRequestService donationRequestService) {
         this.surplusMaterialServices = surplusMaterialServices;
         this.donationRequestService = donationRequestService;
-        this.donationRequestMapper = donationRequestMapper;
+
     }
 
     @PostMapping("surplus")
-    public ResponseEntity<SurplusMaterialDTO> surplusMaterialRequest(@RequestBody SurplusMaterialDTO surplusMaterialDTO){
-        surplusMaterialServices.newSurplusMaterialDonationRequest(surplusMaterialDTO);
-        return new ResponseEntity<>(surplusMaterialDTO, HttpStatus.OK);
+    public ResponseEntity<SurplusMaterial> surplusMaterialRequest(@RequestBody SurplusMaterial surplusMaterial){
+        surplusMaterialServices.newSurplusMaterialDonationRequest(surplusMaterial);
+        return new ResponseEntity<>(surplusMaterial, HttpStatus.OK);
     }
 
     @PostMapping("request")
-    public ResponseEntity<DonationRequestDTO> donationRequest(@RequestBody DonationRequestDTO donationRequestDTO){
-        donationRequestService.createNewDonationRequest(donationRequestMapper.DtoToDonationRequestModel(donationRequestDTO));
-        return new ResponseEntity<>(donationRequestDTO, HttpStatus.OK);
+    public ResponseEntity<DonationRequest> donationRequest(@RequestBody DonationRequest request){
+        donationRequestService.createNewDonationRequest(request);
+        return new ResponseEntity<>(request, HttpStatus.OK);
     }
 }

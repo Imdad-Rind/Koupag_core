@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 
 
-public abstract class OrganizationModel {
+public abstract class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long Id;
     private String name;
