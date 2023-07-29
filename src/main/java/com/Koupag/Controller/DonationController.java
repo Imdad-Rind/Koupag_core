@@ -4,10 +4,13 @@ import com.Koupag.Model.DonationRequest;
 import com.Koupag.Model.SurplusMaterial;
 import com.Koupag.Services.DonationRequestService;
 import com.Koupag.Services.SurplusMaterialServices;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/donation/")
@@ -31,8 +34,10 @@ public class DonationController {
     }
 
     @PostMapping("request")
-    public ResponseEntity<DonationRequest> donationRequest(@RequestBody DonationRequest request){
+    public ResponseEntity<Map<String, String>> donationRequest(@RequestBody Map<String, String> request){
+        System.out.println(request);
         donationRequestService.createNewDonationRequest(request);
+
         return new ResponseEntity<>(request, HttpStatus.OK);
     }
 }
