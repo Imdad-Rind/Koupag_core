@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping("api/volunteer/")
 public class VolunteerController {
@@ -20,7 +22,13 @@ public class VolunteerController {
 	
 	@PostMapping("insert")
 	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody EngagedDonor engagedDonor){
-		donationRequestService.updateVolunteerIdByDonationRequest(engagedDonor);
+		System.out.println(engagedDonor.getVolunteerId());
+		try{
+			donationRequestService.updateVolunteerIdByDonationRequest(engagedDonor);
+		} catch (NoSuchElementException e){
+			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+
 		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
 }

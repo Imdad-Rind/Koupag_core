@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
-    public DonationRequest createNewDonationRequest(Map<String, String> request) {
+    public DonationRequest createNewDonationRequest(Map<String, String> request) throws NullPointerException {
         DonationRequest dr = new DonationRequest();
         dr.setDonorId(donorRepository.findById(Long.decode(request.get("donorId"))).get());
         //dr.setRequestItemId(surplusMaterialRepository.findById(Long.decode(request.get("requestItemId"))).get());
@@ -43,9 +44,10 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
     
     @Override
-    public void updateVolunteerIdByDonationRequest(EngagedDonor engagedDonor) {
+    public void updateVolunteerIdByDonationRequest(EngagedDonor engagedDonor) throws NoSuchElementException  {
         DonationRequest requestToBeUpdated = repository.getReferenceById(engagedDonor.getRequestId());
-        requestToBeUpdated.setVolunteerId(volunteerRepository.findById(engagedDonor.getRequestId()).get());
+        requestToBeUpdated.setVolunteerId(volunteerRepository.findById(engagedDonor.getVolunteerId()).get());
+        System.out.println(requestToBeUpdated.getVolunteerId());
         requestToBeUpdated.setEngagedDateAndTime(LocalDateTime.now());
         repository.save(requestToBeUpdated);
     }
