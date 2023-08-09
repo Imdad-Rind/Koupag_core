@@ -2,6 +2,7 @@ package com.Koupag.Services.ServicesImpl;
 
 import com.Koupag.Model.DonationRequest;
 import com.Koupag.Model.EngagedDonor;
+import com.Koupag.Model.EngagedRecipient;
 import com.Koupag.Repository.*;
 import com.Koupag.Services.DonationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +48,14 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     public void updateVolunteerIdByDonationRequest(EngagedDonor engagedDonor) throws NoSuchElementException  {
         DonationRequest requestToBeUpdated = repository.getReferenceById(engagedDonor.getRequestId());
         requestToBeUpdated.setVolunteerId(volunteerRepository.findById(engagedDonor.getVolunteerId()).get());
-        System.out.println(requestToBeUpdated.getVolunteerId());
         requestToBeUpdated.setEngagedDateAndTime(LocalDateTime.now());
         repository.save(requestToBeUpdated);
     }
     
     @Override
-    public void updateRecipientIdByDonationRequest(long requestId, long recipientId) {
-        DonationRequest requestToBeUpdated = repository.getReferenceById(requestId);
-        requestToBeUpdated.setRecipientId(recipientRepository.findById(recipientId).get());
+    public void updateRecipientIdByDonationRequest(EngagedRecipient engagedRecipient) throws NoSuchElementException {
+        DonationRequest requestToBeUpdated = repository.getReferenceById(engagedRecipient.getRequestId());
+        requestToBeUpdated.setRecipientId(recipientRepository.findById(engagedRecipient.getRecipientId()).get());
         requestToBeUpdated.setSuccessfulDonationDateAndTime(LocalDateTime.now());
         repository.save(requestToBeUpdated);
         

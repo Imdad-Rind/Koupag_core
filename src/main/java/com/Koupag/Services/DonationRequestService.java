@@ -2,6 +2,7 @@ package com.Koupag.Services;
 
 import com.Koupag.Model.DonationRequest;
 import com.Koupag.Model.EngagedDonor;
+import com.Koupag.Model.EngagedRecipient;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -14,5 +15,5 @@ public interface DonationRequestService {
    public Optional<DonationRequest> getDonationRequestById(long id);
    
    public void updateVolunteerIdByDonationRequest(EngagedDonor engagedDonor) throws NoSuchElementException;
-    public void updateRecipientIdByDonationRequest(long requestId, long recipientId);
+    public void updateRecipientIdByDonationRequest(EngagedRecipient engagedRecipient);
 }
