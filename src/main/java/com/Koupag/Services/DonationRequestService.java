@@ -1,10 +1,19 @@
 package com.Koupag.Services;
 
 import com.Koupag.Model.DonationRequest;
+import com.Koupag.Model.EngagedDonor;
+import com.Koupag.Model.EngagedRecipient;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public interface DonationRequestService {
 
-    DonationRequest createNewDonationRequest(Map<String, String> request);
+   public DonationRequest createNewDonationRequest(Map<String, String> request) throws NullPointerException;
+   
+   public Optional<DonationRequest> getDonationRequestById(long id);
+   
+   public void updateVolunteerIdByDonationRequest(EngagedDonor engagedDonor) throws NoSuchElementException;
+    public void updateRecipientIdByDonationRequest(EngagedRecipient engagedRecipient);
 }

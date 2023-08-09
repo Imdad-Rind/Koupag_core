@@ -16,7 +16,7 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    long Id;
     private String name;
     @Column(unique = true)
     private String CNIC;

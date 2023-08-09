@@ -16,6 +16,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,18 +49,28 @@ public class SecurityConfig {
          httpSecurity.authorizeHttpRequests(
                         request -> request
                                 .requestMatchers(toH2Console()).permitAll()
-                                .requestMatchers("/api/auth/**","/api/donation/**").permitAll()
+                                .requestMatchers(
+                                        "/api/auth/**",
+                                        "/api/donor/**",
+                                        "api/volunteer/**",
+                                        "api/recipient/**"
+                                ).permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
-//         httpSecurity.csrf(csrf -> csrf.disable());
-        httpSecurity.oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
+        httpSecurity.oauth2ResourceServer((oauth2ResourceServer) ->
+                                                  oauth2ResourceServer
+                                                          .jwt((jwt) ->
+                                                                       jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
+                                                                  
+                                                          )
+        );
         httpSecurity.sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
-        httpSecurity .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()))
-                .headers(headers -> headers.frameOptions().disable());
-        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**","/api/donation/**")).headers(headers -> headers.frameOptions().disable());
+        httpSecurity.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)).csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));
+        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**","/api/donor/**",
+                "api/volunteer/**","api/recipient/**")).headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return httpSecurity.build();
 
     }

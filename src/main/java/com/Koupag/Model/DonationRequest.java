@@ -33,8 +33,8 @@ public class DonationRequest {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_Id")
     Volunteer volunteerId;
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "request_Item_Id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_Item_Id")
     RequestItem requestItemId;
     LocalDateTime creationDateAndTime;
     LocalDateTime engagedDateAndTime;
