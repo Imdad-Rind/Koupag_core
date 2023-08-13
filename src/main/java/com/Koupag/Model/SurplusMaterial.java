@@ -1,9 +1,6 @@
 package com.Koupag.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +11,14 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SurplusMaterial extends RequestItem {
+public class SurplusMaterial{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
-    String materialType;
+    String name;
+    String description;
+    @OneToOne(mappedBy = "surplusMaterial", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    RequestItem requestItem;
 
 }

@@ -53,7 +53,8 @@ public class SecurityConfig {
                                         "/api/auth/**",
                                         "/api/donor/**",
                                         "api/volunteer/**",
-                                        "api/recipient/**"
+                                        "api/recipient/**",
+                                        "api/admin/**"
                                 ).permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
@@ -70,7 +71,8 @@ public class SecurityConfig {
         );
         httpSecurity.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)).csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));
         httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**","/api/donor/**",
-                "api/volunteer/**","api/recipient/**")).headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+                "api/volunteer/**","api/recipient/**","api/admin/**"))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return httpSecurity.build();
 
     }

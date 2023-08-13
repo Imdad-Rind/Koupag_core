@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/auth/")
-public class AuthController {
+public class  AuthController {
     private AuthenticationService authenticationService;
     RolesService rolesService;
 
