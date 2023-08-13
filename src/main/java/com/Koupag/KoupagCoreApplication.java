@@ -1,8 +1,8 @@
 package com.Koupag;
 
-import com.Koupag.Model.Roles;
-import com.Koupag.Services.RolesService;
-import com.Koupag.Services.UserService;
+import com.Koupag.models.Roles;
+import com.Koupag.services.RolesService;
+import com.Koupag.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
