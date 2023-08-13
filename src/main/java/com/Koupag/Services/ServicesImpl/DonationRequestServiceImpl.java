@@ -3,6 +3,7 @@ package com.Koupag.Services.ServicesImpl;
 import com.Koupag.Model.DonationRequest;
 import com.Koupag.Model.EngagedDonor;
 import com.Koupag.Model.EngagedRecipient;
+import com.Koupag.Model.RequestItem;
 import com.Koupag.Repository.*;
 import com.Koupag.Services.DonationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;

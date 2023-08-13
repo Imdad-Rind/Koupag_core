@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SurplusMaterialRepository extends JpaRepository<SurplusMaterial, Long> {
+	
+	SurplusMaterial findIdByName(String name);
 }

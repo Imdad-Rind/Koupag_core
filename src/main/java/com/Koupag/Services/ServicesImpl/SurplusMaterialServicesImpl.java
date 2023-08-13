@@ -14,9 +14,7 @@ public class SurplusMaterialServicesImpl implements SurplusMaterialServices {
     }
 
     @Override
-    public void newSurplusMaterialDonationRequest(SurplusMaterial surplus) {
-        //SurplusMaterial surplusMaterial = new SurplusMaterialMappper().DTOtoSurplusMaterial(surplus);
+    public void createNewSurplusMaterial(SurplusMaterial surplus) {
         surplusRepo.save(surplus);
-
     }
 }
