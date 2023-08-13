@@ -1,13 +1,12 @@
-package com.Koupag.models;
+package com.Koupag.dtos.donation;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EngagedDonor {
+public class CompleteDonationDTO {
 	long requestId;
 	long volunteerId;
-
-
+	long recipientId;
 }

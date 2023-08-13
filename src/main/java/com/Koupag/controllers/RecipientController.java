@@ -1,35 +1,26 @@
 package com.Koupag.controllers;
 
-import com.Koupag.models.EngagedRecipient;
-import com.Koupag.services.DonationRequestService;
+import com.Koupag.models.DonationRequest;
+import com.Koupag.services.RecipientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/recipient/")
 public class RecipientController {
-	
-	private final DonationRequestService donationRequestService;
-	
-	
-	public RecipientController(DonationRequestService donationRequestService) {
-		this.donationRequestService = donationRequestService;
+
+	private final RecipientService recipientService;
+
+	public RecipientController(RecipientService recipientService) {
+		this.recipientService = recipientService;
 	}
-	
-	@PostMapping("engage")
-	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody EngagedRecipient engagedRecipient){
-		try{
-			donationRequestService.updateRecipientIdByDonationRequest(engagedRecipient);
-		} catch (NoSuchElementException e){
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		
-		return new ResponseEntity<>("done", HttpStatus.OK);
-	}
+
+//	@PostMapping("donation-history")
+//	public ResponseEntity<List<DonationRequest>> donations(@RequestBody long id){
+//		return new ResponseEntity<>(recipientService.getPreviousRequests(id), HttpStatus.OK);
+//	}
+
 }

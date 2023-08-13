@@ -17,9 +17,9 @@ private final SurplusMaterialServices materialServices;
 	public AdminController(SurplusMaterialServices materialServices) {
 		this.materialServices = materialServices;
 	}
-	@PostMapping("surplus")
-	public ResponseEntity<SurplusMaterial> addNewSurplus(@RequestBody SurplusMaterial surplusMaterial){
+	@PostMapping("add-surplus")
+	public ResponseEntity<String> addNewSurplus(@RequestBody SurplusMaterial surplusMaterial){
 		materialServices.createNewSurplusMaterial(surplusMaterial);
-		return new ResponseEntity<>(surplusMaterial, HttpStatus.OK);
+		return new ResponseEntity<>("Successfully added a Surplus Material: "+surplusMaterial.getName(), HttpStatus.OK);
 	}
 }

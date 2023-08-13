@@ -1,6 +1,7 @@
 package com.Koupag.controllers;
 
-import com.Koupag.models.EngagedDonor;
+import com.Koupag.dtos.donation.EngagedDonationDTO;
+import com.Koupag.dtos.donation.CompleteDonationDTO;
 import com.Koupag.services.DonationRequestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,25 @@ public class VolunteerController {
 		this.donationRequestService = donationRequestService;
 	}
 	
-	@PostMapping("engage")
-	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody EngagedDonor engagedDonor){
+	@PostMapping("engage-donation")
+	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody EngagedDonationDTO engagedDonationDTO){
 		try{
-			donationRequestService.updateVolunteerIdByDonationRequest(engagedDonor);
+			donationRequestService.updateVolunteerIdByDonationRequest(engagedDonationDTO);
+			return new ResponseEntity<>("Donation Request have been engaged by: "+engagedDonationDTO.getVolunteerId(), HttpStatus.OK);
 		} catch (NoSuchElementException e){
 			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
-
-		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
+
+	@PostMapping("complete-donation")
+	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody CompleteDonationDTO completeDonationDTO){
+		try{
+			donationRequestService.updateRecipientIdByDonationRequest(completeDonationDTO);
+			return new ResponseEntity<>("Successful Donation", HttpStatus.OK);
+		} catch (NoSuchElementException e){
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

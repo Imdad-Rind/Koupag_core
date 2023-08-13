@@ -14,7 +14,7 @@ import lombok.Setter;
 public class SurplusMaterial{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long Id;
+    Long id;
     String name;
     String description;
     @OneToOne(mappedBy = "surplusMaterial", fetch = FetchType.LAZY,
