@@ -9,7 +9,7 @@ Admin End points
 
 Donor End points
     + create donation
-        - url localhost:8080/api/donor/create-request
+        - url localhost:8080/api/donor/create-donation
         - method POST
         - body  {
                     "donorId": <<String: donor id>>,
@@ -28,7 +28,7 @@ Volunteer End points
                 }
 
     + Donate a Donation
-        - url localhost:8080/api/volunteer/donate-donation
+        - url localhost:8080/api/volunteer/complete-donation
         - method POST
         - body  {
                     "requestId": <<Long: Donation request id>>,

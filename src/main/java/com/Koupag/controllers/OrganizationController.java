@@ -1,2 +1,9 @@
-package com.Koupag.controllers;public class OrganizationController {
+package com.Koupag.controllers;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("api/organization")
+public class OrganizationController {
 }

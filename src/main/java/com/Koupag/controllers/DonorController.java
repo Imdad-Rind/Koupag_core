@@ -27,7 +27,6 @@ public class DonorController {
 
     @PostMapping("create-donation")
     public ResponseEntity<String> donationRequest(@RequestBody CreateDonationDTO request){
-        System.out.println(request);
         try {
             donationRequestService.createNewDonationRequest(request);
         } catch (NullPointerException e){

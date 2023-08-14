@@ -1,2 +1,7 @@
-package com.Koupag.services;public interface OrganizationService {
+package com.Koupag.services;
+
+import com.Koupag.models.Organization;
+
+public interface OrganizationService {
+	void createNewOrganization(Organization organization);
 }
