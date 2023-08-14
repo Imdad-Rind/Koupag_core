@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -18,10 +19,10 @@ public class OrganizationDonationRequest {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
     int numberOfDonationsNeeded;
-   /* @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "list_Organization_Donation_Id", nullable = false)
-    List<OrganizationDonation> listOrganizationDonationId;*/
-    Long recipientOrganizationId;
+   /* @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "set_of_Organization_Donation_Id")
+    Set<OrganizationDonation> setOfOrganizationDonationId;
+    Long recipientOrganizationId;*/
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "request_Item_Id", nullable = false)
     RequestItem requestItemId;
