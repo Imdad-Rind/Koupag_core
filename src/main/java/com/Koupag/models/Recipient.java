@@ -3,6 +3,8 @@ package com.Koupag.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -13,5 +15,6 @@ public class Recipient extends User {
             cascade = CascadeType.ALL)
     @Transient
     DonationRequest request;
-
+    
+   
 }
