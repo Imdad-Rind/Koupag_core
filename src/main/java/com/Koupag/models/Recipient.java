@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recipient extends User {
-    @OneToOne(mappedBy = "recipientId", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @Transient
     DonationRequest request;

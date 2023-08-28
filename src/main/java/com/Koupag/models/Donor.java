@@ -8,12 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Donor extends User {
-    @OneToOne(mappedBy = "donorId", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "donor", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @Transient
     DonationRequest request;
 
-    @OneToOne(mappedBy = "donorId", fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = "donor", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @Transient
     OrganizationDonation donation;

@@ -5,6 +5,7 @@ import com.Koupag.models.DonationRequest;
 import com.Koupag.dtos.donation.EngagedDonationDTO;
 import com.Koupag.dtos.donation.CompleteDonationDTO;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -13,4 +14,7 @@ public interface DonationRequestService {
    public Optional<DonationRequest> getDonationRequestById(long id);
    public void updateVolunteerIdByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws NoSuchElementException;
    public void updateRecipientIdByDonationRequest(CompleteDonationDTO completeDonationDTO) throws NoSuchElementException ,Exception;
+   public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId);
+   public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId);
+   public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId);
 }

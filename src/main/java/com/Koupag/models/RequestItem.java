@@ -25,7 +25,7 @@ public  class RequestItem {
     @JoinColumn(name = "surplus_Material")
     SurplusMaterial surplusMaterial;
     
-    @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = "requestItem", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     DonationRequest request;
     @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,

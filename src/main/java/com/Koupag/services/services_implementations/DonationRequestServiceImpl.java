@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -38,13 +39,13 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     @Override
     public DonationRequest createNewDonationRequest(CreateDonationDTO request) throws NullPointerException, NoSuchElementException {
         DonationRequest dr = new DonationRequest();
-        dr.setDonorId(donorRepository.findById(request.getDonorId()).get());
+        dr.setDonor(donorRepository.findById(request.getDonorId()).get());
         final RequestItem requestItemTemp = new RequestItem(
                 request.getCount(),
                 surplusMaterialRepository.findById(request.getSurplusMaterialId()).get()
         );
         requestItemRepository.save(requestItemTemp);
-        dr.setRequestItemId(requestItemTemp);
+        dr.setRequestItem(requestItemTemp);
         dr.setCreationDateAndTime(LocalDateTime.now());
         
         return repository.save(dr);
@@ -59,11 +60,11 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     public void updateVolunteerIdByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws NoSuchElementException  {
         DonationRequest requestToBeUpdated = repository.getReferenceById(engagedDonationDTO.getRequestId());
         
-        Donor donor = donorRepository.findById(requestToBeUpdated.getDonorId().getId()).get();
+        Donor donor = donorRepository.findById(requestToBeUpdated.getDonor().getId()).get();
         donor.setLastServed(LocalDate.now());
         donorRepository.save(donor);
         
-        requestToBeUpdated.setVolunteerId(volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get());
+        requestToBeUpdated.setVolunteer(volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get());
         requestToBeUpdated.setEngagedDateAndTime(LocalDateTime.now());
         repository.save(requestToBeUpdated);
     }
@@ -79,14 +80,29 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         recipient.setLastServed(LocalDate.now());
         recipientRepository.save(recipient);
         
-        if(requestToBeUpdated.getVolunteerId().getId() != completeDonationDTO.getVolunteerId()){
+        if(requestToBeUpdated.getVolunteer().getId() != completeDonationDTO.getVolunteerId()){
             throw new Exception("Please verify the recipient, donation isn't made to Recipient");
         }
         
-        requestToBeUpdated.setRecipientId(recipientRepository.findById(completeDonationDTO.getRecipientId()).get());
+        requestToBeUpdated.setRecipient(recipientRepository.findById(completeDonationDTO.getRecipientId()).get());
         requestToBeUpdated.setSuccessfulDonationDateAndTime(LocalDateTime.now());
         repository.save(requestToBeUpdated);
         
+    }
+    
+    @Override
+    public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId) {
+	    return repository.findDonationRequestsByDonorId(donorId);
+    }
+    
+    @Override
+    public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId) {
+        return repository.findDonationRequestsByVolunteerId(volunteerId);
+    }
+    
+    @Override
+    public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId) {
+        return repository.findDonationRequestsByRecipientId(recipientId);
     }
     
     
