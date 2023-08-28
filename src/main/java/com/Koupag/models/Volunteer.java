@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Volunteer extends User {
-    @OneToOne(mappedBy = "volunteer", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "volunteer", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @Transient
     DonationRequest request;

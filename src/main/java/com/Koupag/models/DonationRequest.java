@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class DonationRequest{
 
-    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItemId, LocalDateTime creationDateAndTime, LocalDateTime engagedDateAndTime, LocalDateTime successfulDonationDateAndTime) {
+    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItem, LocalDateTime creationDateAndTime, LocalDateTime engagedDateAndTime, LocalDateTime successfulDonationDateAndTime) {
         this.donor = donor;
         this.recipient = recipient;
         this.volunteer = volunteer;
-        this.requestItemId = requestItemId;
+        this.requestItem = requestItem;
         this.creationDateAndTime = creationDateAndTime;
         this.engagedDateAndTime = engagedDateAndTime;
         this.successfulDonationDateAndTime = successfulDonationDateAndTime;
@@ -25,18 +25,18 @@ public class DonationRequest{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "donor_id", nullable = false)
     Donor donor;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_Id")
     Recipient recipient;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_Id")
     Volunteer volunteer;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_Item_Id", nullable = true)
-    RequestItem requestItemId;
+    RequestItem requestItem;
     LocalDateTime creationDateAndTime;
     LocalDateTime engagedDateAndTime;
     LocalDateTime successfulDonationDateAndTime;

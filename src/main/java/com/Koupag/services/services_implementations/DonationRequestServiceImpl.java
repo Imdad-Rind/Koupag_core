@@ -45,7 +45,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
                 surplusMaterialRepository.findById(request.getSurplusMaterialId()).get()
         );
         requestItemRepository.save(requestItemTemp);
-        dr.setRequestItemId(requestItemTemp);
+        dr.setRequestItem(requestItemTemp);
         dr.setCreationDateAndTime(LocalDateTime.now());
         
         return repository.save(dr);
@@ -93,7 +93,16 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     @Override
     public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId) {
 	    return repository.findDonationRequestsByDonorId(donorId);
-        //return Optional.of(repository.findAll());
+    }
+    
+    @Override
+    public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId) {
+        return repository.findDonationRequestsByVolunteerId(volunteerId);
+    }
+    
+    @Override
+    public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId) {
+        return repository.findDonationRequestsByRecipientId(recipientId);
     }
     
     

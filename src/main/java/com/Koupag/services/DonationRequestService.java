@@ -15,4 +15,6 @@ public interface DonationRequestService {
    public void updateVolunteerIdByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws NoSuchElementException;
    public void updateRecipientIdByDonationRequest(CompleteDonationDTO completeDonationDTO) throws NoSuchElementException ,Exception;
    public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId);
+   public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId);
+   public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId);
 }

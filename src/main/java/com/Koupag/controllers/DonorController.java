@@ -43,7 +43,7 @@ public class DonorController {
         return new ResponseEntity<>("Successfully created a Donation Request", HttpStatus.OK);
     }
     
-    @PostMapping("donations/{id}")
+    @GetMapping("donations/{id}")
     public List<DonationRequestDTO> getAllDonations(@PathVariable(name = "id") Long id){
         var donationList = donationRequestService.getAllDonationRequestByDonorId(id);
         List<DonationRequestDTO> mappedData = new ArrayList<>();

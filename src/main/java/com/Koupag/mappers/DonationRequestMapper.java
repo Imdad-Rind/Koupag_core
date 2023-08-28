@@ -27,10 +27,10 @@ public class DonationRequestMapper {
 		donationRequestDTOMapper.setEngagedDateAndTime(donationRequest.getEngagedDateAndTime());
 		donationRequestDTOMapper.setRequestItem(
 				new RequestItemDTO(
-						donationRequest.getRequestItemId().getCount(),
+						donationRequest.getRequestItem().getCount(),
 						new SurplusMaterialDTO(
-								donationRequest.getRequestItemId().getSurplusMaterial().getName(),
-								donationRequest.getRequestItemId().getSurplusMaterial().getDescription()
+								donationRequest.getRequestItem().getSurplusMaterial().getName(),
+								donationRequest.getRequestItem().getSurplusMaterial().getDescription()
 						)
 				)
 		);
