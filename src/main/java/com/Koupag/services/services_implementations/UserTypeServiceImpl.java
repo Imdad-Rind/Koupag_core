@@ -31,7 +31,7 @@ public class UserTypeServiceImpl implements UserTypeService {
 
 
     @Override
-    public User creteNewTypeUser(User user, Set<Roles> roles, String userTypeRole) {
+    public User createNewTypeUser(User user, Set<Roles> roles, String userTypeRole) {
         switch (userTypeRole) {
             case "DONOR" -> {
                 var donorUser = mapper.userToDonor(user, roles);
@@ -41,7 +41,7 @@ public class UserTypeServiceImpl implements UserTypeService {
             case "VOLUNTEER" -> {
                 var volunteerUser = mapper.userToVolunteer(user, roles);
                 creteVolunteerTypeUser(volunteerUser);
-                return mapper.voluntterToUserModel(volunteerUser, roles);
+                return mapper.volunteerToUserModel(volunteerUser, roles);
             }
             case "RECIPIENT" -> {
                 var recipientUser = mapper.userToRecipient(user, roles);

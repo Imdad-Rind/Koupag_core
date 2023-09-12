@@ -2,24 +2,10 @@ package com.Koupag.mappers;
 
 import com.Koupag.dtos.donation.previous_donation.*;
 import com.Koupag.models.DonationRequest;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
-@Setter
-@Getter
 @Component
 public class DonationRequestMapper {
-	LocalDateTime createdAt;
-	LocalDateTime engagedAt;
-	LocalDateTime donatedAt;
-	DonorDTO donor;
-	RecipientDTO recipient;
-	VolunteerDTO volunteer;
-	RequestItemDTO requestItem;
-	
 	 public DonationRequestDTO fromDonationRequest(DonationRequest donationRequest) {
 		DonationRequestDTO donationRequestDTOMapper = new DonationRequestDTO();
 		donationRequestDTOMapper.setSuccessfulDonationDateAndTime(donationRequest.getSuccessfulDonationDateAndTime());
@@ -61,13 +47,6 @@ public class DonationRequestMapper {
 		return donationRequestDTOMapper;
 	}
 	
-	/*public RequestItemDTO toRequestItemDTO (RequestItemDTO requestItem){
-		 RequestItemDTO requestItemDTO = new RequestItemDTO();
-		 
-		 return null;
-		 
-		 
-	}*/
 	
 	
 }

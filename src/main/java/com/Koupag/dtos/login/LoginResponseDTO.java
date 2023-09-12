@@ -1,4 +1,4 @@
-package com.Koupag.dtos;
+package com.Koupag.dtos.login;
 
 import com.Koupag.models.User;
 import lombok.AllArgsConstructor;

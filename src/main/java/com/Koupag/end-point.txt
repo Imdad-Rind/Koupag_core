@@ -1,4 +1,4 @@
-Admin End points
+ Admin End points
     + add Surplus Material
         - url localhost:8080/api/admin/add-surplus
         - method POST

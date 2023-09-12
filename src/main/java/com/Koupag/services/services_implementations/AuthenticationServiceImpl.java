@@ -1,10 +1,9 @@
 package com.Koupag.services.services_implementations;
 
-import com.Koupag.dtos.LoginDTO;
-import com.Koupag.dtos.LoginResponseDTO;
+import com.Koupag.dtos.login.LoginDTO;
+import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.models.Roles;
 import com.Koupag.models.User;
-import com.Koupag.mappers.*;
 import com.Koupag.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,28 +26,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RolesService rolesService;
     private final AuthenticationManager authenticationManager;
     private final MyTokenService myTokenService;
-    private final UserMapper userMapper;
     private final UserTypeService userTypeService;
+    private final AddressService addressService;
 
     @Autowired
     public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager,
-                                     MyTokenService myTokenService, UserMapper userMapper, UserTypeService userTypeService) {
+                                     MyTokenService myTokenService, UserTypeService userTypeService, AddressService addressService) {
         this.userService = userService;
         this.rolesService = rolesService;
         this.authenticationManager = authenticationManager;
         this.myTokenService = myTokenService;
-        this.userMapper = userMapper;
         this.userTypeService = userTypeService;
+        this.addressService = addressService;
     }
 
     @Override
     public User registerUser(User user) throws Exception {
+           // addressRepository.save(user.getAddress());
             Set<Roles> roles = new HashSet<>();
             final var newUserRole = rolesService.getByName(user.getUserType()).get();
             roles.add(newUserRole);
             String userTypeRole = user.getUserType();
-            var createdUser = userTypeService.creteNewTypeUser(user,roles,userTypeRole);
-
+            var createdUser = userTypeService.createNewTypeUser(user,roles,userTypeRole);
+            /*addressRepository.save(user.getAddress());
+            createdUser.setAddress(user.getAddress());*/
+//            addressService.addAddressByUserId(createdUser.getId(),user.getAddress());
             if(createdUser == null){
                 final User newUseruser = userService.creteNewUser(user);
                 if(user == null){

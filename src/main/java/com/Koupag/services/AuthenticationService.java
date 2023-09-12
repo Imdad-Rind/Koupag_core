@@ -1,7 +1,7 @@
 package com.Koupag.services;
 
-import com.Koupag.dtos.LoginDTO;
-import com.Koupag.dtos.LoginResponseDTO;
+import com.Koupag.dtos.login.LoginDTO;
+import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.models.User;
 
 import java.util.Optional;
