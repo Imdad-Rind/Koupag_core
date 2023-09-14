@@ -17,14 +17,14 @@ public class AddressServiceImpl implements AddressService {
 		this.userRepository = userRepository;
 	}
 	
-	@Override
-	public void addAddressByUserId(Long id, Address address) {
-		
-		Address addressToBeUpdated = addressRepository.findAddressByUserId(id);
-		addressToBeUpdated.setAreaName(address.getAreaName());
-		addressToBeUpdated.setUcName(address.getUcName());
-		addressToBeUpdated.setCityName(address.getCityName());
-		
-		
-	}
+//	@Override
+//	public void addAddressByUserId(Long id, Address address) {
+//
+//		Address addressToBeUpdated = addressRepository.findAddressByUserId(id);
+//		addressToBeUpdated.setAreaName(address.getAreaName());
+//		addressToBeUpdated.setUcName(address.getUcName());
+//		addressToBeUpdated.setCityName(address.getCityName());
+//
+//
+//	}
 }

@@ -1,0 +1,84 @@
+
+1. Authentication
+    1.1 Registration
+        url: **/api/auth/register
+        method: POST
+        body: {
+                  "name": String,
+                  "cnic": String(length 13),
+                  "phoneNumber": String(length 11),
+                  "emailAddress":String(pattern email),
+                  "username": String,
+                  "password":String,
+                  "userType": String(Capital ) = [DONOR, RECIPIENT, VOLUNTEER, ADMIN]
+              }
+    1.2 Sign in
+        url: **/api/auth/login
+        method: POST
+        body: {
+                  "username": String,
+                  "password":String
+              }
+
+2. Admin APIs
+    2.1 Add Surplus Material
+        url: **/api/admin/add-surplus
+        method: POST
+        body: {
+                  "name": String,
+                  "description": String
+              }
+
+
+3. Donor APIs
+    3.1 Create Donation
+        url: **/api/donor/create-donation
+        method: POST
+        body: {
+                   "donorId": Long,
+                   "count": Integer,
+                   "surplusMaterialId": Long
+              }
+    3.2 Get Donations
+        url: **/api/donor/donations/{id: long}
+        method: GET
+        Response: List of Previous Donations
+
+    3.3 Get Surplus Materials
+        url: **/api/donor/surplusMaterialsTypes
+        method: GET
+        Response: List of Surplus Materials
+
+4 Volunteer APIs
+    4.1 Engage a Donation
+        url: **/api/volunteer/engage-donation
+        method: POST
+        body: {
+                   "requestId": Long,
+                   "volunteerId": Long
+              }
+    4.2 Complete the Donation
+        url: **/api/volunteer/complete-donation
+        method: POST
+        body: {
+                     "requestId": Long,
+                     "volunteerId": Long,
+                     "recipientId": Long
+              }
+    4.3 Get Previous Donations
+            url: **/api/volunteer/donations/{id: long}
+            method: GET
+            Response: List of Previous Donations
+
+
+5 Recipient APIs
+    5.1 Get Previous Donations
+        url: **/api/recipient/donations/{id: long}
+        method: GET
+        Response: List of Previous Donations
+
+6 General APIs
+    5.1 Get UserTypes
+        url: **/api/home/userTypes
+        method: GET
+        Response: List of UserTypes
