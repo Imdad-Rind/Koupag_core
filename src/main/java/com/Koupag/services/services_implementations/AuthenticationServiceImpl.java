@@ -2,8 +2,10 @@ package com.Koupag.services.services_implementations;
 
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
+import com.Koupag.models.Address;
 import com.Koupag.models.Roles;
 import com.Koupag.models.User;
+import com.Koupag.repositories.AddressRepository;
 import com.Koupag.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -29,27 +29,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserTypeService userTypeService;
     private final AddressService addressService;
 
-    @Autowired
-    public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager,
-                                     MyTokenService myTokenService, UserTypeService userTypeService, AddressService addressService) {
+    public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager, MyTokenService myTokenService, UserTypeService userTypeService, AddressService addressService, AddressRepository addressRepository) {
         this.userService = userService;
         this.rolesService = rolesService;
         this.authenticationManager = authenticationManager;
         this.myTokenService = myTokenService;
         this.userTypeService = userTypeService;
         this.addressService = addressService;
+        this.addressRepository = addressRepository;
     }
+
+    private final AddressRepository addressRepository;
+
 
     @Override
     public User registerUser(User user) throws Exception {
-           // addressRepository.save(user.getAddress());
             Set<Roles> roles = new HashSet<>();
             final var newUserRole = rolesService.getByName(user.getUserType()).get();
             roles.add(newUserRole);
             String userTypeRole = user.getUserType();
             var createdUser = userTypeService.createNewTypeUser(user,roles,userTypeRole);
-            /*addressRepository.save(user.getAddress());
-            createdUser.setAddress(user.getAddress());*/
+        System.out.println(createdUser.getAddress().getId());
+
+//            addressService.addAddressByUserId(user.getId(),user.getAddress());
+        /*createdUser.setAddress(user.getAddress());*/
 //            addressService.addAddressByUserId(createdUser.getId(),user.getAddress());
             if(createdUser == null){
                 final User newUseruser = userService.creteNewUser(user);

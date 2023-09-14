@@ -1,6 +1,5 @@
 package com.Koupag.mappers;
 
-import com.Koupag.dtos.address.addressDTO;
 import com.Koupag.dtos.register.RegisterRequest;
 import com.Koupag.models.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,12 +11,10 @@ import java.util.Set;
 public class  UserMapper {
 
     private final PasswordEncoder passwordEncoder;
-    private final addressMapper addressMapper;
 
 
-    public UserMapper(PasswordEncoder passwordEncoder, com.Koupag.mappers.addressMapper addressMapper) {
+    public UserMapper(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-        this.addressMapper = addressMapper;
     }
     
     public User fromRecordToUser(RegisterRequest request ){
@@ -32,7 +29,8 @@ public class  UserMapper {
         user.setAddress(new Address(
                 request.address().getAreaName(),
                 request.address().getUcName(),
-                request.address().getCityName()
+                request.address().getCityName(),
+                user
         ));
         return user;
     }
@@ -46,12 +44,12 @@ public class  UserMapper {
         donor.setPhoneNumber(user.getPhoneNumber());
         donor.setUsername(user.getUsername());
         donor.setPassword(passwordEncoder.encode(user.getPassword()));
-        donor.setAddress(addressMapper.dtoToAddress(new addressDTO(
+        donor.setAddress(new Address(
                 user.getAddress().getAreaName(),
                 user.getAddress().getUcName(),
-                user.getAddress().getCityName()
-        
-        )));
+                user.getAddress().getCityName(),
+                donor
+        ));
         return donor;
     }
 
@@ -65,12 +63,14 @@ public class  UserMapper {
         volunteer.setPhoneNumber(user.getPhoneNumber());
         volunteer.setUsername(user.getUsername());
         volunteer.setPassword(passwordEncoder.encode(user.getPassword()));
-        volunteer.setAddress( addressMapper.dtoToAddress(new addressDTO(
-                user.getAddress().getAreaName(),
-                user.getAddress().getUcName(),
-                user.getAddress().getCityName()
-        
-        )));
+        volunteer.setAddress(
+                new Address(
+                        user.getAddress().getAreaName(),
+                        user.getAddress().getUcName(),
+                        user.getAddress().getCityName(),
+                        volunteer
+                )
+        );
         return volunteer;
     }
 
@@ -84,12 +84,14 @@ public class  UserMapper {
         recipient.setPhoneNumber(user.getPhoneNumber());
         recipient.setUsername(user.getUsername());
         recipient.setPassword(passwordEncoder.encode(user.getPassword()));
-        recipient.setAddress(addressMapper.dtoToAddress(new addressDTO(
-                user.getAddress().getAreaName(),
-                user.getAddress().getUcName(),
-                user.getAddress().getCityName()
-        
-        )));
+        recipient.setAddress(
+                new Address(
+                        user.getAddress().getAreaName(),
+                        user.getAddress().getUcName(),
+                        user.getAddress().getCityName(),
+                        recipient
+                )
+        );
         return recipient;
     }
 
@@ -103,12 +105,7 @@ public class  UserMapper {
         user.setPhoneNumber(donor.getPhoneNumber());
         user.setUsername(donor.getUsername());
         user.setPassword(passwordEncoder.encode(donor.getPassword()));
-        user.setAddress(addressMapper.dtoToAddress(new addressDTO(
-                donor.getAddress().getAreaName(),
-                donor.getAddress().getUcName(),
-                donor.getAddress().getCityName()
-        
-        )));
+        user.setAddress(donor.getAddress());
         return user;
     }
     public User volunteerToUserModel(Volunteer volunteer, Set<Roles> authorities){
@@ -121,12 +118,14 @@ public class  UserMapper {
         user.setPhoneNumber(volunteer.getPhoneNumber());
         user.setUsername(volunteer.getUsername());
         user.setPassword(passwordEncoder.encode(volunteer.getPassword()));
-        user.setAddress(addressMapper.dtoToAddress(new addressDTO(
-                volunteer.getAddress().getAreaName(),
-                volunteer.getAddress().getUcName(),
-                volunteer.getAddress().getCityName()
-        
-        )));
+        user.setAddress(
+                new Address(
+                        volunteer.getAddress().getAreaName(),
+                        volunteer.getAddress().getUcName(),
+                        volunteer.getAddress().getCityName(),
+                        user
+                )
+        );
         return user;
     }
 
@@ -140,12 +139,14 @@ public class  UserMapper {
         user.setPhoneNumber(recipient.getPhoneNumber());
         user.setUsername(recipient.getUsername());
         user.setPassword(passwordEncoder.encode(recipient.getPassword()));
-        user.setAddress(addressMapper.dtoToAddress(new addressDTO(
-                recipient.getAddress().getAreaName(),
-                recipient.getAddress().getUcName(),
-                recipient.getAddress().getCityName()
-        
-        )));
+        user.setAddress(
+                new Address(
+                        recipient.getAddress().getAreaName(),
+                        recipient.getAddress().getUcName(),
+                        recipient.getAddress().getCityName(),
+                        user
+                )
+        );
         return user;
     }
 
