@@ -27,19 +27,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final MyTokenService myTokenService;
     private final UserTypeService userTypeService;
-    private final AddressService addressService;
 
-    public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager, MyTokenService myTokenService, UserTypeService userTypeService, AddressService addressService, AddressRepository addressRepository) {
+    public AuthenticationServiceImpl(UserService userService, RolesService rolesService, AuthenticationManager authenticationManager,
+                                     MyTokenService myTokenService, UserTypeService userTypeService) {
         this.userService = userService;
         this.rolesService = rolesService;
         this.authenticationManager = authenticationManager;
         this.myTokenService = myTokenService;
         this.userTypeService = userTypeService;
-        this.addressService = addressService;
-        this.addressRepository = addressRepository;
     }
 
-    private final AddressRepository addressRepository;
 
 
     @Override
@@ -48,20 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             final var newUserRole = rolesService.getByName(user.getUserType()).get();
             roles.add(newUserRole);
             String userTypeRole = user.getUserType();
-            var createdUser = userTypeService.createNewTypeUser(user,roles,userTypeRole);
-        System.out.println(createdUser.getAddress().getId());
-
-//            addressService.addAddressByUserId(user.getId(),user.getAddress());
-        /*createdUser.setAddress(user.getAddress());*/
-//            addressService.addAddressByUserId(createdUser.getId(),user.getAddress());
-            if(createdUser == null){
-                final User newUseruser = userService.creteNewUser(user);
-                if(user == null){
-                    throw new Exception("user already exists");
-                }
-                return user;
-            }
-        return createdUser;
+	    return userTypeService.createNewTypeUser(user,roles,userTypeRole);
     }
 
     @Override
@@ -72,9 +56,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             );
 
             String token = myTokenService.generateJwt(auth);
-
-           /* //return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
-            // return new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token);*/
             return Optional.of(new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token));
 
         } catch(AuthenticationException e){
