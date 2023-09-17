@@ -10,7 +10,13 @@
                   "emailAddress":String(pattern email),
                   "username": String,
                   "password":String,
-                  "userType": String(Capital ) = [DONOR, RECIPIENT, VOLUNTEER, ADMIN]
+                  "userType": String(Capital ) = [DONOR, RECIPIENT, VOLUNTEER, ADMIN],
+                  "address" :
+                  		{
+                  			"areaName" : "areaName",
+                  			"ucName" : "UCName",
+                  			"cityName" : "cityName"
+                  		}
               }
     1.2 Sign in
         url: **/api/auth/login

@@ -34,7 +34,8 @@ public class User implements UserDetails {
     @Transient
     private String userType;
     private LocalDate lastServed;
-
+    
+    @JsonBackReference
     @OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_address")
     private Address address;

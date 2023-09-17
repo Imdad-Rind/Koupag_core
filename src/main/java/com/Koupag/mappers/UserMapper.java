@@ -1,6 +1,5 @@
 package com.Koupag.mappers;
 
-import com.Koupag.dtos.register.RegisterRequest;
 import com.Koupag.models.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,23 +16,6 @@ public class  UserMapper {
         this.passwordEncoder = passwordEncoder;
     }
     
-    public User fromRecordToUser(RegisterRequest request ){
-        User user = new User();
-        user.setName(request.name());
-        user.setEmailAddress(request.emailAddress());
-        user.setCNIC(request.cnic());
-        user.setUserType(request.userType());
-        user.setPhoneNumber(request.phoneNumber());
-        user.setUsername(request.username());
-        user.setPassword(passwordEncoder.encode(request.password()));
-        user.setAddress(new Address(
-                request.address().getAreaName(),
-                request.address().getUcName(),
-                request.address().getCityName(),
-                user
-        ));
-        return user;
-    }
     public Donor userToDonor(User user, Set<Roles> authorities){
         Donor donor = new Donor();
         donor.setName(user.getName());
