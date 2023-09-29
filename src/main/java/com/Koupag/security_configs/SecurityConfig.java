@@ -51,12 +51,15 @@ public class SecurityConfig {
                                 .requestMatchers(toH2Console()).permitAll()
                                 .requestMatchers(
                                         "/api/auth/**",
-                                        "/api/donor/**",
+                                        /*"/api/donor/**",
                                         "api/volunteer/**",
-                                        "api/recipient/**",
+                                        "api/recipient/**",*/
                                         "api/admin/**"
                                 ).permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")
+                                .requestMatchers("/api/donor").hasRole("DONOR")
+                                .requestMatchers("/api/volunteer").hasRole("VOLUNTEER")
+                                .requestMatchers("/api/recipient").hasRole("RECIPIENT")
                                 .anyRequest().authenticated()
                 );
         httpSecurity.oauth2ResourceServer((oauth2ResourceServer) ->
@@ -70,8 +73,7 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
         httpSecurity.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)).csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()));
-        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth/**","/api/donor/**",
-                "api/volunteer/**","api/recipient/**","api/admin/**"))
+        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return httpSecurity.build();
 
