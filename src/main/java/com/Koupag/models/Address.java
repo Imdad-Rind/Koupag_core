@@ -19,7 +19,9 @@ public class Address {
     private Long Id;
     private String areaName;
     private String ucName;
-    private String cityName;
+    
+    @Enumerated(EnumType.STRING)
+    private Cities cityName;
     
     @JsonManagedReference
     @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER,mappedBy = "address")
@@ -27,7 +29,7 @@ public class Address {
 
 
 
-    public Address(String areaName, String ucName, String cityName, User users) {
+    public Address(String areaName, String ucName, Cities cityName, User users) {
         this.areaName = areaName;
         this.ucName = ucName;
         this.cityName = cityName;
