@@ -15,7 +15,12 @@
                   		{
                   			"areaName" : "areaName",
                   			"ucName" : "UCName",
-                  			"cityName" : "cityName"
+                  			"cityName" : "cityName",
+                             "location":
+                             {
+                                         "Latitude": "2525",
+                                         "Longitude": "6256"
+                             }
                   		}
               }
     1.2 Sign in

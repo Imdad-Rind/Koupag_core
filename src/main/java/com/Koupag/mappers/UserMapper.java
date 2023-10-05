@@ -18,6 +18,8 @@ public class  UserMapper {
     
     public Donor userToDonor(User user, Set<Roles> authorities){
         Donor donor = new Donor();
+        Location location = new Location();
+        
         donor.setName(user.getName());
         donor.setAuthorities(authorities);
         donor.setEmailAddress(user.getEmailAddress());
@@ -30,13 +32,24 @@ public class  UserMapper {
                 user.getAddress().getAreaName(),
                 user.getAddress().getUcName(),
                 user.getAddress().getCityName(),
+                location,
                 donor
         ));
+        
+        location.setLatitude(user.getAddress().getLocation().getLatitude());
+        location.setLongitude(user.getAddress().getLocation().getLongitude());
+        location.setHome_address(donor.getAddress());
         return donor;
     }
 
     public Volunteer userToVolunteer(User user, Set<Roles> authorities){
         Volunteer volunteer = new Volunteer();
+        Location location = new Location(
+                user.getAddress().getLocation().getLatitude(),
+                user.getAddress().getLocation().getLongitude()
+               
+        );
+        
         volunteer.setName(user.getName());
         volunteer.setAuthorities(authorities);
         volunteer.setEmailAddress(user.getEmailAddress());
@@ -50,14 +63,21 @@ public class  UserMapper {
                         user.getAddress().getAreaName(),
                         user.getAddress().getUcName(),
                         user.getAddress().getCityName(),
+                        location,
                         volunteer
                 )
         );
+        location.setHome_address(volunteer.getAddress());
         return volunteer;
     }
 
     public Recipient userToRecipient(User user, Set<Roles> authorities){
         Recipient recipient = new Recipient();
+        Location location = new Location(
+                user.getAddress().getLocation().getLatitude(),
+                user.getAddress().getLocation().getLongitude()
+        );
+        
         recipient.setName(user.getName());
         recipient.setAuthorities(authorities);
         recipient.setEmailAddress(user.getEmailAddress());
@@ -71,9 +91,11 @@ public class  UserMapper {
                         user.getAddress().getAreaName(),
                         user.getAddress().getUcName(),
                         user.getAddress().getCityName(),
+                        location,
                         recipient
                 )
         );
+        location.setHome_address(recipient.getAddress());
         return recipient;
     }
 
