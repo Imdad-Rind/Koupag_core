@@ -20,9 +20,7 @@ public class Address {
     private Long Id;
     private String areaName;
     private String ucName;
-    
-    @Enumerated(EnumType.STRING)
-    private Cities cityName;
+    private String cityName;
     
     @JsonProperty("location")
     @JsonManagedReference
@@ -34,7 +32,7 @@ public class Address {
 
 
 
-    public Address(String areaName, String ucName, Cities cityName, User users) {
+    public Address(String areaName, String ucName, String cityName, User users) {
         this.areaName = areaName;
         this.ucName = ucName;
         this.cityName = cityName;
