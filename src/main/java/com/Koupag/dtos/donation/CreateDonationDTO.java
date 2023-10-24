@@ -1,5 +1,7 @@
 package com.Koupag.dtos.donation;
 
+import com.Koupag.models.Location;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +15,10 @@ public class CreateDonationDTO {
     private long donorId;
     private int count;
     private long surplusMaterialId;
+    @JsonProperty("description")
+    String description;
+    @JsonProperty("pickup_time")
+    String pickup_time;
+    @JsonProperty("location")
+    Location location;
 }

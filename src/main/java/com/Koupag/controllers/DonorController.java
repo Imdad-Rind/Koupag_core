@@ -35,10 +35,15 @@ public class DonorController {
     public ResponseEntity<String> donationRequest(@RequestBody CreateDonationDTO request){
         try {
             donationRequestService.createNewDonationRequest(request);
-        } catch (NullPointerException e){
+        }
+        catch (NullPointerException e){
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (NoSuchElementException e){
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
         return new ResponseEntity<>("Successfully created a Donation Request", HttpStatus.OK);
     }
