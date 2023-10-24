@@ -48,7 +48,13 @@
         body: {
                    "donorId": Long,
                    "count": Integer,
-                   "surplusMaterialId": Long
+                   "surplusMaterialId": Long,
+                   "description": "String",
+                   "pickup_time": "String",
+                    "location": {
+                           "Latitude": "String",
+                           "Longitude": "String"
+                    }
               }
     3.2 Get Donations
         url: **/api/donor/donations/{id: long}

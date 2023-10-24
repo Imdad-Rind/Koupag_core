@@ -25,6 +25,9 @@ public class Location {
 	@JoinColumn(name = "user_address")
 	private Address home_address;
 	
+	@OneToOne(targetEntity = DonationRequest.class, mappedBy = "location",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private DonationRequest donationRequest;
+	
 	public Location(String latitude, String longitude, Address address) {
 		Latitude = latitude;
 		Longitude = longitude;

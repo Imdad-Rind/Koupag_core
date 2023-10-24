@@ -2,6 +2,7 @@ package com.Koupag.mappers;
 
 import com.Koupag.dtos.donation.previous_donation.*;
 import com.Koupag.models.DonationRequest;
+import com.Koupag.models.Location;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,6 +12,14 @@ public class DonationRequestMapper {
 		donationRequestDTOMapper.setSuccessfulDonationDateAndTime(donationRequest.getSuccessfulDonationDateAndTime());
 		donationRequestDTOMapper.setCreationDateAndTime(donationRequest.getCreationDateAndTime());
 		donationRequestDTOMapper.setEngagedDateAndTime(donationRequest.getEngagedDateAndTime());
+		/*donationRequestDTOMapper.setDescription(donationRequest.getDescription());
+		donationRequestDTOMapper.setPickup_time(donationRequest.getPickup_time());
+		donationRequestDTOMapper.setLocation(
+				new Location(
+						donationRequest.getLocation().getLatitude(),
+						donationRequest.getLocation().getLongitude()
+				)
+		);*/
 		donationRequestDTOMapper.setRequestItem(
 				new RequestItemDTO(
 						donationRequest.getRequestItem().getCount(),
