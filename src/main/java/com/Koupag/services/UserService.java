@@ -13,6 +13,9 @@ public interface UserService {
     //UserModel getUserById(long id);
     Optional<User> getUserByUserName(String username);
     Boolean existsByUsername(String username);
-
-
+    void cacheNewUser(String email, User user);
+    User getCachedUser(String email);
+    User getUserByEmail(String email);
+    
+    
 }

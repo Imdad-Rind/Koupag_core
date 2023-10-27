@@ -2,7 +2,6 @@ package com.Koupag.mappers;
 
 import com.Koupag.dtos.donation.previous_donation.*;
 import com.Koupag.models.DonationRequest;
-import com.Koupag.models.Location;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,7 +33,7 @@ public class DonationRequestMapper {
 						donationRequest.getDonor().getName(),
 						donationRequest.getDonor().getCNIC(),
 						donationRequest.getDonor().getPhoneNumber(),
-						donationRequest.getDonor().getEmailAddress()
+						donationRequest.getDonor().getEmail()
 				)
 		);
 		donationRequestDTOMapper.setVolunteer(
@@ -42,7 +41,7 @@ public class DonationRequestMapper {
 						donationRequest.getVolunteer().getName(),
 						donationRequest.getVolunteer().getCNIC(),
 						donationRequest.getVolunteer().getPhoneNumber(),
-						donationRequest.getVolunteer().getEmailAddress()
+						donationRequest.getVolunteer().getEmail()
 				)
 		);
 		donationRequestDTOMapper.setRecipient(
@@ -50,7 +49,7 @@ public class DonationRequestMapper {
 						donationRequest.getRecipient().getName(),
 						donationRequest.getRecipient().getCNIC(),
 						donationRequest.getRecipient().getPhoneNumber(),
-						donationRequest.getRecipient().getEmailAddress()
+						donationRequest.getRecipient().getEmail()
 				)
 		);
 		return donationRequestDTOMapper;
