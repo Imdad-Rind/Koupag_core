@@ -27,24 +27,24 @@ public class Address {
     @OneToOne(targetEntity = Location.class, fetch = FetchType.EAGER, mappedBy = "home_address",cascade = CascadeType.ALL)
     private Location location;
     @JsonManagedReference
-    @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER,mappedBy = "address")
-    private User users;
+    @OneToOne(targetEntity = UserProfile.class,fetch = FetchType.EAGER,mappedBy = "address")
+    private UserProfile userProfile;
 
 
 
-    public Address(String areaName, String ucName, String cityName, User users) {
+    public Address(String areaName, String ucName, String cityName, UserProfile users) {
         this.areaName = areaName;
         this.ucName = ucName;
         this.cityName = cityName;
-        this.users = users;
+        this.userProfile = users;
     }
     
-    public Address(String areaName, String ucName, String cityName, Location location, User users) {
+    public Address(String areaName, String ucName, String cityName, Location location, UserProfile users) {
         this.areaName = areaName;
         this.ucName = ucName;
         this.cityName = cityName;
         this.location = location;
-        this.users = users;
+        this.userProfile = users;
     }
     
   

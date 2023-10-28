@@ -30,7 +30,7 @@ public class DonationRequestMapper {
 		);
 		donationRequestDTOMapper.setDonor(
 				new DonorDTO(
-						donationRequest.getDonor().getName(),
+//						donationRequest.getDonor().getName(),
 						donationRequest.getDonor().getCNIC(),
 						donationRequest.getDonor().getPhoneNumber(),
 						donationRequest.getDonor().getEmail()
@@ -38,7 +38,7 @@ public class DonationRequestMapper {
 		);
 		donationRequestDTOMapper.setVolunteer(
 				new VolunteerDTO(
-						donationRequest.getVolunteer().getName(),
+//						donationRequest.getVolunteer().getName(),
 						donationRequest.getVolunteer().getCNIC(),
 						donationRequest.getVolunteer().getPhoneNumber(),
 						donationRequest.getVolunteer().getEmail()
@@ -46,7 +46,7 @@ public class DonationRequestMapper {
 		);
 		donationRequestDTOMapper.setRecipient(
 				new RecipientDTO(
-						donationRequest.getRecipient().getName(),
+//						donationRequest.getRecipient().getName(),
 						donationRequest.getRecipient().getCNIC(),
 						donationRequest.getRecipient().getPhoneNumber(),
 						donationRequest.getRecipient().getEmail()

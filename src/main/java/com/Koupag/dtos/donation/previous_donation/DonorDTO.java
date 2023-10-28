@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DonorDTO {
-	String name;
+	//String name;
 	String cnic;
 	String phoneNumber;
 	String emailAddress;

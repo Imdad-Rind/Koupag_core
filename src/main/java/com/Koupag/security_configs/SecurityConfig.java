@@ -54,7 +54,8 @@ public class SecurityConfig {
                                         /*"/api/donor/**",
                                         "api/volunteer/**",
                                         "api/recipient/**",*/
-                                        "api/admin/**"
+                                        "api/admin/**",
+                                        "/api/user/**"
                                 ).permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/donor").hasRole("DONOR")
