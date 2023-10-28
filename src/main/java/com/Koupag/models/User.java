@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String phoneNumber;
     @Column(unique = true)
-    private String emailAddress;
+    private String email;
     @Column(unique = true)
     private String username;
     private String password;
@@ -45,20 +45,20 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Roles> authorities;
 
-    public User(String name, String phoneNumber, String emailAddress, String username, String password, Set<Roles> authorities) {
+    public User(String name, String phoneNumber, String email, String username, String password, Set<Roles> authorities) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
-    public User(String name, String CNIC, String phoneNumber, String emailAddress, String username,
+    public User(String name, String CNIC, String phoneNumber, String email, String username,
                 String password, String userType, LocalDate lastServed, Address address, Set<Roles> authorities) {
         this.name = name;
         this.CNIC = CNIC;
         this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.userType = userType;

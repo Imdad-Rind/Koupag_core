@@ -22,7 +22,7 @@ public class  UserMapper {
         
         donor.setName(user.getName());
         donor.setAuthorities(authorities);
-        donor.setEmailAddress(user.getEmailAddress());
+        donor.setEmail(user.getEmail());
         donor.setCNIC(user.getCNIC());
         donor.setUserType(user.getUserType());
         donor.setPhoneNumber(user.getPhoneNumber());
@@ -52,7 +52,7 @@ public class  UserMapper {
         
         volunteer.setName(user.getName());
         volunteer.setAuthorities(authorities);
-        volunteer.setEmailAddress(user.getEmailAddress());
+        volunteer.setEmail(user.getEmail());
         volunteer.setCNIC(user.getCNIC());
         volunteer.setUserType(user.getUserType());
         volunteer.setPhoneNumber(user.getPhoneNumber());
@@ -80,7 +80,7 @@ public class  UserMapper {
         
         recipient.setName(user.getName());
         recipient.setAuthorities(authorities);
-        recipient.setEmailAddress(user.getEmailAddress());
+        recipient.setEmail(user.getEmail());
         recipient.setCNIC(user.getCNIC());
         recipient.setUserType(user.getUserType());
         recipient.setPhoneNumber(user.getPhoneNumber());
@@ -103,7 +103,7 @@ public class  UserMapper {
         User user = new User();
         user.setName(donor.getName());
         user.setAuthorities(authorities);
-        user.setEmailAddress(donor.getEmailAddress());
+        user.setEmail(donor.getEmail());
         user.setCNIC(donor.getCNIC());
         user.setUserType(donor.getUserType());
         user.setPhoneNumber(donor.getPhoneNumber());
@@ -116,7 +116,7 @@ public class  UserMapper {
         User user = new User();
         user.setName(volunteer.getName());
         user.setAuthorities(authorities);
-        user.setEmailAddress(volunteer.getEmailAddress());
+        user.setEmail(volunteer.getEmail());
         user.setCNIC(volunteer.getCNIC());
         user.setUserType(volunteer.getUserType());
         user.setPhoneNumber(volunteer.getPhoneNumber());
@@ -137,7 +137,7 @@ public class  UserMapper {
         User user = new User();
         user.setName(recipient.getName());
         user.setAuthorities(authorities);
-        user.setEmailAddress(recipient.getEmailAddress());
+        user.setEmail(recipient.getEmail());
         user.setCNIC(recipient.getCNIC());
         user.setUserType(recipient.getUserType());
         user.setPhoneNumber(recipient.getPhoneNumber());
