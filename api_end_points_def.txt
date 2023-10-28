@@ -39,6 +39,27 @@
                   "username": String,
                   "password":String
               }
+         1.4 user profile
+         url : localhost:8080/api/user/profile
+         method POST
+         body :
+         {
+             "userProfile": {
+                 "name": "me",
+                 "address": {
+                     "areaName": "areaName",
+                     "ucName": "UCName",
+                     "cityName": "turbat",
+                     "location": {
+                         "Latitude": "2525",
+                         "Longitude": "6256"
+                     }
+                 }
+             },
+             "userID": 1
+         }
+
+
 
 2. Admin APIs
     2.1 Add Surplus Material
