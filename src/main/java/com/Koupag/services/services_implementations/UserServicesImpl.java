@@ -1,9 +1,11 @@
 package com.Koupag.services.services_implementations;
 
+import com.Koupag.models.Cities;
 import com.Koupag.models.User;
 import com.Koupag.models.UserProfile;
 import com.Koupag.repositories.UserProfileRepository;
 import com.Koupag.repositories.UserRepository;
+import com.Koupag.services.CitiesServices;
 import com.Koupag.services.UserService;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -18,11 +20,14 @@ import java.util.concurrent.TimeUnit;
 public class UserServicesImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CitiesServices citiesServices;
     private final UserProfileRepository userProfileRepository;
     private final LoadingCache<String, User> cache;
+    
     @Autowired
-    public UserServicesImpl(UserRepository userRepository, UserProfileRepository userProfileRepository) {
+    public UserServicesImpl(UserRepository userRepository, CitiesServices citiesServices, UserProfileRepository userProfileRepository) {
         this.userRepository = userRepository;
+        this.citiesServices = citiesServices;
         this.userProfileRepository = userProfileRepository;
         
         cache = CacheBuilder.newBuilder()
@@ -70,14 +75,15 @@ public class UserServicesImpl implements UserService {
     
     @Override
     public void createUserProfileByUserId(UserProfile userProfile, Long id) {
+        Long cityId = userProfile.getAddress().getCity().getId();
+        Cities cityOfUser = citiesServices.getCityById(cityId);
         User userToBeUpdated = userRepository.getReferenceById(id);
         userToBeUpdated.setUserProfile(userProfile);
+        userProfile.getAddress().setCity(cityOfUser);
         userProfile.setUser(userToBeUpdated);
         userProfileRepository.save(userProfile);
     }
-    /*public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }*/
+    
     
     
 }

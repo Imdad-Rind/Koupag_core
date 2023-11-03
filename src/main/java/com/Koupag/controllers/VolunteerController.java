@@ -26,24 +26,24 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("engage-donation")
-	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody EngagedDonationDTO engagedDonationDTO){
+	public ResponseEntity<Void> addVolunteerIdToRequest(@RequestBody EngagedDonationDTO engagedDonationDTO){
 		try{
 			donationRequestService.updateVolunteerIdByDonationRequest(engagedDonationDTO);
-			return new ResponseEntity<>("Donation Request have been engaged by: "+engagedDonationDTO.getVolunteerId(), HttpStatus.OK);
+			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (NoSuchElementException e){
-			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("complete-donation")
-	public ResponseEntity<String> addVolunteerIdToRequest(@RequestBody CompleteDonationDTO completeDonationDTO){
+	public ResponseEntity<Void> addVolunteerIdToRequest(@RequestBody CompleteDonationDTO completeDonationDTO){
 		try{
 			donationRequestService.updateRecipientIdByDonationRequest(completeDonationDTO);
-			return new ResponseEntity<>("Successful Donation", HttpStatus.OK);
+			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (NoSuchElementException e){
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 	

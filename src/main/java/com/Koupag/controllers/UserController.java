@@ -1,7 +1,7 @@
 package com.Koupag.controllers;
 
 import com.Koupag.dtos.user.userProfileDTO;
-import com.Koupag.models.UserProfile;
+import com.Koupag.services.CitiesServices;
 import com.Koupag.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,15 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 	
 	private final UserService userService;
+	private final CitiesServices citiesServices;
 	
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, CitiesServices citiesServices) {
 		this.userService = userService;
+		this.citiesServices = citiesServices;
 	}
 	
 	@PostMapping("profile")
-	public ResponseEntity<String> createUserProfile(@RequestBody userProfileDTO data){
+	public ResponseEntity<Void> createUserProfile(@RequestBody userProfileDTO data){
 		try {
+			String city = data.getUserProfile().getAddress().getCity().toString();
+			
 			userService.createUserProfileByUserId(data.getUserProfile(), data.getUserID());
 		}
 		catch (Exception e){
@@ -32,6 +36,6 @@ public class UserController {
 		}
 		
 		
-		return new ResponseEntity<>("user profile created", HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

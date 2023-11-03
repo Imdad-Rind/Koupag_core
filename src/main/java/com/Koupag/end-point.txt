@@ -50,7 +50,7 @@
                          "address": {
                              "areaName": "areaName",
                              "ucName": "UCName",
-                             "cityName": "turbat",
+                             "city": "Turbat",
                              "location": {
                                  "Latitude": "2525",
                                  "Longitude": "6256"
