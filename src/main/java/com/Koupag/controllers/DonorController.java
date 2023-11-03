@@ -32,20 +32,18 @@ public class DonorController {
     
 
     @PostMapping("create-donation")
-    public ResponseEntity<String> donationRequest(@RequestBody CreateDonationDTO request){
+    public ResponseEntity<Void> donationRequest(@RequestBody CreateDonationDTO request){
         try {
             donationRequestService.createNewDonationRequest(request);
         }
-        catch (NullPointerException e){
+        catch (NullPointerException | NoSuchElementException e){
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (NoSuchElementException e){
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        } catch(Exception e){
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
+            
         }
-        return new ResponseEntity<>("Successfully created a Donation Request", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     @GetMapping("donations/{id}")

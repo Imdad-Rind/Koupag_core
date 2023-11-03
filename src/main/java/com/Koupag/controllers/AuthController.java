@@ -36,14 +36,14 @@ public class  AuthController {
         return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
     }
     @PostMapping("request_register")
-    public ResponseEntity<String> requestRegister(@RequestBody User user) throws MessagingException {
+    public ResponseEntity<Void> requestRegister(@RequestBody User user) throws MessagingException {
         String userEmail = user.getEmail();
         String otp = otpService.generateAndSendOtp(userEmail);
         
         //emailService.sendOTP(userEmail,otp);
         System.out.println(otp);
         userService.cacheNewUser(userEmail,user);
-        return new ResponseEntity<>("OTP sent succes \n verfiy email", HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
     @PostMapping("login")

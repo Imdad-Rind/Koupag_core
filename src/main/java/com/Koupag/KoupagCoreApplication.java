@@ -1,6 +1,8 @@
 package com.Koupag;
 
+import com.Koupag.models.Cities;
 import com.Koupag.models.Roles;
+import com.Koupag.services.CitiesServices;
 import com.Koupag.services.RolesService;
 import com.Koupag.services.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +21,7 @@ public class KoupagCoreApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(RolesService rolesService, UserService userService){
+	CommandLineRunner run(RolesService rolesService, UserService userService, CitiesServices citiesServices){
 		return args ->{
 			if(rolesService.getByName("ADMIN").isPresent()) return;
 			Roles adminRole = rolesService.CreateNewRole(new Roles("ADMIN"));
@@ -31,6 +33,14 @@ public class KoupagCoreApplication {
 
 			Set<Roles> roles = new HashSet<>();
 			roles.add(adminRole);
+			citiesServices.addNewCity(new Cities("Turbat"));
+			citiesServices.addNewCity(new Cities("Quetta"));
+			citiesServices.addNewCity(new Cities("Khuzdar"));
+			citiesServices.addNewCity(new Cities("Sibi"));
+			citiesServices.addNewCity(new Cities("Gwadar"));
+			citiesServices.addNewCity(new Cities("Panjgur"));
+			citiesServices.addNewCity(new Cities("Hub"));
+			
 
 //			userService.creteNewUser(new UserModel(
 //					"Admin",
