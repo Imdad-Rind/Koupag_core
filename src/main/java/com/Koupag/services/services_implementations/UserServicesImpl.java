@@ -48,16 +48,21 @@ public class UserServicesImpl implements UserService {
         return user;
     }
 
-    @Override
+   /* @Override
     public Optional<User> getUserByUserName(String username) {
         return userRepository.findByUsername(username);
-    }
-
+    }*/
+    
     @Override
-    public Boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
+    public Optional<User> getUserByCNIC(String cnic) {
+        return Optional.ofNullable(userRepository.findByCNIC(cnic));
     }
     
+//    @Override
+//    public Boolean existsByUsername(String username) {
+//        return userRepository.existsByUsername(username);
+//    }
+//
     @Override
     public void cacheNewUser(String email, User user) {
         cache.put(email, user);

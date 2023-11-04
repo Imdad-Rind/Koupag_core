@@ -17,16 +17,16 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserService userService;
+    private final UserService userService;
 
     public CustomUserDetailsService(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),mapRolesToAuthorities((Set<Roles>) user.getAuthorities()));
+    public UserDetails loadUserByUsername(String cnic) throws UsernameNotFoundException {
+        User user = userService.getUserByCNIC(cnic).orElseThrow(() -> new UsernameNotFoundException("CNIC not found"));
+        return new org.springframework.security.core.userdetails.User(user.getCNIC(),user.getPassword(),mapRolesToAuthorities((Set<Roles>) user.getAuthorities()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(Set<Roles> roles) {

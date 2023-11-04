@@ -18,23 +18,18 @@ import java.util.Optional;
 @RequestMapping("api/auth/")
 public class  AuthController {
     private final AuthenticationService authenticationService;
-    private final RolesService rolesService;
     private final EmailService emailService;
     private final OTPService otpService;
     private final UserService userService;
     public AuthController(AuthenticationService authenticationService, RolesService rolesService,
                           EmailService emailService, OTPService otpService, UserService userService) {
         this.authenticationService = authenticationService;
-        this.rolesService = rolesService;
         this.emailService = emailService;
         this.otpService = otpService;
         this.userService = userService;
     }
 
-    @GetMapping("/userTypes")
-    public ResponseEntity<List<Roles>> roles(){
-        return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
-    }
+    
     @PostMapping("request_register")
     public ResponseEntity<Void> requestRegister(@RequestBody User user) throws MessagingException {
         String userEmail = user.getEmail();
@@ -57,7 +52,7 @@ public class  AuthController {
     
     @PostMapping("verify-otp")
     public ResponseEntity<Optional<LoginResponseDTO>>verifyOTP(@RequestBody otpAndEmail otpAndEmail){
-        User user = new User();
+        User user;
         try {
            if(otpService.verifyOtp(otpAndEmail.getEmail(), otpAndEmail.getOtp())) {
                user = userService.getCachedUser(otpAndEmail.getEmail());
@@ -71,6 +66,6 @@ public class  AuthController {
         }
         
         
-        return login(new LoginDTO(user.getUsername(),user.getPassword()));
+        return login(new LoginDTO(user.getCNIC(),user.getPassword()));
     }
 }

@@ -28,7 +28,6 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     @Column(unique = true)
-    private String username;
     private String password;
     @Transient
     private String userType;
@@ -45,7 +44,6 @@ public class User implements UserDetails {
     public User(String name, String phoneNumber, String email, String username, String password, Set<Roles> authorities) {
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
@@ -54,7 +52,6 @@ public class User implements UserDetails {
         this.CNIC = CNIC;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.userType = userType;
         this.authorities = authorities;
@@ -63,7 +60,12 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
-
+    
+    @Override
+    public String getUsername() {
+        return this.getCNIC();
+    }
+    
     @Override
     public boolean isAccountNonExpired() {
         return true;

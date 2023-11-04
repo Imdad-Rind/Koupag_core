@@ -52,11 +52,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public Optional<LoginResponseDTO> loginUser(LoginDTO loginDTO) {
         try{
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginDTO.getCnic(),loginDTO.getPassword())
             );
 
             String token = myTokenService.generateJwt(auth);
-            return Optional.of(new LoginResponseDTO(userService.getUserByUserName(loginDTO.getUsername()).get(), token));
+            return Optional.of(new LoginResponseDTO(userService.getUserByCNIC(loginDTO.getCnic()).get(), token));
 
         } catch(AuthenticationException e){
             return Optional.empty();
