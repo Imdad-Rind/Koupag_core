@@ -35,8 +35,8 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private CustomUserDetailsService customUserDetailsService;
-    private  RSAKeyProperties keys;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final   RSAKeyProperties keys;
 
     @Autowired
     public SecurityConfig(CustomUserDetailsService customUserDetailsService,RSAKeyProperties keys) {
@@ -55,6 +55,7 @@ public class SecurityConfig {
                                         "api/volunteer/**",
                                         "api/recipient/**",*/
                                         "api/admin/**",
+                                        "api/home/**",
                                         "/api/user/**"
                                 ).permitAll()
                                 .requestMatchers("admin/**").hasRole("ADMIN")

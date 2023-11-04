@@ -27,8 +27,5 @@ private final SurplusMaterialServices materialServices;
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping("cities")
-	public ResponseEntity<List<Cities>>getAllCities(){
-		return new ResponseEntity<>(citiesServices.getAllCities(), HttpStatus.OK);
-	}
+	
 }

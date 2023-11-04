@@ -11,9 +11,10 @@ import java.util.Optional;
 public interface UserService {
 
     User creteNewUser(User user);
-    //UserModel getUserById(long id);
-    Optional<User> getUserByUserName(String username);
-    Boolean existsByUsername(String username);
+//    UserModel getUserById(long id);
+//    Optional<User> getUserByUserName(String username);
+    Optional<User> getUserByCNIC(String cnic);
+//    Boolean existsByUsername(String username);
     void cacheNewUser(String email, User user);
     User getCachedUser(String email);
     User getUserByEmail(String email);

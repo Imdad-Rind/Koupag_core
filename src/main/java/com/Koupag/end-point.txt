@@ -8,20 +8,8 @@
                   "cnic": String(length 13),
                   "phoneNumber": String(length 11),
                   "email":String(pattern email),
-                  "username": String,
                   "password":String,
-                  "userType": String(Capital ) = [DONOR, RECIPIENT, VOLUNTEER, ADMIN],
-                  "address" : 
-                  		{
-                  			"areaName" : "areaName",
-                  			"ucName" : "UCName",
-                  			"cityName" : "cityName",
-                             "location":
-                             {
-                                         "Latitude": "2525",
-                                         "Longitude": "6256"
-                             }
-                  		}
+                  "userType": String(Capital ) = [DONOR, RECIPIENT, VOLUNTEER, ADMIN]
               }
 
     1.2 verify otp
@@ -127,7 +115,11 @@
         Response: List of Previous Donations
 
 6 General APIs
-    5.1 Get UserTypes
+    6.1 Get UserTypes
         url: **/api/home/userTypes
         method: GET
         Response: List of UserTypes
+    6.1 Get UserTypes
+        url: **/api/home/cities
+        method: GET
+        Response: List of cities

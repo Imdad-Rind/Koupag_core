@@ -18,14 +18,14 @@ public class  UserMapper {
     
     public Donor userToDonor(User user, Set<Roles> authorities){
         Donor donor = new Donor();
-        Location location = new Location();
+//        Location location = new Location();
         
         donor.setAuthorities(authorities);
         donor.setEmail(user.getEmail());
         donor.setCNIC(user.getCNIC());
         donor.setUserType(user.getUserType());
         donor.setPhoneNumber(user.getPhoneNumber());
-        donor.setUsername(user.getUsername());
+//        donor.setUsername(user.getUsername());
         donor.setPassword(passwordEncoder.encode(user.getPassword()));
        /* donor.setAddress(new Address(
                 user.getAddress().getAreaName(),
@@ -55,7 +55,7 @@ public class  UserMapper {
         volunteer.setCNIC(user.getCNIC());
         volunteer.setUserType(user.getUserType());
         volunteer.setPhoneNumber(user.getPhoneNumber());
-        volunteer.setUsername(user.getUsername());
+//        volunteer.setUsername(user.getUsername());
         volunteer.setPassword(passwordEncoder.encode(user.getPassword()));
         /*volunteer.setAddress(
                 new Address(
@@ -83,7 +83,7 @@ public class  UserMapper {
         recipient.setCNIC(user.getCNIC());
         recipient.setUserType(user.getUserType());
         recipient.setPhoneNumber(user.getPhoneNumber());
-        recipient.setUsername(user.getUsername());
+//        recipient.setUsername(user.getUsername());
         recipient.setPassword(passwordEncoder.encode(user.getPassword()));
         /*recipient.setAddress(
                 new Address(
@@ -106,7 +106,7 @@ public class  UserMapper {
         user.setCNIC(donor.getCNIC());
         user.setUserType(donor.getUserType());
         user.setPhoneNumber(donor.getPhoneNumber());
-        user.setUsername(donor.getUsername());
+//        user.setUsername(donor.getUsername());
         user.setPassword(passwordEncoder.encode(donor.getPassword()));
 //        user.setAddress(donor.getAddress());
         return user;
@@ -119,7 +119,7 @@ public class  UserMapper {
         user.setCNIC(volunteer.getCNIC());
         user.setUserType(volunteer.getUserType());
         user.setPhoneNumber(volunteer.getPhoneNumber());
-        user.setUsername(volunteer.getUsername());
+//        user.setUsername(volunteer.getUsername());
         user.setPassword(passwordEncoder.encode(volunteer.getPassword()));
 /*        user.setAddress(
                 new Address(
@@ -140,7 +140,7 @@ public class  UserMapper {
         user.setCNIC(recipient.getCNIC());
         user.setUserType(recipient.getUserType());
         user.setPhoneNumber(recipient.getPhoneNumber());
-        user.setUsername(recipient.getUsername());
+//        user.setUsername(recipient.getUsername());
         user.setPassword(passwordEncoder.encode(recipient.getPassword()));
 /*
         user.setAddress(
