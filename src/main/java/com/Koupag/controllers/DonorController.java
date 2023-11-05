@@ -2,6 +2,7 @@ package com.Koupag.controllers;
 
 import com.Koupag.dtos.donation.CreateDonationDTO;
 import com.Koupag.dtos.donation.previous_donation.DonationRequestDTO;
+import com.Koupag.dtos.donation.previous_donation.activeDonationFilterDTO;
 import com.Koupag.mappers.DonationRequestMapper;
 import com.Koupag.models.DonationRequest;
 import com.Koupag.repositories.DonationRequestRepository;
@@ -47,14 +48,29 @@ public class DonorController {
     }
     
     @GetMapping("donations/{id}")
-    public List<DonationRequestDTO> getAllDonations(@PathVariable(name = "id") Long id){
+    public ResponseEntity<List<DonationRequestDTO>>getAllDonations(@PathVariable(name = "id") Long id){
         var donationList = donationRequestService.getAllDonationRequestByDonorId(id);
         List<DonationRequestDTO> mappedData = new ArrayList<>();
          for (DonationRequest d : donationList){
              mappedData.add(donationRequestMapper.fromDonationRequest(d));
          }
-        return mappedData;
+        return new ResponseEntity<>( mappedData,HttpStatus.OK);
     }
     
+    @PostMapping("close_donation/{id}")
+    public ResponseEntity<Void> closeActiveDonation(@PathVariable(name = "id") Long id){
+        donationRequestService.closeActiveDonationById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("active_donations")
+    public ResponseEntity<List<activeDonationFilterDTO>>getAllActiveDonation(){
+        var activeDonation = donationRequestService.getAllActiveDonation();
+        List<activeDonationFilterDTO> mappedActiveDonations = new ArrayList<>();
+        for (DonationRequest d : activeDonation){
+            mappedActiveDonations.add(donationRequestMapper.fromActiveDonation(d));
+        }
+        return new ResponseEntity<>(mappedActiveDonations, HttpStatus.OK);
+        
+    }
 }
 

@@ -1,5 +1,7 @@
 package com.Koupag.controllers;
 
+import com.Koupag.dtos.cities.cityDTO;
+import com.Koupag.mappers.cityMapper;
 import com.Koupag.models.Cities;
 import com.Koupag.models.Roles;
 import com.Koupag.services.CitiesServices;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,15 +20,22 @@ import java.util.List;
 public class HomeController {
     private final CitiesServices citiesServices;
     private final RolesService rolesService;
+    private final cityMapper cityMapper;
     
-    public HomeController(CitiesServices citiesServices, RolesService rolesService) {
+    public HomeController(CitiesServices citiesServices, RolesService rolesService, com.Koupag.mappers.cityMapper cityMapper) {
         this.citiesServices = citiesServices;
         this.rolesService = rolesService;
+        this.cityMapper = cityMapper;
     }
     
     @GetMapping("cities")
-    public ResponseEntity<List<Cities>>getAllCities(){
-        return new ResponseEntity<>(citiesServices.getAllCities(), HttpStatus.OK);
+    public ResponseEntity<List<cityDTO>>getAllCities(){
+        var cities = citiesServices.getAllCities();
+        List<cityDTO> mappedCityData= new ArrayList<>();
+        for (Cities c : cities){
+            mappedCityData.add(cityMapper.fromCityToDTO(c));
+        }
+        return new ResponseEntity<>(mappedCityData, HttpStatus.OK);
     }
     @GetMapping("/userTypes")
     public ResponseEntity<List<Roles>> roles(){

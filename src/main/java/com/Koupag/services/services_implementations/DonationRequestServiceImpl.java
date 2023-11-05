@@ -17,18 +17,18 @@ import java.util.Optional;
 
 @Service
 public class DonationRequestServiceImpl implements DonationRequestService {
-    private final DonationRequestRepository repository;
+    private final DonationRequestRepository donationRequestRepository;
     private final DonorRepository donorRepository;
     private final VolunteerRepository volunteerRepository;
     private final RecipientRepository recipientRepository;
     private final SurplusMaterialRepository surplusMaterialRepository;
     private final RequestItemRepository requestItemRepository;
     @Autowired
-    public DonationRequestServiceImpl(DonationRequestRepository repository,
+    public DonationRequestServiceImpl(DonationRequestRepository donationRequestRepository,
                                       DonorRepository donorRepository, VolunteerRepository volunteerRepository,
                                       RecipientRepository recipientRepository, SurplusMaterialRepository surplusMaterialRepository,
                                       RequestItemRepository requestItemRepository) {
-        this.repository = repository;
+        this.donationRequestRepository = donationRequestRepository;
         this.donorRepository = donorRepository;
         this.volunteerRepository = volunteerRepository;
         this.recipientRepository = recipientRepository;
@@ -50,18 +50,19 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         dr.setLocation(request.getLocation());
         dr.setRequestItem(requestItemTemp);
         dr.setCreationDateAndTime(LocalDateTime.now());
+        dr.setIsDonationActive(true);
         
-        return repository.save(dr);
+        return donationRequestRepository.save(dr);
     }
     
     @Override
     public Optional<DonationRequest> getDonationRequestById(long id) {
-        return repository.findById(id);
+        return donationRequestRepository.findById(id);
     }
     
     @Override
     public void updateVolunteerIdByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws NoSuchElementException  {
-        DonationRequest requestToBeUpdated = repository.getReferenceById(engagedDonationDTO.getRequestId());
+        DonationRequest requestToBeUpdated = donationRequestRepository.getReferenceById(engagedDonationDTO.getRequestId());
         
         Donor donor = donorRepository.findById(requestToBeUpdated.getDonor().getId()).get();
         donor.setLastServed(LocalDate.now());
@@ -69,12 +70,12 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         
         requestToBeUpdated.setVolunteer(volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get());
         requestToBeUpdated.setEngagedDateAndTime(LocalDateTime.now());
-        repository.save(requestToBeUpdated);
+        donationRequestRepository.save(requestToBeUpdated);
     }
     
     @Override
     public void updateRecipientIdByDonationRequest(CompleteDonationDTO completeDonationDTO) throws NoSuchElementException, Exception {
-        DonationRequest requestToBeUpdated = repository.getReferenceById(completeDonationDTO.getRequestId());
+        DonationRequest requestToBeUpdated = donationRequestRepository.getReferenceById(completeDonationDTO.getRequestId());
         
         Volunteer volunteer = volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get();
         volunteer.setLastServed(LocalDate.now());
@@ -89,23 +90,36 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         
         requestToBeUpdated.setRecipient(recipientRepository.findById(completeDonationDTO.getRecipientId()).get());
         requestToBeUpdated.setSuccessfulDonationDateAndTime(LocalDateTime.now());
-        repository.save(requestToBeUpdated);
+        donationRequestRepository.save(requestToBeUpdated);
         
     }
     
     @Override
     public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId) {
-	    return repository.findDonationRequestsByDonorId(donorId);
+	    return donationRequestRepository.findDonationRequestsByDonorId(donorId);
     }
     
     @Override
     public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId) {
-        return repository.findDonationRequestsByVolunteerId(volunteerId);
+        return donationRequestRepository.findDonationRequestsByVolunteerId(volunteerId);
     }
     
     @Override
     public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId) {
-        return repository.findDonationRequestsByRecipientId(recipientId);
+        return donationRequestRepository.findDonationRequestsByRecipientId(recipientId);
+    }
+    
+    @Override
+    public void closeActiveDonationById(Long id) {
+        DonationRequest dr = donationRequestRepository.getReferenceById(id);
+        dr.setIsDonationActive(false);
+        donationRequestRepository.save(dr);
+        
+    }
+    
+    @Override
+    public List<DonationRequest> getAllActiveDonation() {
+        return donationRequestRepository.findByIsDonationActiveTrue();
     }
     
     
