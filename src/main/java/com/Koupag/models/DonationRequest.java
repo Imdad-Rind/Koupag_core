@@ -1,6 +1,9 @@
 package com.Koupag.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -9,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
+
 public class DonationRequest{
     
     @Id
@@ -33,6 +37,7 @@ public class DonationRequest{
     
     String description;
     String pickup_time;
+    Boolean isDonationActive;
     
     @OneToOne(targetEntity = Location.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "pickup_location")

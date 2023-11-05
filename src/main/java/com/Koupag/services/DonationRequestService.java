@@ -17,4 +17,6 @@ public interface DonationRequestService {
    public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId);
    public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId);
    public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId);
+   public  void closeActiveDonationById(Long id);
+   public List<DonationRequest> getAllActiveDonation();
 }

@@ -15,5 +15,7 @@ public interface DonationRequestRepository extends JpaRepository<DonationRequest
 	List<DonationRequest> findDonationRequestsByDonorId(long id);
 	List<DonationRequest> findDonationRequestsByVolunteerId(long id);
 	List<DonationRequest> findDonationRequestsByRecipientId(long id);
+	List<DonationRequest> findByIsDonationActiveTrue();
+	
 	
 }
