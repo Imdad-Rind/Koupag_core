@@ -3,15 +3,14 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.dtos.verify.otpAndEmail;
-import com.Koupag.models.Roles;
 import com.Koupag.models.User;
+import com.Koupag.models.VerifiedUser;
 import com.Koupag.services.*;
 import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,25 +19,43 @@ public class  AuthController {
     private final AuthenticationService authenticationService;
     private final EmailService emailService;
     private final OTPService otpService;
-    private final UserService userService;
+    private final VerifiedUserService verifiedUserService;
     public AuthController(AuthenticationService authenticationService, RolesService rolesService,
-                          EmailService emailService, OTPService otpService, UserService userService) {
+                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService) {
         this.authenticationService = authenticationService;
         this.emailService = emailService;
         this.otpService = otpService;
-        this.userService = userService;
+        this.verifiedUserService = verifiedUserService;
     }
 
     
     @PostMapping("request_register")
-    public ResponseEntity<Void> requestRegister(@RequestBody User user) throws MessagingException {
-        String userEmail = user.getEmail();
+    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) throws MessagingException {
+        String userEmail = verifiedUser.getEmail();
         String otp = otpService.generateAndSendOtp(userEmail);
         
         //emailService.sendOTP(userEmail,otp);
         System.out.println(otp);
-        userService.cacheNewUser(userEmail,user);
+        verifiedUserService.NewVerifiedUser(verifiedUser);
+        
+  
         return new ResponseEntity<>( HttpStatus.OK);
+    }
+    @PostMapping("register")
+    public ResponseEntity<Optional<LoginResponseDTO>> register(@RequestBody User user) {
+        try {
+            if (verifiedUserService.isUserVerified(user.getEmail())){
+                authenticationService.registerUser(user);
+            }else {
+                throw new Exception("user not verified");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(Optional.empty(),HttpStatus.UNAUTHORIZED);
+        }
+        
+        
+        return login(new LoginDTO(user.getCNIC(),user.getPassword()));
     }
 
     @PostMapping("login")
@@ -51,21 +68,22 @@ public class  AuthController {
     }
     
     @PostMapping("verify-otp")
-    public ResponseEntity<Optional<LoginResponseDTO>>verifyOTP(@RequestBody otpAndEmail otpAndEmail){
+    public ResponseEntity<Void>verifyOTP(@RequestBody otpAndEmail otpAndEmail){
         User user;
         try {
            if(otpService.verifyOtp(otpAndEmail.getEmail(), otpAndEmail.getOtp())) {
-               user = userService.getCachedUser(otpAndEmail.getEmail());
-               authenticationService.registerUser(user);
+              
+               verifiedUserService.verifyUserByEmail(otpAndEmail.getEmail());
+               
            }else {
-               throw new Exception("otp not verfied");
+               throw new Exception("otp not verified");
            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(Optional.empty(),HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         
         
-        return login(new LoginDTO(user.getCNIC(),user.getPassword()));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
