@@ -20,9 +20,14 @@ public class VerifiedUser {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	UUID Id;
 	@JsonProperty("cnic")
+	@Column(unique = true)
 	String CNIC;
 	@JsonProperty("email")
+	@Column(unique = true)
 	String email;
+	@JsonProperty("phone")
+	@Column(unique = true)
+	private String phoneNumber;
 	Boolean isUserVerified = false;
 	LocalDateTime VerificationTime;
 	

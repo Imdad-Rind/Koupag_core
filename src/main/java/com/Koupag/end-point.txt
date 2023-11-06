@@ -53,7 +53,8 @@
                  method: POST
                  body: {
                            "cnic" : "25525",
-                           	"email" : "@gmail.com"
+                           	"email" : "@gmail.com",
+                           	"phone" : "0324"
                        }
 
 
