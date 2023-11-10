@@ -18,7 +18,6 @@ public interface UserService {
     void cacheNewUser(String email, User user);
     User getCachedUser(String email);
     User getUserByEmail(String email);
-    void createUserProfileByUserId(UserProfile userProfile, Long id);
     
     
 }

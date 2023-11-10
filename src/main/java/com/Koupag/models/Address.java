@@ -34,8 +34,8 @@ public class Address {
     private Location location;
     
     @JsonManagedReference
-    @OneToOne(targetEntity = UserProfile.class,fetch = FetchType.EAGER,mappedBy = "address")
-    private UserProfile userProfile;
+    @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER,mappedBy = "address")
+    private User user;
 
 
 
@@ -43,7 +43,6 @@ public class Address {
         this.areaName = areaName;
         this.ucName = ucName;
         this.city = city;
-        this.userProfile = users;
     }
     
     public Address(String areaName, String ucName, Cities city, Location location, UserProfile users) {
@@ -51,7 +50,6 @@ public class Address {
         this.ucName = ucName;
         this.city = city;
         this.location = location;
-        this.userProfile = users;
     }
     
   
