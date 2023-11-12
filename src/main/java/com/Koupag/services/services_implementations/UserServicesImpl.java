@@ -1,8 +1,6 @@
 package com.Koupag.services.services_implementations;
 
-import com.Koupag.models.Cities;
 import com.Koupag.models.User;
-import com.Koupag.models.UserProfile;
 import com.Koupag.repositories.UserRepository;
 import com.Koupag.services.CitiesServices;
 import com.Koupag.services.UserService;

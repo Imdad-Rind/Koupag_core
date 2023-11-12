@@ -20,13 +20,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
     private String areaName;
-    private String ucName;
-    
-    @JsonProperty("city")
-    @JsonBackReference
-    @ManyToOne(targetEntity = Cities.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "city")
-    private Cities city;
+    private String city;
     
     @JsonProperty("location")
     @JsonManagedReference
@@ -37,19 +31,12 @@ public class Address {
     @OneToOne(targetEntity = User.class,fetch = FetchType.EAGER,mappedBy = "address")
     private User user;
 
-
-
-    public Address(String areaName, String ucName, Cities city, UserProfile users) {
-        this.areaName = areaName;
-        this.ucName = ucName;
-        this.city = city;
-    }
     
-    public Address(String areaName, String ucName, Cities city, Location location, UserProfile users) {
+    public Address(String areaName, String city, Location location, User user) {
         this.areaName = areaName;
-        this.ucName = ucName;
         this.city = city;
         this.location = location;
+        this.user = user;
     }
     
   

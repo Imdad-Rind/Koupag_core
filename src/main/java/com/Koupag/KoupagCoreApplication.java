@@ -1,6 +1,6 @@
 package com.Koupag;
 
-import com.Koupag.models.Cities;
+import com.Koupag.models.City;
 import com.Koupag.models.Roles;
 import com.Koupag.services.CitiesServices;
 import com.Koupag.services.RolesService;
@@ -33,13 +33,13 @@ public class KoupagCoreApplication {
 
 			Set<Roles> roles = new HashSet<>();
 			roles.add(adminRole);
-			citiesServices.addNewCity(new Cities("Turbat"));
-			citiesServices.addNewCity(new Cities("Quetta"));
-			citiesServices.addNewCity(new Cities("Khuzdar"));
-			citiesServices.addNewCity(new Cities("Sibi"));
-			citiesServices.addNewCity(new Cities("Gwadar"));
-			citiesServices.addNewCity(new Cities("Panjgur"));
-			citiesServices.addNewCity(new Cities("Hub"));
+			citiesServices.addNewCity(new City("Turbat"));
+			citiesServices.addNewCity(new City("Quetta"));
+			citiesServices.addNewCity(new City("Khuzdar"));
+			citiesServices.addNewCity(new City("Sibi"));
+			citiesServices.addNewCity(new City("Gwadar"));
+			citiesServices.addNewCity(new City("Panjgur"));
+			citiesServices.addNewCity(new City("Hub"));
 			
 
 //			userService.creteNewUser(new UserModel(

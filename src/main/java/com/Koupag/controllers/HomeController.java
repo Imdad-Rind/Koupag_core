@@ -2,7 +2,7 @@ package com.Koupag.controllers;
 
 import com.Koupag.dtos.cities.cityDTO;
 import com.Koupag.mappers.cityMapper;
-import com.Koupag.models.Cities;
+import com.Koupag.models.City;
 import com.Koupag.models.Roles;
 import com.Koupag.services.CitiesServices;
 import com.Koupag.services.RolesService;
@@ -32,7 +32,7 @@ public class HomeController {
     public ResponseEntity<List<cityDTO>>getAllCities(){
         var cities = citiesServices.getAllCities();
         List<cityDTO> mappedCityData= new ArrayList<>();
-        for (Cities c : cities){
+        for (City c : cities){
             mappedCityData.add(cityMapper.fromCityToDTO(c));
         }
         return new ResponseEntity<>(mappedCityData, HttpStatus.OK);

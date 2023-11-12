@@ -2,6 +2,7 @@ package com.Koupag.services.services_implementations;
 
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
+import com.Koupag.dtos.login.UserDOS;
 import com.Koupag.models.Address;
 import com.Koupag.models.Roles;
 import com.Koupag.models.User;
@@ -54,10 +55,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getCnic(),loginDTO.getPassword())
             );
-
             String token = myTokenService.generateJwt(auth);
-            return Optional.of(new LoginResponseDTO(userService.getUserByCNIC(loginDTO.getCnic()).get(), token));
-
+            UserDOS userDOS = new UserDOS();
+            return Optional.of(new LoginResponseDTO(new UserDOS(userService.getUserByCNIC(loginDTO.getCnic()).get()), token));
         } catch(AuthenticationException e){
             return Optional.empty();
         }
