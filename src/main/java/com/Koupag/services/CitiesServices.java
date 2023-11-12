@@ -1,12 +1,12 @@
 package com.Koupag.services;
 
-import com.Koupag.models.Cities;
+import com.Koupag.models.City;
 
 import java.util.List;
 
 public interface CitiesServices {
 	
-	void addNewCity(Cities city);
-	List<Cities> getAllCities();
-	Cities getCityById(Long id);
+	void addNewCity(City city);
+	List<City> getAllCities();
+	City getCityById(Long id);
 }

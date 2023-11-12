@@ -46,6 +46,7 @@ public class  AuthController {
         try {
             if (verifiedUserService.isUserVerified(user.getEmail())){
                 authenticationService.registerUser(user);
+                return login(new LoginDTO(user.getCNIC(),user.getPassword()));
             }else {
                 throw new Exception("user not verified");
             }
@@ -53,9 +54,6 @@ public class  AuthController {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(Optional.empty(),HttpStatus.UNAUTHORIZED);
         }
-        
-        
-        return login(new LoginDTO(user.getCNIC(),user.getPassword()));
     }
 
     @PostMapping("login")

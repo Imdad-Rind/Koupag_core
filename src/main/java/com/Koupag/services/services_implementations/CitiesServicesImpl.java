@@ -1,6 +1,6 @@
 package com.Koupag.services.services_implementations;
 
-import com.Koupag.models.Cities;
+import com.Koupag.models.City;
 import com.Koupag.repositories.CitiesRepository;
 import com.Koupag.services.CitiesServices;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,17 @@ public class CitiesServicesImpl implements CitiesServices {
 	}
 	
 	@Override
-	public void addNewCity(Cities city) {
+	public void addNewCity(City city) {
 		citiesRepository.save(city);
 	}
 	
 	@Override
-	public List<Cities> getAllCities() {
+	public List<City> getAllCities() {
 		return citiesRepository.findAll();
 	}
 	
 	@Override
-	public Cities getCityById(Long id) {
+	public City getCityById(Long id) {
 		return citiesRepository.findById(id).get();
 	}
 }

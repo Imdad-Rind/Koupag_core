@@ -1,14 +1,11 @@
 package com.Koupag.controllers;
 
-import com.Koupag.models.Cities;
 import com.Koupag.models.SurplusMaterial;
 import com.Koupag.services.CitiesServices;
 import com.Koupag.services.SurplusMaterialServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/admin")
