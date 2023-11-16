@@ -13,7 +13,7 @@ import lombok.*;
 public class Location {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long Id;
+	private Long id;
 	
 	@JsonProperty("Latitude")
 	private String Latitude;
@@ -21,8 +21,9 @@ public class Location {
 	private String Longitude;
 	
 	@JsonBackReference
-	@OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_address")
+	@OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "location")
+//	@JoinColumn(referencedColumnName = "LOCATION_ID")
+	@JoinColumn(name = "home_address")
 	private Address home_address;
 	
 	@OneToOne(targetEntity = DonationRequest.class, mappedBy = "location",fetch = FetchType.LAZY,cascade = CascadeType.ALL)

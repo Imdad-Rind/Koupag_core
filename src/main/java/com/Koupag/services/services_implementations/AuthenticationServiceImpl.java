@@ -56,7 +56,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     new UsernamePasswordAuthenticationToken(loginDTO.getCnic(),loginDTO.getPassword())
             );
             String token = myTokenService.generateJwt(auth);
-            UserDOS userDOS = new UserDOS();
+
+            // why this method gives a null userType => userService.getUserByCNIC(loginDTO.getCnic()).get()
             return Optional.of(new LoginResponseDTO(new UserDOS(userService.getUserByCNIC(loginDTO.getCnic()).get()), token));
         } catch(AuthenticationException e){
             return Optional.empty();

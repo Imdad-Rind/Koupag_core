@@ -1,6 +1,5 @@
 package com.Koupag.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -18,13 +17,14 @@ import lombok.Setter;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
     private String areaName;
     private String city;
     
     @JsonProperty("location")
     @JsonManagedReference
-    @OneToOne(targetEntity = Location.class, fetch = FetchType.EAGER, mappedBy = "home_address",cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Location.class, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "location")
     private Location location;
     
     @JsonManagedReference

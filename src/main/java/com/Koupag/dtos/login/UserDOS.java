@@ -28,9 +28,10 @@ public class UserDOS {
         this.cnic = user.getCNIC();
         this.phoneNumber = user.getPhoneNumber();
         this.email = user.getEmail();
-        this.userType = user.getUserType();
+        this.userType = user.getAuthorities().stream().toList().get(0).getAuthority();
         this.lastServed = user.getLastServed();
         this.name = user.getName();
         this.address = user.getAddress();
+        this.address.setLocation(user.getAddress().getLocation());
     }
 }
