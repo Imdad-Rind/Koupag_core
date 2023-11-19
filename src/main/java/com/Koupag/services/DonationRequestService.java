@@ -10,13 +10,16 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public interface DonationRequestService {
-   public DonationRequest createNewDonationRequest(CreateDonationDTO request) throws NullPointerException, NoSuchElementException;
+   public DonationRequest createNewDonationRequest(CreateDonationDTO request) throws NullPointerException, NoSuchElementException, Exception;
    public Optional<DonationRequest> getDonationRequestById(long id);
-   public void updateVolunteerIdByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws NoSuchElementException;
-   public void updateRecipientIdByDonationRequest(CompleteDonationDTO completeDonationDTO) throws NoSuchElementException ,Exception;
-   public List<DonationRequest> getAllDonationRequestByDonorId(Long donorId);
-   public List<DonationRequest> getAllDonationRequestByVolunteerId(Long volunteerId);
+   public void updateVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception;
+   public void updateVolunteerEngagedTime(EngagedDonationDTO engagedDonationDTO) throws Exception;
+   public void updateRecipientByDonationRequest(CompleteDonationDTO completeDonationDTO) throws Exception;
+   public List<DonationRequest> getAllSuccessfulDonationRequestByDonorId(Long donorId);
+   public DonationRequest getActiveDonationRequestByDonorId(Long donorId) throws Exception;
+   public List<DonationRequest> getAllSuccessfulDonationRequestByVolunteerId(Long volunteerId);
+   public List<DonationRequest> getActiveDonationRequestByVolunteerId(Long volunteerId);
    public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId);
-   public  void closeActiveDonationById(Long id);
+   public  void closeActiveDonationById(Long id) throws Exception;
    public List<DonationRequest> getAllActiveDonation();
 }

@@ -15,10 +15,10 @@ public class Location {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@JsonProperty("Latitude")
-	private String Latitude;
-	@JsonProperty("Longitude")
-	private String Longitude;
+	@JsonProperty("latitude")
+	private String latitude;
+	@JsonProperty("longitude")
+	private String longitude;
 	
 	@JsonBackReference
 	@OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "location")
@@ -30,13 +30,13 @@ public class Location {
 	private DonationRequest donationRequest;
 	
 	public Location(String latitude, String longitude, Address address) {
-		Latitude = latitude;
-		Longitude = longitude;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.home_address = address;
 	}
 	
 	public Location(String latitude, String longitude) {
-		Latitude = latitude;
-		Longitude = longitude;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 }

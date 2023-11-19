@@ -33,27 +33,30 @@ public class DonationRequest{
     RequestItem requestItem;
     
     String description;
-    String pickup_time;
     Boolean isDonationActive;
     
     @OneToOne(targetEntity = Location.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "pickup_location")
     Location location;
-    
-    LocalDateTime creationDateAndTime;
-    LocalDateTime engagedDateAndTime;
-    LocalDateTime successfulDonationDateAndTime;
-    
-    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItem,
-                           LocalDateTime creationDateAndTime, LocalDateTime engagedDateAndTime, LocalDateTime successfulDonationDateAndTime) {
+
+    LocalDateTime creationDateAndTime;                  // The time a Donation Request is created
+    String expectedPickupTime;                   // The time a Donor fix to be picked
+    LocalDateTime volunteerPickupTime;                  // The time a Volunteer announces to pick that donation
+    LocalDateTime engagedDateAndTime;                   // The time a Volunteer Actually pickup the donation
+    LocalDateTime successfulDonationDateAndTime;        // The time a Volunteer hand over the donation
+
+    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateAndTime, LocalDateTime successfulDonationDateAndTime) {
         this.donor = donor;
         this.recipient = recipient;
         this.volunteer = volunteer;
         this.requestItem = requestItem;
+        this.description = description;
+        this.isDonationActive = isDonationActive;
+        this.location = location;
         this.creationDateAndTime = creationDateAndTime;
+        this.expectedPickupTime = expectedPickupTime;
+        this.volunteerPickupTime = volunteerPickupTime;
         this.engagedDateAndTime = engagedDateAndTime;
         this.successfulDonationDateAndTime = successfulDonationDateAndTime;
     }
-    
-    
 }
