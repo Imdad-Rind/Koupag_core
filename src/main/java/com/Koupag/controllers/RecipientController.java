@@ -1,6 +1,6 @@
 package com.Koupag.controllers;
 
-import com.Koupag.dtos.donation.previous_donation.DonationRequestDTO;
+import com.Koupag.mappers.DonationMapper;
 import com.Koupag.mappers.DonationRequestMapper;
 import com.Koupag.models.DonationRequest;
 import com.Koupag.services.DonationRequestService;
@@ -8,7 +8,6 @@ import com.Koupag.services.RecipientService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,13 +27,14 @@ public class RecipientController {
 	
 	
 	@GetMapping("donations/{id}")
-	public List<DonationRequestDTO> getAllDonations(@PathVariable(name = "id") Long id){
-		var donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
-		List<DonationRequestDTO> mappedData = new ArrayList<>();
-		for (DonationRequest d : donationList){
-			mappedData.add(donationRequestMapper.fromDonationRequest(d));
-		}
-		return mappedData;
+	public List<DonationMapper> getAllDonationRequestByRecipient(@PathVariable(name = "id") Long id){
+		List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
+		return donationList.stream().map(DonationMapper::new).toList();
 	}
 
+	@GetMapping("active-donations/{id}")
+	public List<DonationMapper> getAllActiveDonationRequestByRecipient(@PathVariable(name = "id") Long id){
+		List<DonationRequest> donationList = donationRequestService.getAllActiveDonationRequestByRecipientId(id);
+		return donationList.stream().map(DonationMapper::new).toList();
+	}
 }

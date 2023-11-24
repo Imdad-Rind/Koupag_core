@@ -6,7 +6,6 @@ import com.Koupag.mappers.models_map.UserMap;
 import com.Koupag.models.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -41,7 +40,7 @@ public class DonationMapper {
         this.volunteerPickupTime = request.getVolunteerPickupTime();
         this.isDonationActive = request.getIsDonationActive();
         this.creationDateAndTime = request.getCreationDateAndTime();
-        this.engagedDateAndTime = request.getEngagedDateAndTime();
+        this.engagedDateAndTime = request.getEngagedDateTime();
         this.successfulDonationDateAndTime = request.getSuccessfulDonationDateAndTime();
     }
 

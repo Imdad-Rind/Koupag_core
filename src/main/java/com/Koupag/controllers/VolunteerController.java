@@ -36,6 +36,18 @@ public class VolunteerController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
+
+	@PostMapping("unpick-donation")
+	public ResponseEntity<Void> removeVolunteerToRequestPickup(@RequestBody EngagedDonationDTO engagedDonationDTO){
+		try{
+			donationRequestService.removeVolunteerPickupByDonationRequest(engagedDonationDTO);
+			return new ResponseEntity<>( HttpStatus.OK);
+		} catch (NoSuchElementException e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	}
 	
 	@PostMapping("engage-donation")
 	public ResponseEntity<Void> addVolunteerToRequestEngagement(@RequestBody EngagedDonationDTO engagedDonationDTO){

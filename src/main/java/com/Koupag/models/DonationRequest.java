@@ -42,10 +42,10 @@ public class DonationRequest{
     LocalDateTime creationDateAndTime;                  // The time a Donation Request is created
     String expectedPickupTime;                   // The time a Donor fix to be picked
     LocalDateTime volunteerPickupTime;                  // The time a Volunteer announces to pick that donation
-    LocalDateTime engagedDateAndTime;                   // The time a Volunteer Actually pickup the donation
+    LocalDateTime engagedDateTime;                   // The time a Volunteer Actually pickup the donation
     LocalDateTime successfulDonationDateAndTime;        // The time a Volunteer hand over the donation
 
-    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateAndTime, LocalDateTime successfulDonationDateAndTime) {
+    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime, LocalDateTime successfulDonationDateAndTime) {
         this.donor = donor;
         this.recipient = recipient;
         this.volunteer = volunteer;
@@ -56,7 +56,7 @@ public class DonationRequest{
         this.creationDateAndTime = creationDateAndTime;
         this.expectedPickupTime = expectedPickupTime;
         this.volunteerPickupTime = volunteerPickupTime;
-        this.engagedDateAndTime = engagedDateAndTime;
+        this.engagedDateTime = engagedDateTime;
         this.successfulDonationDateAndTime = successfulDonationDateAndTime;
     }
 }

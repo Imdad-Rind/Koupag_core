@@ -65,15 +65,15 @@
         url: **/api/donor/create-donation
         method: POST
         body: {
-                   "donorId": Long,
-                   "count": Integer,
-                   "surplusMaterialId": Long,
-                   "description": "String",
-                    "pickup_time": "String",
-                     "location": {
-                             "Latitude": "String",
-                              "Longitude": "String"
-                                  }
+                "donorId": 1,
+                "count": 3,
+                "surplusMaterialId": 1,
+                "description": "To donate this for fun",
+                "expectedPickupTime": "2023-11-16 23:20:48.130045",
+                "location": {
+                  "latitude":"8.3234",
+                  "longitude":"12.23324"
+                }
               }
     3.2 Get Donations
         url: **/api/donor/donations/{id: long}

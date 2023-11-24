@@ -22,12 +22,10 @@ public class DonorController {
     
     
     final private DonationRequestService donationRequestService;
-    final private DonationRequestMapper donationRequestMapper;
 
     @Autowired
-    public DonorController(DonationRequestService donationRequestService, DonationRequestMapper donationRequestMapper) {
+    public DonorController(DonationRequestService donationRequestService  ) {
         this.donationRequestService = donationRequestService;
-        this.donationRequestMapper = donationRequestMapper;
     }
     
 
@@ -48,13 +46,8 @@ public class DonorController {
     
     @GetMapping("donations/{id}")
     public ResponseEntity<List<DonationMapper>>getAllDonations(@PathVariable(name = "id") Long id){
-        List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
-        List<DonationMapper> data = donationList.stream().map(DonationMapper::new).toList();
-        System.out.println(data);
-//        List<DonationRequestDTO> mappedData = new ArrayList<>();
-//         for (DonationRequest d : donationList){
-//             mappedData.add(donationRequestMapper.fromDonationRequest(d));
-//         }
+        final List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
+        final List<DonationMapper> data = donationList.stream().map(DonationMapper::new).toList();
         return new ResponseEntity<>( data,HttpStatus.OK);
     }
     

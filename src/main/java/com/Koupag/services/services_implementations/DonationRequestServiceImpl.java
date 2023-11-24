@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -83,6 +82,25 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
+    public void removeVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception {
+        Optional<DonationRequest> requestToBeUpdated = donationRequestRepository.findById(engagedDonationDTO.getRequestId());
+        if(requestToBeUpdated.isPresent())      // Can throw self-made Exception here...
+        {
+            DonationRequest request = requestToBeUpdated.get();
+            if (!request.getIsDonationActive()) return;    // The donation was closed by donor
+            if (request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
+
+            if(request.getVolunteer().getId() == engagedDonationDTO.getVolunteerId()){
+                request.setVolunteer(null);
+                request.setVolunteerPickupTime(null);
+                donationRequestRepository.save(request);
+            }
+        } else {
+            throw new Exception("Donation Not Found");
+        }
+    }
+
+    @Override
     public void updateVolunteerEngagedTime(EngagedDonationDTO engagedDonationDTO) throws Exception  {
         Optional<DonationRequest> requestToBeUpdated = donationRequestRepository.findById(engagedDonationDTO.getRequestId());
         if(requestToBeUpdated.isPresent())      // Can throw self-made Exception here...
@@ -90,13 +108,13 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             DonationRequest request = requestToBeUpdated.get();
             if(!request.getIsDonationActive()) return;    // The donation was closed by donor
             if(request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
-            if(request.getEngagedDateAndTime() != null) return;  // The donation already engaged by another one
+            if(request.getEngagedDateTime() != null) return;  // The donation already engaged by another one
 
             Donor donor = donorRepository.findById(request.getDonor().getId()).get();
             donor.setLastServed(LocalDate.now());
             donorRepository.save(donor);
 
-            request.setEngagedDateAndTime(LocalDateTime.now());
+            request.setEngagedDateTime(LocalDateTime.now());
             donationRequestRepository.save(request);
         } else {
             throw new Exception("Donation Not Found");
@@ -112,7 +130,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             DonationRequest request = requestToBeUpdated.get();     // Can throw self-made Exception here...
             if(!request.getIsDonationActive()) return;    // The donation was closed by donor
             if(request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
-            if(request.getEngagedDateAndTime() == null) return;  // The donation already engaged by another one
+            if(request.getEngagedDateTime() == null) return;  // The donation already engaged by another one
             if(request.getSuccessfulDonationDateAndTime() != null) return; // The donation had donated already
             if(request.getVolunteer().getId() != completeDonationDTO.getVolunteerId()) return; // The case another volunteer is trying to donate donation
 
@@ -157,9 +175,14 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 
     @Override
     public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId) {
-        return donationRequestRepository.findDonationRequestsByRecipientId(recipientId);
+        return donationRequestRepository.findByRecipientIdAndIsDonationActiveFalse(recipientId);
     }
-    
+
+    @Override
+    public List<DonationRequest> getAllActiveDonationRequestByRecipientId(Long recipientId) {
+        return donationRequestRepository.findByRecipientIdAndIsDonationActiveTrueAndEngagedDateTimeNotNull(recipientId);
+    }
+
     @Override
     public void closeActiveDonationById(Long id) throws Exception {
         DonationRequest activeDonation = getActiveDonationRequestByDonorId(id);

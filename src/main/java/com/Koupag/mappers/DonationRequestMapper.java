@@ -23,7 +23,7 @@ public class DonationRequestMapper {
 		DonationRequestDTO donationRequestDTOMapper = new DonationRequestDTO();
 		donationRequestDTOMapper.setSuccessfulDonationDateAndTime(donationRequest.getSuccessfulDonationDateAndTime());
 		donationRequestDTOMapper.setCreationDateAndTime(donationRequest.getCreationDateAndTime());
-		donationRequestDTOMapper.setEngagedDateAndTime(donationRequest.getEngagedDateAndTime());
+		donationRequestDTOMapper.setEngagedDateAndTime(donationRequest.getEngagedDateTime());
 		donationRequestDTOMapper.setDescription(donationRequest.getDescription());
 		donationRequestDTOMapper.setExpectedPickupTime(donationRequest.getExpectedPickupTime());
 		donationRequestDTOMapper.setVolunteerPickupTime(donationRequest.getVolunteerPickupTime());
