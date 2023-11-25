@@ -3,7 +3,6 @@ package com.Koupag.dtos.donation.previous_donation;
 import com.Koupag.models.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.Column;
 import lombok.*;
 
 import java.io.Serial;
@@ -25,13 +24,13 @@ public class activeDonationFilterDTO implements Serializable {
 	RequestItemDTO requestItem;
 	@JsonProperty("description")
 	String description;
-	@JsonProperty("pickup_time")
-	String pickup_time;
 	@JsonProperty("location")
 	Location location;
 	Boolean isDonationActive;
-	LocalDateTime creationDateAndTime;
-	LocalDateTime engagedDateAndTime;
-	LocalDateTime successfulDonationDateAndTime;
+	LocalDateTime creationDateAndTime;                  // The time a Donation Request is created
+	LocalDateTime expectedPickupTime;					// The time a Donor fix to be picked
+	LocalDateTime volunteerPickupTime;                  // The time a Volunteer announces to pick that donation
+	LocalDateTime engagedDateAndTime;                   // The time a Volunteer Actually pickup the donation
+	LocalDateTime successfulDonationDateAndTime;        // The time a Volunteer hand over the donation
 
 }

@@ -1,16 +1,18 @@
 package com.Koupag;
 
-import com.Koupag.models.City;
-import com.Koupag.models.Roles;
-import com.Koupag.services.CitiesServices;
-import com.Koupag.services.RolesService;
-import com.Koupag.services.UserService;
+import com.Koupag.dtos.login.LoginDTO;
+import com.Koupag.dtos.login.LoginResponseDTO;
+import com.Koupag.models.*;
+import com.Koupag.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
 
+import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @SpringBootApplication
@@ -21,7 +23,7 @@ public class KoupagCoreApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(RolesService rolesService, UserService userService, CitiesServices citiesServices){
+	CommandLineRunner run(SurplusMaterialServices service,RolesService rolesService, CitiesServices citiesServices,AuthenticationService auth){
 		return args ->{
 			if(rolesService.getByName("ADMIN").isPresent()) return;
 			Roles adminRole = rolesService.CreateNewRole(new Roles("ADMIN"));
@@ -40,17 +42,99 @@ public class KoupagCoreApplication {
 			citiesServices.addNewCity(new City("Gwadar"));
 			citiesServices.addNewCity(new City("Panjgur"));
 			citiesServices.addNewCity(new City("Hub"));
-			
-
-//			userService.creteNewUser(new UserModel(
-//					"Admin",
-//					"03232579202",
-//					"balochrasheed888@gmail.com",
-//					"admin",
-//					"password",
-//					roles
-//			));
+			dummySurplusMaterials(service);
+			addDummyUser(auth);
 		};
 	}
 
+	// For debugging purposes
+	void addDummyUser(AuthenticationService auth){
+		try{
+			User user1 = new User();
+			Address user1address = new Address(
+					"Gebon",
+					"Turbat",
+					null,
+					user1
+			);
+			Location user1addressLocation = new Location(
+					"23.3234",
+					"12.2343",
+					user1address
+			);
+			// dummy donor
+			user1address.setLocation(user1addressLocation);
+			user1.setName("Baloch");
+			user1.setCNIC("5220358009153");
+			user1.setPhoneNumber("03232579202");
+			user1.setEmail("balochrasheed@gmail.com");
+			user1.setPassword("donor");
+			user1.setUserType("DONOR");
+			user1.setAddress(user1address);
+			auth.registerUser(user1);
+			Optional<LoginResponseDTO> loginUser = auth.loginUser(new LoginDTO("5220358009153","donor"));
+			System.out.println("The Donor JWT Token ["+loginUser.get().getJwt()+"]");
+			// dummy volunteer
+			user1address.setAreaName("Dabbok");
+			user1address.setLocation(user1addressLocation);
+			user1.setName("Komar");
+			user1.setCNIC("5220358009154");
+			user1.setPhoneNumber("03232579204");
+			user1.setEmail("balochrasheed4@gmail.com");
+			user1.setPassword("volunteer");
+			user1.setUserType("VOLUNTEER");
+			user1.setAddress(user1address);
+			auth.registerUser(user1);
+			loginUser = auth.loginUser(new LoginDTO("5220358009154","volunteer"));
+			System.out.println("The Volunteer JWT Token ["+loginUser.get().getJwt()+"]");
+			// dummy recipient
+			user1address.setAreaName("Gebon");
+			user1address.setLocation(user1addressLocation);
+			user1.setName("Javid");
+			user1.setCNIC("5220358009155");
+			user1.setPhoneNumber("03232579205");
+			user1.setEmail("balochrasheed5@gmail.com");
+			user1.setPassword("recipient");
+			user1.setUserType("RECIPIENT");
+			user1.setAddress(user1address);
+			auth.registerUser(user1);
+			loginUser = auth.loginUser(new LoginDTO("5220358009155","recipient"));
+			System.out.println("The Recipient JWT Token ["+loginUser.get().getJwt()+"]");
+		} catch (Exception e){
+
+		}
+	}
+
+	void dummySurplusMaterials(SurplusMaterialServices service){
+		service.createNewSurplusMaterial(new SurplusMaterial(
+				1l,
+				"Food",
+				"Eatable meals",
+				null
+		));
+		service.createNewSurplusMaterial(new SurplusMaterial(
+				1l,
+				"Clothes",
+				"Wearables Material",
+				null
+		));
+		service.createNewSurplusMaterial(new SurplusMaterial(
+				1l,
+				"Money",
+				"Cash Resource",
+				null
+		));
+		service.createNewSurplusMaterial(new SurplusMaterial(
+				1l,
+				"Gift",
+				"Unknown Present",
+				null
+		));
+		service.createNewSurplusMaterial(new SurplusMaterial(
+				1l,
+				"Other",
+				"User Defined",
+				null
+		));
+	}
 }
