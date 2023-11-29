@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -17,8 +19,8 @@ public class SurplusMaterial{
     Long id;
     String name;
     String description;
-    @OneToOne(mappedBy = "surplusMaterial", fetch = FetchType.LAZY,
+    @ManyToMany(mappedBy = "surplusMaterial", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    RequestItem requestItem;
+    List<RequestItem> requestItems;
 
 }

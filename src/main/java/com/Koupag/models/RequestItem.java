@@ -21,11 +21,11 @@ public  class RequestItem {
     }
     
     int count;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surplus_Material")
     SurplusMaterial surplusMaterial;
     
-    @OneToOne(mappedBy = "requestItem", fetch = FetchType.LAZY,
+    @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     DonationRequest request;
     @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,

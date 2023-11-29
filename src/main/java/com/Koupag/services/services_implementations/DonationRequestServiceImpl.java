@@ -46,6 +46,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
                     request.getCount(),
                     surplusMaterialRepository.findById(request.getSurplusMaterialId()).get()
             );
+            requestItemTemp.getSurplusMaterial().setRequestItems(null);
             requestItemRepository.save(requestItemTemp);
             dr.setDescription(request.getDescription());
             dr.setExpectedPickupTime(request.getExpectedPickupTime());

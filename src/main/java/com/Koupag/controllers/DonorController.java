@@ -17,7 +17,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("api/donor/")
-@PreAuthorize("hasRole('ROLE_DONOR')")
+//@PreAuthorize("hasRole('ROLE_DONOR')")
 public class DonorController {
     
     
@@ -43,14 +43,15 @@ public class DonorController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    
+
+    // Previous Donations
     @GetMapping("donations/{id}")
     public ResponseEntity<List<DonationMapper>>getAllDonations(@PathVariable(name = "id") Long id){
         final List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
         final List<DonationMapper> data = donationList.stream().map(DonationMapper::new).toList();
         return new ResponseEntity<>( data,HttpStatus.OK);
     }
-    
+    // closes an opened donation request
     @PostMapping("close_donation/{id}")
     public ResponseEntity<Void> closeActiveDonation(@PathVariable(name = "id") Long id){
         try {
@@ -62,12 +63,12 @@ public class DonorController {
         }
     }
 
-
+    // Get the opened donation requests
     @GetMapping("active_donation/{id}")
     public ResponseEntity<DonationMapper> activeDonation(@PathVariable(name = "id") Long id){
         try{
             DonationMapper donationRequest = new DonationMapper(donationRequestService.getActiveDonationRequestByDonorId(id));
-            return new ResponseEntity<DonationMapper>(donationRequest,HttpStatus.OK);
+            return new ResponseEntity<>(donationRequest,HttpStatus.OK);
 //            return new ResponseEntity<>(new DonationRequest(),HttpStatus.OK);
         } catch (NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

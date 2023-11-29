@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("api/volunteer/")
-@PreAuthorize("hasRole('ROLE_VOLUNTEER')")
+//@PreAuthorize("hasRole('ROLE_VOLUNTEER')")
 public class VolunteerController {
 	private final DonationRequestService donationRequestService;
 	private final DonationRequestMapper donationRequestMapper;
