@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class UserDOS {
     private String phoneNumber;
     private String email;
     private String userType;
-    private LocalDate lastServed;
+    private LocalDateTime lastServed;
     private String name;
     private Address address;
 

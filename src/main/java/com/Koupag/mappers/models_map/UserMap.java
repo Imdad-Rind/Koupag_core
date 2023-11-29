@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class UserMap {
@@ -16,7 +18,7 @@ public class UserMap {
     private String phoneNumber;
     private String email;
     private String userType;
-    private LocalDate lastServed;
+    private LocalDateTime lastServed;
     private String name;
     private AddressMap address;
 

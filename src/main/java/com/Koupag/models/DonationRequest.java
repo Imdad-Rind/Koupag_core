@@ -4,6 +4,7 @@ package com.Koupag.models;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -20,9 +21,9 @@ public class DonationRequest{
     @JoinColumn(name = "donor_id", nullable = false)
     Donor donor;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_Id")
-    Recipient recipient;
+    List<Recipient> recipients;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_Id")
@@ -45,9 +46,9 @@ public class DonationRequest{
     LocalDateTime engagedDateTime;                   // The time a Volunteer Actually pickup the donation
     LocalDateTime successfulDonationDateAndTime;        // The time a Volunteer hand over the donation
 
-    public DonationRequest(Donor donor, Recipient recipient, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime, LocalDateTime successfulDonationDateAndTime) {
+    public DonationRequest(Donor donor, List<Recipient> recipients, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime, LocalDateTime successfulDonationDateAndTime) {
         this.donor = donor;
-        this.recipient = recipient;
+        this.recipients = recipients;
         this.volunteer = volunteer;
         this.requestItem = requestItem;
         this.description = description;
