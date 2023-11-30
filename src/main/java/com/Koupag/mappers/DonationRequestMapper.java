@@ -59,13 +59,13 @@ public class DonationRequestMapper {
 						donationRequest.getVolunteer().getEmail()
 				)
 		);
-		donationRequestDTOMapper.setRecipient(
-				new RecipientDTO(
+		donationRequestDTOMapper.setRecipients(
+				donationRequest.getRecipients().stream().map(e -> new RecipientDTO(
 //						donationRequest.getRecipient().getName(),
-						donationRequest.getRecipient().getCNIC(),
-						donationRequest.getRecipient().getPhoneNumber(),
-						donationRequest.getRecipient().getEmail()
-				)
+						e.getCNIC(),
+						e.getPhoneNumber(),
+						e.getEmail()
+				)).toList()
 		);
 		return donationRequestDTOMapper;
 	}

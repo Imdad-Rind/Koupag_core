@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/recipient/")
-@PreAuthorize("hasRole('ROLE_RECIPIENT')")
+//@PreAuthorize("hasRole('ROLE_RECIPIENT')")
 public class RecipientController {
 
 	private final RecipientService recipientService;

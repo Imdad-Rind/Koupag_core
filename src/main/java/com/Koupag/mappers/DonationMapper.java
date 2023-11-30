@@ -8,13 +8,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 public class DonationMapper {
     Long id;
     UserMap donor;
-    UserMap recipient;
+    List<UserMap> recipients;
     UserMap volunteer;
     RequestedMaterialMap requestItem;
 
@@ -32,7 +33,7 @@ public class DonationMapper {
         this.id = request.getId();
         this.donor = new UserMap(request.getDonor());
         this.volunteer = new UserMap(request.getVolunteer());
-        this.recipient = new UserMap(request.getRecipient());
+        this.recipients = request.getRecipients().stream().map(UserMap::new).toList();
         this.requestItem = new RequestedMaterialMap(request.getRequestItem());
         this.description = request.getDescription();
         this.location = new LocationMap(request.getLocation());

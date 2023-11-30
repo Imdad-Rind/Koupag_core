@@ -8,6 +8,8 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class DonationRequestDTO implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 	DonorDTO donor;
-	RecipientDTO recipient;
+	List<RecipientDTO> recipients;
 	VolunteerDTO volunteer;
 	@JsonProperty
 	RequestItemDTO requestItem;

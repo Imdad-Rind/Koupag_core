@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String userType;
-    private LocalDate lastServed;
+    private LocalDateTime lastServed;
     private String name;
     @JsonBackReference
     @OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -51,7 +52,7 @@ public class User implements UserDetails {
         this.authorities = authorities;
     }
     public User(String name, String CNIC, String phoneNumber, String email,
-                String password, String userType, LocalDate lastServed, Address address, Set<Roles> authorities) {
+                String password, String userType, LocalDateTime lastServed, Address address, Set<Roles> authorities) {
         this.name = name;
         this.lastServed = lastServed;
         this.address = address;
