@@ -1,16 +1,12 @@
 package com.Koupag.controllers;
 
 import com.Koupag.dtos.donation.CreateDonationDTO;
-import com.Koupag.dtos.donation.previous_donation.DonationRequestDTO;
 import com.Koupag.mappers.DonationMapper;
-import com.Koupag.mappers.DonationRequestMapper;
 import com.Koupag.models.DonationRequest;
-import com.Koupag.repositories.DonationRequestRepository;
 import com.Koupag.services.DonationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;

@@ -1,5 +1,6 @@
 package com.Koupag.dtos.donation.previous_donation;
 
+import com.Koupag.mappers.RecipientDonationMap;
 import com.Koupag.models.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -19,7 +20,7 @@ public class DonationRequestDTO implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
 	DonorDTO donor;
-	List<RecipientDTO> recipients;
+	List<RecipientDonationMap> recipients;
 	VolunteerDTO volunteer;
 	@JsonProperty
 	RequestItemDTO requestItem;
@@ -32,6 +33,5 @@ public class DonationRequestDTO implements Serializable {
 	LocalDateTime volunteerPickupTime;
 	LocalDateTime creationDateAndTime;
 	LocalDateTime engagedDateAndTime;
-	LocalDateTime successfulDonationDateAndTime;
 	
 }

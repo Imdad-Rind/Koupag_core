@@ -7,6 +7,7 @@ import com.Koupag.dtos.donation.CompleteDonationDTO;
 import com.Koupag.repositories.*;
 import com.Koupag.services.DonationRequestService;
 import com.Koupag.services.DonorService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 @Service
 public class DonationRequestServiceImpl implements DonationRequestService {
     private final DonationRequestRepository donationRequestRepository;
+    private final RecipientDonationRepository recipientDonationRepository;
     private final DonorRepository donorRepository;
     private final VolunteerRepository volunteerRepository;
     private final RecipientRepository recipientRepository;
@@ -26,10 +28,11 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     private final DonorService donorService;
     @Autowired
     public DonationRequestServiceImpl(DonationRequestRepository donationRequestRepository,
-                                      DonorRepository donorRepository, VolunteerRepository volunteerRepository,
+                                      RecipientDonationRepository recipientDonationRepository, DonorRepository donorRepository, VolunteerRepository volunteerRepository,
                                       RecipientRepository recipientRepository, SurplusMaterialRepository surplusMaterialRepository,
                                       RequestItemRepository requestItemRepository, DonorService donorService) {
         this.donationRequestRepository = donationRequestRepository;
+        this.recipientDonationRepository = recipientDonationRepository;
         this.donorRepository = donorRepository;
         this.volunteerRepository = volunteerRepository;
         this.recipientRepository = recipientRepository;
@@ -48,8 +51,10 @@ public class DonationRequestServiceImpl implements DonationRequestService {
                     request.getCount(),
                     surplusMaterialRepository.findById(request.getSurplusMaterialId()).get()
             );
-
-            dr.setRecipients(donorService.findMostPoor(request.getCount(), dr.getDonor().getAddress().getCity()));
+            donorService.findMostPoor(request.getCount(), dr.getDonor().getAddress().getCity());
+            dr.setRecipientDonations(
+                    recipientDonationRepository.findAllByDonationRequestId(dr.getId())
+            );
             requestItemTemp.getSurplusMaterial().setRequestItems(null);
             requestItemRepository.save(requestItemTemp);
             dr.setDescription(request.getDescription());
@@ -136,7 +141,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             if(!request.getIsDonationActive()) return;    // The donation was closed by donor
             if(request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
             if(request.getEngagedDateTime() == null) return;  // The donation already engaged by another one
-            if(request.getSuccessfulDonationDateAndTime() != null) return; // The donation had donated already
+             // The donation had donated already
             if(request.getVolunteer().getId() != completeDonationDTO.getVolunteerId()) return; // The case another volunteer is trying to donate donation
 
 
@@ -144,12 +149,15 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             volunteer.setLastServed(LocalDateTime.now());
             volunteerRepository.save(volunteer);
             Recipient recipient = recipientRepository.findById(completeDonationDTO.getRecipientId()).get();
+            request.setRecipientDonations(request.getRecipientDonations().stream().map(e -> {
+                if(e.getRecipient() == recipient){
+                    e.setDonationDateTime(LocalDateTime.now());
+                    recipientDonationRepository.save(e);
+                }return e;}).toList());
             recipient.setLastServed(LocalDateTime.now());
             recipientRepository.save(recipient);
-
-
-            request.setSuccessfulDonationDateAndTime(LocalDateTime.now());
-            request.setIsDonationActive(false);
+            boolean isAnyRecipientLeft = recipientDonationRepository.existsByDonationRequestIdAndDonationDateTimeIsNull(request.getId());
+            request.setIsDonationActive(isAnyRecipientLeft);
             donationRequestRepository.save(request);
         } else {
             throw new Exception("Donation Not Found");
@@ -178,12 +186,12 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 
     @Override
     public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId) {
-        return donationRequestRepository.findByRecipientsIdAndIsDonationActiveFalse(recipientId);
+        return donationRequestRepository.findByRecipientDonationsRecipientIdAndIsDonationActiveFalse(recipientId);
     }
 
     @Override
     public List<DonationRequest> getAllActiveDonationRequestByRecipientId(Long recipientId) {
-        return donationRequestRepository.findByRecipientsIdAndIsDonationActiveTrueAndEngagedDateTimeNotNull(recipientId);
+        return donationRequestRepository.findByRecipientDonationsRecipientIdAndIsDonationActiveTrueAndEngagedDateTimeNotNull(recipientId);
     }
 
     @Override

@@ -21,9 +21,9 @@ public class DonationRequest{
     @JoinColumn(name = "donor_id", nullable = false)
     Donor donor;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipient_Id")
-    List<Recipient> recipients;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "donation_request_id")
+    List<RecipientDonation> recipientDonations;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_Id")
@@ -44,11 +44,10 @@ public class DonationRequest{
     String expectedPickupTime;                   // The time a Donor fix to be picked
     LocalDateTime volunteerPickupTime;                  // The time a Volunteer announces to pick that donation
     LocalDateTime engagedDateTime;                   // The time a Volunteer Actually pickup the donation
-    LocalDateTime successfulDonationDateAndTime;        // The time a Volunteer hand over the donation
 
-    public DonationRequest(Donor donor, List<Recipient> recipients, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime, LocalDateTime successfulDonationDateAndTime) {
+    public DonationRequest(Donor donor, List<RecipientDonation> recipientDonations, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime) {
         this.donor = donor;
-        this.recipients = recipients;
+        this.recipientDonations = recipientDonations;
         this.volunteer = volunteer;
         this.requestItem = requestItem;
         this.description = description;
@@ -58,6 +57,5 @@ public class DonationRequest{
         this.expectedPickupTime = expectedPickupTime;
         this.volunteerPickupTime = volunteerPickupTime;
         this.engagedDateTime = engagedDateTime;
-        this.successfulDonationDateAndTime = successfulDonationDateAndTime;
     }
 }

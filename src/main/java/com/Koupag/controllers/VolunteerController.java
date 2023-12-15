@@ -3,12 +3,10 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.donation.EngagedDonationDTO;
 import com.Koupag.dtos.donation.CompleteDonationDTO;
 import com.Koupag.mappers.DonationMapper;
-import com.Koupag.mappers.DonationRequestMapper;
 import com.Koupag.models.DonationRequest;
 import com.Koupag.services.DonationRequestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +17,9 @@ import java.util.NoSuchElementException;
 //@PreAuthorize("hasRole('ROLE_VOLUNTEER')")
 public class VolunteerController {
 	private final DonationRequestService donationRequestService;
-	private final DonationRequestMapper donationRequestMapper;
 	
-	public VolunteerController(DonationRequestService donationRequestService, DonationRequestMapper donationRequestMapper) {
+	public VolunteerController(DonationRequestService donationRequestService) {
 		this.donationRequestService = donationRequestService;
-		this.donationRequestMapper = donationRequestMapper;
 	}
 	@PostMapping("pickup-donation")
 	public ResponseEntity<Void> addVolunteerToRequestPickup(@RequestBody EngagedDonationDTO engagedDonationDTO){
@@ -69,6 +65,7 @@ public class VolunteerController {
 		} catch (NoSuchElementException e){
 			return new ResponseEntity<>( HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
+			System.out.println("Exception: "+e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
