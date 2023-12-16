@@ -2,11 +2,14 @@ package com.Koupag.dtos.login;
 
 import com.Koupag.models.Address;
 import com.Koupag.models.User;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,7 +17,10 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDOS {
+@JsonSerialize
+public class UserDOS implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private long id;
     private String cnic;
     private String phoneNumber;
