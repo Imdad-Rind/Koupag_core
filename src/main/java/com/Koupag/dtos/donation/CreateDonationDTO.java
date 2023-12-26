@@ -38,19 +38,19 @@ public class CreateDonationDTO implements Serializable {
         this.location = location;
     }
 
-    public CreateDonationDTO(String jsonString) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            CreateDonationDTO createDonationDTO = objectMapper.readValue(jsonString, CreateDonationDTO.class);
-            this.donorId = createDonationDTO.getDonorId();
-            this.count = createDonationDTO.getCount();
-            this.surplusMaterialId = createDonationDTO.getSurplusMaterialId();
-            this.materialImagePaths = createDonationDTO.getMaterialImagePaths();
-            this.description = createDonationDTO.getDescription();
-            this.expectedPickupTime = createDonationDTO.getExpectedPickupTime();
-            this.location = createDonationDTO.getLocation();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
+//    public CreateDonationDTO(String jsonString) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            CreateDonationDTO createDonationDTO = objectMapper.readValue(jsonString, CreateDonationDTO.class);
+//            this.donorId = createDonationDTO.getDonorId();
+//            this.count = createDonationDTO.getCount();
+//            this.surplusMaterialId = createDonationDTO.getSurplusMaterialId();
+//            this.materialImagePaths = createDonationDTO.getMaterialImagePaths();
+//            this.description = createDonationDTO.getDescription();
+//            this.expectedPickupTime = createDonationDTO.getExpectedPickupTime();
+//            this.location = createDonationDTO.getLocation();
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -148,14 +148,17 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             Volunteer volunteer = volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get();
             volunteer.setLastServed(LocalDateTime.now());
             volunteerRepository.save(volunteer);
-            Recipient recipient = recipientRepository.findById(completeDonationDTO.getRecipientId()).get();
-            request.setRecipientDonations(request.getRecipientDonations().stream().map(e -> {
-                if(e.getRecipient() == recipient){
-                    e.setDonationDateTime(LocalDateTime.now());
-                    recipientDonationRepository.save(e);
-                }return e;}).toList());
-            recipient.setLastServed(LocalDateTime.now());
-            recipientRepository.save(recipient);
+//            Recipient recipient = recipientRepository.findById(completeDonationDTO.getRecipientId()).get();
+//            recipient.setLastServed(LocalDateTime.now());
+//            recipientRepository.save(recipient);
+            for(RecipientDonation rd: request.getRecipientDonations()){
+                if(rd.getRecipient().getId() == completeDonationDTO.getRecipientId()){
+                    rd.setDonationDateTime(LocalDateTime.now());
+                    rd.getRecipient().setLastServed(LocalDateTime.now());
+                    recipientRepository.save(rd.getRecipient());
+                    recipientDonationRepository.save(rd);
+                }
+            }
             boolean isAnyRecipientLeft = recipientDonationRepository.existsByDonationRequestIdAndDonationDateTimeIsNull(request.getId());
             request.setIsDonationActive(isAnyRecipientLeft);
             donationRequestRepository.save(request);

@@ -17,7 +17,6 @@ import java.util.Set;
 
 @SpringBootApplication
 public class KoupagCoreApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(KoupagCoreApplication.class, args);
 	}

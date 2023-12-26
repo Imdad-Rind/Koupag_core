@@ -18,7 +18,7 @@ public class RecipientDonation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     LocalDateTime donationDateTime;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_id")
     Recipient recipient;
     @ManyToOne(fetch = FetchType.LAZY)
