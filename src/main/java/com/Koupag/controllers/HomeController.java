@@ -3,9 +3,8 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.cities.cityDTO;
 import com.Koupag.mappers.cityMapper;
 import com.Koupag.models.City;
-import com.Koupag.models.Roles;
 import com.Koupag.services.CitiesServices;
-import com.Koupag.services.RolesService;
+import com.Koupag.services.SurplusMaterialServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +18,13 @@ import java.util.List;
 @RequestMapping("api/home")
 public class HomeController {
     private final CitiesServices citiesServices;
-    private final RolesService rolesService;
     private final cityMapper cityMapper;
+    private final SurplusMaterialServices surplusMaterialServices;
     
-    public HomeController(CitiesServices citiesServices, RolesService rolesService, com.Koupag.mappers.cityMapper cityMapper) {
+    public HomeController(CitiesServices citiesServices, com.Koupag.mappers.cityMapper cityMapper, SurplusMaterialServices surplusMaterialServices) {
         this.citiesServices = citiesServices;
-        this.rolesService = rolesService;
         this.cityMapper = cityMapper;
+        this.surplusMaterialServices = surplusMaterialServices;
     }
     
     @GetMapping("cities")
@@ -37,8 +36,13 @@ public class HomeController {
         }
         return new ResponseEntity<>(mappedCityData, HttpStatus.OK);
     }
-    @GetMapping("/userTypes")
-    public ResponseEntity<List<Roles>> roles(){
-        return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
+
+    @GetMapping("/get-surplus-materials")
+    public ResponseEntity<List<String>> allSurplusMaterials(){
+        List<String> surplusMaterials = surplusMaterialServices.getAllSurplusMaterialsName();
+        if(!surplusMaterials.isEmpty()){
+            return new ResponseEntity<>(surplusMaterials, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
     }
 }

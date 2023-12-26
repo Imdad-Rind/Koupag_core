@@ -106,34 +106,24 @@ public class KoupagCoreApplication {
 
 	void dummySurplusMaterials(SurplusMaterialServices service){
 		service.createNewSurplusMaterial(new SurplusMaterial(
-				1l,
 				"Food",
-				"Eatable meals",
-				null
+				"Eatable meals"
 		));
 		service.createNewSurplusMaterial(new SurplusMaterial(
-				1l,
-				"Clothes",
-				"Wearables Material",
-				null
+				"Clothe",
+				"Wearables Material"
 		));
 		service.createNewSurplusMaterial(new SurplusMaterial(
-				1l,
 				"Money",
-				"Cash Resource",
-				null
+				"Cash Resource"
 		));
 		service.createNewSurplusMaterial(new SurplusMaterial(
-				1l,
 				"Gift",
-				"Unknown Present",
-				null
+				"Unknown Present"
 		));
 		service.createNewSurplusMaterial(new SurplusMaterial(
-				1l,
 				"Other",
-				"User Defined",
-				null
+				"User Defined"
 		));
 	}
 }
