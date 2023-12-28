@@ -53,11 +53,11 @@ public class UserServicesImpl implements UserService {
         return Optional.ofNullable(userRepository.findByCNIC(cnic));
     }
     
-//    @Override
-//    public Boolean existsByUsername(String username) {
-//        return userRepository.existsByUsername(username);
-//    }
-//
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     @Override
     public void cacheNewUser(String email, User user) {
         cache.put(email, user);
