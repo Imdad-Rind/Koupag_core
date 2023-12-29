@@ -15,6 +15,7 @@ public interface UserService {
 //    Optional<User> getUserByUserName(String username);
     Optional<User> getUserByCNIC(String cnic);
 //    Boolean existsByUsername(String username);
+    public Boolean existsByEmail(String email);
     void cacheNewUser(String email, User user);
     User getCachedUser(String email);
     User getUserByEmail(String email);

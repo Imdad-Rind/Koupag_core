@@ -64,5 +64,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    @Override
+    public boolean checkUserRegistrationByEmail(String email) {
+        return userService.existsByEmail(email);
+    }
+
 
 }

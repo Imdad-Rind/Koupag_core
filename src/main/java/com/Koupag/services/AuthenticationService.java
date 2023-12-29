@@ -10,6 +10,7 @@ public interface AuthenticationService {
 
     public User registerUser(User user) throws Exception;
     public Optional<LoginResponseDTO> loginUser(LoginDTO loginDTO);
+    public boolean checkUserRegistrationByEmail(String email);
     
     
 }

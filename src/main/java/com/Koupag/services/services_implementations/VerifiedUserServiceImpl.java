@@ -24,7 +24,7 @@ public class VerifiedUserServiceImpl implements VerifiedUserService {
 	@Override
 	public void verifyUserByEmail(String email) {
 		VerifiedUser user = verifiedUserRepo.findByEmail(email);
-		user.setIsUserVerified(true);
+		user.setUserVerified(true);
 		user.setVerificationTime(LocalDateTime.now());
 		verifiedUserRepo.save(user);
 		
@@ -32,9 +32,8 @@ public class VerifiedUserServiceImpl implements VerifiedUserService {
 	
 	@Override
 	public boolean isUserVerified(String email) {
-		VerifiedUser verifiedUser = verifiedUserRepo.findByEmail(email);
-		return verifiedUser.getIsUserVerified();
-	}
+        return verifiedUserRepo.findByEmail(email) != null;
+    }
 	
 	
 }

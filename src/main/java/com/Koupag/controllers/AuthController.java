@@ -30,23 +30,30 @@ public class  AuthController {
 
     
     @PostMapping("request_register")
-    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) throws MessagingException {
+    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) throws Exception {
         String userEmail = verifiedUser.getEmail();
-        String otp = otpService.generateAndSendOtp(userEmail);
-        
-        //emailService.sendOTP(userEmail,otp);
-        System.out.println(otp);
-        verifiedUserService.NewVerifiedUser(verifiedUser);
-        
-  
-        return new ResponseEntity<>( HttpStatus.OK);
+        if(!verifiedUserService.isUserVerified(verifiedUser.getEmail())){
+            String otp = otpService.generateAndSendOtp(userEmail);
+            //emailService.sendOTP(userEmail,otp);
+            System.out.println(otp);
+            verifiedUserService.NewVerifiedUser(verifiedUser);
+        }else {
+            throw new Exception("user already verified");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("register")
     public ResponseEntity<Optional<LoginResponseDTO>> register(@RequestBody User user) {
         try {
             if (verifiedUserService.isUserVerified(user.getEmail())){
-                authenticationService.registerUser(user);
-                return login(new LoginDTO(user.getCNIC(),user.getPassword()));
+                if(!authenticationService.checkUserRegistrationByEmail(user.getEmail())){
+                    authenticationService.registerUser(user);
+                    return login(new LoginDTO(user.getCNIC(),user.getPassword()));
+                }else{
+                    throw new Exception("user already registered");
+                }
+
             }else {
                 throw new Exception("user not verified");
             }
