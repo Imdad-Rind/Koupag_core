@@ -42,6 +42,11 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
+    public DonationRequest getRespondedDonationOfVolunteer(long id) {
+        return donationRequestRepository.findByVolunteerIdAndIsDonationActiveTrueAndVolunteerPickupTimeNotNull(id);
+    }
+
+    @Override
     public DonationRequest createNewDonationRequest(CreateDonationDTO request) throws  Exception {
 //        System.out.println(LocalDateTime.parse(request.getExpectedPickupTime() , DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")));
         if(donationRequestRepository.findByDonorIdAndIsDonationActiveTrue(request.getDonorId()) == null){

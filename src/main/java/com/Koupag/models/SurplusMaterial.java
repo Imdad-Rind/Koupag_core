@@ -23,4 +23,8 @@ public class SurplusMaterial{
             cascade = CascadeType.ALL)
     List<RequestItem> requestItems;
 
+    public SurplusMaterial(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

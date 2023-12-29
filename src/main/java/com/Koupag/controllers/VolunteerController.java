@@ -17,10 +17,20 @@ import java.util.NoSuchElementException;
 //@PreAuthorize("hasRole('ROLE_VOLUNTEER')")
 public class VolunteerController {
 	private final DonationRequestService donationRequestService;
+
+
 	
 	public VolunteerController(DonationRequestService donationRequestService) {
 		this.donationRequestService = donationRequestService;
 	}
+
+	@GetMapping("responded-donations/{id}")
+	public ResponseEntity<DonationMapper> getRespondedDonations(@PathVariable(name = "id") Long id){
+		DonationRequest donationList = donationRequestService.getRespondedDonationOfVolunteer(id);
+		return new ResponseEntity<>(new DonationMapper(donationList), donationList == null ? HttpStatus.NO_CONTENT: HttpStatus.OK);
+	}
+
+
 	@PostMapping("pickup-donation")
 	public ResponseEntity<Void> addVolunteerToRequestPickup(@RequestBody EngagedDonationDTO engagedDonationDTO){
 		try{
@@ -71,9 +81,9 @@ public class VolunteerController {
     }
 	
 	@GetMapping("donations/{id}")
-	public List<DonationMapper> getAllDonations(@PathVariable(name = "id") Long id){
+	public ResponseEntity<List<DonationMapper>> getAllDonations(@PathVariable(name = "id") Long id){
 		List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByVolunteerId(id);
-		return donationList.stream().map(DonationMapper::new).toList();
+		return new ResponseEntity<>(donationList.stream().map(DonationMapper::new).toList(), donationList.isEmpty() ? HttpStatus.NO_CONTENT: HttpStatus.OK);
 	}
 
 	@GetMapping("active_donations")

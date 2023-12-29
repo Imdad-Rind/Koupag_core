@@ -87,8 +87,6 @@ public class  AuthController {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        
-        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -5,6 +5,8 @@ import com.Koupag.services.SurplusMaterialServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SurplusMaterialServicesImpl implements SurplusMaterialServices {
     private SurplusMaterialRepository surplusRepo;
@@ -16,5 +18,10 @@ public class SurplusMaterialServicesImpl implements SurplusMaterialServices {
     @Override
     public void createNewSurplusMaterial(SurplusMaterial surplus) {
         surplusRepo.save(surplus);
+    }
+
+    @Override
+    public List<String> getAllSurplusMaterialsName() {
+        return surplusRepo.findAll().stream().map(SurplusMaterial::getName).toList();
     }
 }

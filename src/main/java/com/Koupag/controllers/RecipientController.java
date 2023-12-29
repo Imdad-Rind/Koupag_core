@@ -24,7 +24,7 @@ public class RecipientController {
 	
 	@GetMapping("donations/{id}")
 	public List<DonationMapper> getAllDonationRequestByRecipient(@PathVariable(name = "id") Long id){
-		List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
+		List<DonationRequest> donationList = donationRequestService.getAllDonationRequestByRecipientId(id);
 		return donationList.stream().map(DonationMapper::new).toList();
 	}
 
