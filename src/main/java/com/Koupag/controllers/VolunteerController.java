@@ -17,10 +17,20 @@ import java.util.NoSuchElementException;
 //@PreAuthorize("hasRole('ROLE_VOLUNTEER')")
 public class VolunteerController {
 	private final DonationRequestService donationRequestService;
+
+
 	
 	public VolunteerController(DonationRequestService donationRequestService) {
 		this.donationRequestService = donationRequestService;
 	}
+
+	@GetMapping("responded-donations/{id}")
+	public ResponseEntity<DonationMapper> getRespondedDonations(@PathVariable(name = "id") Long id){
+		DonationRequest donationList = donationRequestService.getRespondedDonationOfVolunteer(id);
+		return new ResponseEntity<>(new DonationMapper(donationList), donationList == null ? HttpStatus.NO_CONTENT: HttpStatus.OK);
+	}
+
+
 	@PostMapping("pickup-donation")
 	public ResponseEntity<Void> addVolunteerToRequestPickup(@RequestBody EngagedDonationDTO engagedDonationDTO){
 		try{
