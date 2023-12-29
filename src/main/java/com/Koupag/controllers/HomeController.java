@@ -3,7 +3,9 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.cities.cityDTO;
 import com.Koupag.mappers.cityMapper;
 import com.Koupag.models.City;
+import com.Koupag.models.Roles;
 import com.Koupag.services.CitiesServices;
+import com.Koupag.services.RolesService;
 import com.Koupag.services.SurplusMaterialServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,13 @@ public class HomeController {
     private final CitiesServices citiesServices;
     private final cityMapper cityMapper;
     private final SurplusMaterialServices surplusMaterialServices;
+    private final RolesService rolesService;
     
-    public HomeController(CitiesServices citiesServices, com.Koupag.mappers.cityMapper cityMapper, SurplusMaterialServices surplusMaterialServices) {
+    public HomeController(CitiesServices citiesServices, com.Koupag.mappers.cityMapper cityMapper, SurplusMaterialServices surplusMaterialServices, RolesService rolesService) {
         this.citiesServices = citiesServices;
         this.cityMapper = cityMapper;
         this.surplusMaterialServices = surplusMaterialServices;
+        this.rolesService = rolesService;
     }
     
     @GetMapping("cities")
@@ -44,5 +48,9 @@ public class HomeController {
             return new ResponseEntity<>(surplusMaterials, HttpStatus.OK);
         }
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
+    }
+    @GetMapping("/userTypes")
+    public ResponseEntity<List<Roles>> roles(){
+        return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
     }
 }

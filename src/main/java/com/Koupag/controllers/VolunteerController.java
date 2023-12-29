@@ -71,9 +71,9 @@ public class VolunteerController {
     }
 	
 	@GetMapping("donations/{id}")
-	public List<DonationMapper> getAllDonations(@PathVariable(name = "id") Long id){
+	public ResponseEntity<List<DonationMapper>> getAllDonations(@PathVariable(name = "id") Long id){
 		List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByVolunteerId(id);
-		return donationList.stream().map(DonationMapper::new).toList();
+		return new ResponseEntity<>(donationList.stream().map(DonationMapper::new).toList(), donationList.isEmpty() ? HttpStatus.NO_CONTENT: HttpStatus.OK);
 	}
 
 	@GetMapping("active_donations")
