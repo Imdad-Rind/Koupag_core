@@ -28,13 +28,21 @@ public class VerifiedUser {
 	@JsonProperty("phone")
 	@Column(unique = true)
 	private String phoneNumber;
-	Boolean isUserVerified = false;
+	boolean isUserVerified = false;
 	LocalDateTime VerificationTime;
 	
-	public VerifiedUser(String CNIC, String email, Boolean isUserVerified, LocalDateTime verificationTime) {
+	public VerifiedUser(String CNIC, String email, boolean isUserVerified, LocalDateTime verificationTime) {
 		this.CNIC = CNIC;
 		this.email = email;
 		this.isUserVerified = isUserVerified;
 		VerificationTime = verificationTime;
+	}
+
+	public boolean isUserVerified() {
+		return isUserVerified;
+	}
+
+	public void setUserVerified(boolean userVerified) {
+		isUserVerified = userVerified;
 	}
 }

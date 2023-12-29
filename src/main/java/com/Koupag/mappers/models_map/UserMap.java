@@ -31,7 +31,7 @@ public class UserMap {
         this.phoneNumber = user.getPhoneNumber();
         this.userType = user.getAuthorities().stream().toList().get(0).getAuthority();
         this.lastServed = user.getLastServed();
-        this.address = new AddressMap(user.getAddress());
+       // this.address = new AddressMap(user.getAddress());
     }
     public UserMap(Volunteer user){
         if(user == null) return;
@@ -42,7 +42,7 @@ public class UserMap {
         this.phoneNumber = user.getPhoneNumber();
         this.userType = user.getAuthorities().stream().toList().get(0).getAuthority();
         this.lastServed = user.getLastServed();
-        this.address = new AddressMap(user.getAddress());
+       // this.address = new AddressMap(user.getAddress());
     }
     public UserMap(Recipient user){
         if(user == null) return;
@@ -53,6 +53,6 @@ public class UserMap {
         this.phoneNumber = user.getPhoneNumber();
         this.userType = user.getAuthorities().stream().toList().get(0).getAuthority();
         this.lastServed = user.getLastServed();
-        this.address = new AddressMap(user.getAddress());
+       // this.address = new AddressMap(user.getAddress());
     }
 }
