@@ -4,11 +4,12 @@ import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.dtos.verify.otpAndEmail;
 import com.Koupag.models.User;
+import com.Koupag.models.UserSessionModel;
 import com.Koupag.models.VerifiedUser;
 import com.Koupag.services.*;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,12 +26,14 @@ public class  AuthController {
     private final EmailService emailService;
     private final OTPService otpService;
     private final VerifiedUserService verifiedUserService;
+    private final UserSessionService userSessionService;
     public AuthController(AuthenticationService authenticationService, RolesService rolesService,
-                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService) {
+                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService, UserSessionService userSessionService) {
         this.authenticationService = authenticationService;
         this.emailService = emailService;
         this.otpService = otpService;
         this.verifiedUserService = verifiedUserService;
+        this.userSessionService = userSessionService;
     }
 
     
@@ -96,13 +99,15 @@ public class  AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<Void>LogOut(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public ResponseEntity<Void>LogOut(@Autowired HttpServletRequest httpServletRequest,@Autowired HttpServletResponse httpServletResponse, @RequestBody UserSessionModel userSessionModel){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null){
             new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse, auth);
+            userSessionService.turnOffNotification(userSessionModel.getId());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.Koupag.services.services_implementations;
 
+import com.Koupag.dtos.NotificationDto;
 import com.Koupag.dtos.donation.CreateDonationDTO;
 import com.Koupag.models.*;
 import com.Koupag.dtos.donation.EngagedDonationDTO;
@@ -7,11 +8,13 @@ import com.Koupag.dtos.donation.CompleteDonationDTO;
 import com.Koupag.repositories.*;
 import com.Koupag.services.DonationRequestService;
 import com.Koupag.services.DonorService;
-import lombok.Setter;
+import com.Koupag.services.FCMService;
+import com.Koupag.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -26,11 +29,13 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     private final SurplusMaterialRepository surplusMaterialRepository;
     private final RequestItemRepository requestItemRepository;
     private final DonorService donorService;
+    private final FCMService fcmService;
+    private final UserSessionService userSessionService;
     @Autowired
     public DonationRequestServiceImpl(DonationRequestRepository donationRequestRepository,
                                       RecipientDonationRepository recipientDonationRepository, DonorRepository donorRepository, VolunteerRepository volunteerRepository,
                                       RecipientRepository recipientRepository, SurplusMaterialRepository surplusMaterialRepository,
-                                      RequestItemRepository requestItemRepository, DonorService donorService) {
+                                      RequestItemRepository requestItemRepository, DonorService donorService, FCMService fcmService, UserSessionService userSessionService) {
         this.donationRequestRepository = donationRequestRepository;
         this.recipientDonationRepository = recipientDonationRepository;
         this.donorRepository = donorRepository;
@@ -39,6 +44,8 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         this.surplusMaterialRepository = surplusMaterialRepository;
         this.requestItemRepository = requestItemRepository;
         this.donorService = donorService;
+        this.fcmService = fcmService;
+        this.userSessionService = userSessionService;
     }
 
     @Override
@@ -47,11 +54,12 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
-    public DonationRequest createNewDonationRequest(CreateDonationDTO request) throws  Exception {
+    public void createNewDonationRequest(CreateDonationDTO request) throws  Exception {
 //        System.out.println(LocalDateTime.parse(request.getExpectedPickupTime() , DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")));
         if(donationRequestRepository.findByDonorIdAndIsDonationActiveTrue(request.getDonorId()) == null){
             DonationRequest dr = new DonationRequest();
-            dr.setDonor(donorRepository.findById(request.getDonorId()).get());
+            final Donor donor = donorRepository.findById(request.getDonorId()).get();
+            dr.setDonor(donor);
             final RequestItem requestItemTemp = new RequestItem(
                     request.getCount(),
                     surplusMaterialRepository.findById(request.getSurplusMaterialId()).get()
@@ -68,8 +76,26 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             dr.setRequestItem(requestItemTemp);
             dr.setCreationDateAndTime(LocalDateTime.now());
             dr.setIsDonationActive(true);
+            donationRequestRepository.save(dr);
+            // the nearest volunteer will be determined here
+            // for now just getting nearest as based on same city
 
-            return donationRequestRepository.save(dr);
+            // Sending Notifications
+            List<Volunteer> nearestVolunteers = volunteerRepository.findByAddressCity(donor.getAddress().getCity());
+            if(!nearestVolunteers.isEmpty()){
+                List<String> cnics = nearestVolunteers.stream().map(User::getCNIC).toList();
+                List<String> tokens = userSessionService.getTokensFromCnics(cnics);
+                fcmService.sendNotificationToMultipleDevices(
+                        new NotificationDto(
+                                dr.getRequestItem().getSurplusMaterial().getName()+" Donation",
+                             donor.getName() +" has created a donation.",
+                                "no Image",
+                                new HashMap<>()
+                        ),
+                        tokens
+                );
+            }
+            return;
         }
         throw new Exception("Already exists an donation");
     }
@@ -87,10 +113,21 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             DonationRequest request = requestToBeUpdated.get();
             if (!request.getIsDonationActive()) return;    // The donation was closed by donor
             if (request.getVolunteerPickupTime() != null) return; // The donation isn't picked yet.
-
-            request.setVolunteer(volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get());
+            Volunteer volunteer = volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get();
+            request.setVolunteer(volunteer);
             request.setVolunteerPickupTime(LocalDateTime.now());
             donationRequestRepository.save(request);
+            String fcmToken = userSessionService.getTokenFromCnic(request.getDonor().getCNIC());
+            // sending notification to donor for pickup
+            fcmService.sendANotification(
+                    new NotificationDto(
+                            volunteer.getName() + " Pickup",
+                            "Picked your "+request.getRequestItem().getSurplusMaterial().getName()+" donation",
+                            "",
+                            new HashMap<>()
+                    ),
+                    fcmToken
+            );
         } else {
             throw new Exception("Donation Not Found");
         }
@@ -109,6 +146,17 @@ public class DonationRequestServiceImpl implements DonationRequestService {
                 request.setVolunteer(null);
                 request.setVolunteerPickupTime(null);
                 donationRequestRepository.save(request);
+                String fcmToken = userSessionService.getTokenFromCnic(request.getDonor().getCNIC());
+                // sending notification to donor for pickup
+                fcmService.sendANotification(
+                        new NotificationDto(
+                                request.getVolunteer().getName() + " Unpicked",
+                                "Unpicked your "+request.getRequestItem().getSurplusMaterial().getName()+" donation",
+                                "",
+                                new HashMap<>()
+                        ),
+                        fcmToken
+                );
             }
         } else {
             throw new Exception("Donation Not Found");
@@ -131,13 +179,24 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 
             request.setEngagedDateTime(LocalDateTime.now());
             donationRequestRepository.save(request);
+            List<String> fcmTokens = userSessionService.getTokensFromCnics(request.getRecipientDonations().stream().map(e -> e.getRecipient().getCNIC()).toList());
+            // sending notification to donor for pickup
+            fcmService.sendNotificationToMultipleDevices(
+                    new NotificationDto(
+                             request.getRequestItem().getSurplusMaterial().getName()+ " Donation",
+                            request.getVolunteer().getName()+" will receive soon",
+                            "",
+                            new HashMap<>()
+                    ),
+                    fcmTokens
+            );
         } else {
             throw new Exception("Donation Not Found");
         }
     }
     
     @Override
-    public void updateRecipientByDonationRequest(CompleteDonationDTO completeDonationDTO) throws Exception {
+    public void updateRecipientByDonationRequest(CompleteDonationDTO completeDonationDTO) throws NoSuchElementException, Exception {
 
         Optional<DonationRequest> requestToBeUpdated = donationRequestRepository.findById(completeDonationDTO.getRequestId());
         if(requestToBeUpdated.isPresent())      // Can throw self-made Exception here...
@@ -156,8 +215,10 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 //            Recipient recipient = recipientRepository.findById(completeDonationDTO.getRecipientId()).get();
 //            recipient.setLastServed(LocalDateTime.now());
 //            recipientRepository.save(recipient);
+            Optional<Recipient> recipient = Optional.empty();
             for(RecipientDonation rd: request.getRecipientDonations()){
                 if(rd.getRecipient().getId() == completeDonationDTO.getRecipientId()){
+                    recipient = Optional.of(rd.getRecipient());
                     rd.setDonationDateTime(LocalDateTime.now());
                     rd.getRecipient().setLastServed(LocalDateTime.now());
                     recipientRepository.save(rd.getRecipient());
@@ -167,6 +228,23 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             boolean isAnyRecipientLeft = recipientDonationRepository.existsByDonationRequestIdAndDonationDateTimeIsNull(request.getId());
             request.setIsDonationActive(isAnyRecipientLeft);
             donationRequestRepository.save(request);
+            // notification
+            String fcmToken = userSessionService.getTokenFromCnic(request.getDonor().getCNIC());
+            // sending notification to donor for pickup
+            try{
+                 fcmService.sendANotification(
+                        new NotificationDto(
+                                "Successfully Donated ",
+                                recipient.get().getName() + "Unpicked your " + request.getRequestItem().getSurplusMaterial().getName() + " donation",
+                                "",
+                                new HashMap<>()
+                        ),
+                        fcmToken
+                );
+            } catch (NoSuchElementException e){
+                throw new NoSuchElementException("No Recipient Found");
+            }
+
         } else {
             throw new Exception("Donation Not Found");
         }
