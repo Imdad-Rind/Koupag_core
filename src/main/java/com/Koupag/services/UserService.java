@@ -1,7 +1,6 @@
 package com.Koupag.services;
 
 import com.Koupag.models.User;
-import com.Koupag.models.UserProfile;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -19,6 +18,8 @@ public interface UserService {
     void cacheNewUser(String email, User user);
     User getCachedUser(String email);
     User getUserByEmail(String email);
+    Optional<User> getUserById(Long Id);
+    void updateUserById(Long id,User user);
     
     
 }
