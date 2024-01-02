@@ -95,14 +95,5 @@ public class  AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<Void>LogOut(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth != null){
-            new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse, auth);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
 
