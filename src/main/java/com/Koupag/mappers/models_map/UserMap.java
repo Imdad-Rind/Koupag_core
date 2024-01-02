@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -55,4 +56,17 @@ public class UserMap {
         this.lastServed = user.getLastServed();
         this.address = new AddressMap(user.getAddress());
     }
+    public UserMap(User user){
+        if(user == null) return;
+        this.id = user.getId();
+        this.name = user.getName();
+        this.CNIC = user.getCNIC();
+        this.email = user.getEmail();
+        this.phoneNumber = user.getPhoneNumber();
+        this.userType = user.getAuthorities().stream().toList().get(0).getAuthority();
+        this.lastServed = user.getLastServed();
+        this.address = new AddressMap(user.getAddress());
+    }
+
+
 }
