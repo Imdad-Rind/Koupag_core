@@ -5,10 +5,7 @@ import com.Koupag.mappers.models_map.UserMap;
 import com.Koupag.models.City;
 import com.Koupag.models.Roles;
 import com.Koupag.models.User;
-import com.Koupag.services.CitiesServices;
-import com.Koupag.services.RolesService;
-import com.Koupag.services.SurplusMaterialServices;
-import com.Koupag.services.UserService;
+import com.Koupag.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +21,15 @@ public class HomeController {
     private final SurplusMaterialServices surplusMaterialServices;
     private final RolesService rolesService;
     private final UserService userService;
+    private final UserSessionService userSessionService;
     
-    public HomeController(CitiesServices citiesServices, com.Koupag.mappers.cityMapper cityMapper, SurplusMaterialServices surplusMaterialServices, RolesService rolesService, UserService userService) {
+    public HomeController(CitiesServices citiesServices, com.Koupag.mappers.cityMapper cityMapper, SurplusMaterialServices surplusMaterialServices, RolesService rolesService, UserService userService, UserSessionService userSessionService) {
         this.citiesServices = citiesServices;
         this.cityMapper = cityMapper;
         this.surplusMaterialServices = surplusMaterialServices;
         this.rolesService = rolesService;
         this.userService = userService;
+        this.userSessionService = userSessionService;
     }
     @GetMapping("cities")
     public ResponseEntity<List<cityDTO>>getAllCities(){
@@ -64,5 +63,21 @@ public class HomeController {
         userService.updateUserById(id,user);
         UserMap updatedUser = new UserMap(userService.getUserById(id).get());
         return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+    }
+
+    @GetMapping("turn-off-notifications/{id}")
+    public ResponseEntity turnOffNotifications(@PathVariable(name = "id")Long id){
+        if(!userSessionService.turnOffNotification(id)){
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("turn-on-notifications/{id}")
+    public ResponseEntity turnOnNotifications(@PathVariable(name = "id")Long id){
+        if(userSessionService.turnOnNotification(id)){
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
