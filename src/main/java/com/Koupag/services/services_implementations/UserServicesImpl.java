@@ -73,7 +73,25 @@ public class UserServicesImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    
-    
-    
+    @Override
+    public Optional<User> getUserById(Long Id) {
+        return userRepository.findById(Id);
+    }
+
+    @Override
+    public void updateUserById(Long id,User user) {
+        User userToBeUpdated = userRepository.getReferenceById(id);
+        userToBeUpdated.setName(user.getName());
+        userToBeUpdated.setEmail(user.getEmail());
+        userToBeUpdated.setCNIC(user.getCNIC());
+        userToBeUpdated.setUserType(user.getUserType());
+        userToBeUpdated.setPhoneNumber(user.getPhoneNumber());
+        userToBeUpdated.setAddress(user.getAddress());
+
+        userRepository.save(userToBeUpdated);
+
+
+    }
+
+
 }
