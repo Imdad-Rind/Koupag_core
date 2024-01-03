@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface DonationRequestService {
    public DonationRequest getRespondedDonationOfVolunteer(long id);
-   public DonationRequest createNewDonationRequest(CreateDonationDTO request) throws NullPointerException, NoSuchElementException, Exception;
+   public void createNewDonationRequest(CreateDonationDTO request) throws NullPointerException, NoSuchElementException, Exception;
    public Optional<DonationRequest> getDonationRequestById(long id);
    public void updateVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception;
    public void removeVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception;

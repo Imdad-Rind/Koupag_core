@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 .requestMatchers(toH2Console()).permitAll()
                                 .requestMatchers(
                                         "/api/auth/**",
-                                        "/api/donor/**",
+//                                        "/api/donor/**",
                                         "api/volunteer/**",
                                         "api/recipient/**",
                                         "api/admin/**",
@@ -80,6 +80,12 @@ public class SecurityConfig {
         httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
+        httpSecurity.logout((logout) -> logout
+                .logoutUrl("/api/auth/logout")
+                .logoutSuccessHandler(logout.getLogoutSuccessHandler())
+                .permitAll()
+
+        );
         return httpSecurity.build();
 
     }

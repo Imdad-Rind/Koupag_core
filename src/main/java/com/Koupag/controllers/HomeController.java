@@ -1,5 +1,4 @@
 package com.Koupag.controllers;
-
 import com.Koupag.dtos.cities.cityDTO;
 import com.Koupag.mappers.cityMapper;
 import com.Koupag.mappers.models_map.UserMap;
@@ -33,7 +32,6 @@ public class HomeController {
         this.rolesService = rolesService;
         this.userService = userService;
     }
-    
     @GetMapping("cities")
     public ResponseEntity<List<cityDTO>>getAllCities(){
         var cities = citiesServices.getAllCities();
