@@ -69,4 +69,20 @@ public class UserController {
         return new ResponseEntity<>(updatedUser,HttpStatus.OK);
     }
 
+    @GetMapping("turn-off-notifications/{id}")
+    public ResponseEntity turnOffNotifications(@PathVariable(name = "id")Long id){
+        if(!userSessionService.turnOffNotification(id)){
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("turn-on-notifications/{id}")
+    public ResponseEntity turnOnNotifications(@PathVariable(name = "id")Long id){
+        if(userSessionService.turnOnNotification(id)){
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 }
