@@ -32,6 +32,7 @@ public class UserSessionServiceImpl implements UserSessionService {
         Optional<UserSessionModel> userSessionModel = userSessionRepo.findById(id);
         if(userSessionModel.isPresent()){
             userSessionModel.get().setActive(false);
+            userSessionRepo.save(userSessionModel.get());
             return false;
         }
         return true;
@@ -42,6 +43,7 @@ public class UserSessionServiceImpl implements UserSessionService {
         Optional<UserSessionModel> userSessionModel = userSessionRepo.findById(id);
         if(userSessionModel.isPresent()){
             userSessionModel.get().setActive(true);
+            userSessionRepo.save(userSessionModel.get());
             return true;
         }
         return false;
