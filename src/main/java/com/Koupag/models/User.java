@@ -6,10 +6,10 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,8 +20,8 @@ import java.util.Set;
 public class User implements UserDetails {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    UUID Id;
     @Column(unique = true)
     private String CNIC;
     @Column(unique = true)

@@ -7,8 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
+
 @Repository
-public interface UserSessionRepo extends JpaRepository<UserSessionModel, Long> {
+public interface UserSessionRepo extends JpaRepository<UserSessionModel, UUID> {
     @Query("SELECT fcmToken FROM UserSessionModel WHERE card = :card AND isActive = true")
     String findFcmTokensByCardAndIsActiveTrue(@Param("card") String card);
     UserSessionModel findFcmTokensByCard(String card);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RolesServiceImpl implements RolesService {
@@ -22,7 +23,7 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public Optional<Roles> getRolesById(int id) {
+    public Optional<Roles> getRolesById(UUID id) {
         return rolesRepository.findById(id);
     }
 

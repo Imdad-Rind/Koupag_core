@@ -1,14 +1,15 @@
 package com.Koupag.mappers.models_map;
 
 import com.Koupag.models.RequestItem;
-import com.Koupag.models.SurplusMaterial;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
 @Setter
 public class RequestedMaterialMap {
-    Long id;
+    UUID id;
     int count;
     SurplusMaterialMap surplusMaterial;
 

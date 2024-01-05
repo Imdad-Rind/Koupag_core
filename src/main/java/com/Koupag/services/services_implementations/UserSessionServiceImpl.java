@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserSessionServiceImpl implements UserSessionService {
 
@@ -28,7 +30,7 @@ public class UserSessionServiceImpl implements UserSessionService {
     }
 
     @Override
-    public boolean turnOffNotification(long id) {
+    public boolean turnOffNotification(UUID id) {
         Optional<UserSessionModel> userSessionModel = userSessionRepo.findById(id);
         if(userSessionModel.isPresent()){
             userSessionModel.get().setActive(false);
@@ -39,7 +41,7 @@ public class UserSessionServiceImpl implements UserSessionService {
     }
 
     @Override
-    public boolean turnOnNotification(long id) {
+    public boolean turnOnNotification(UUID id) {
         Optional<UserSessionModel> userSessionModel = userSessionRepo.findById(id);
         if(userSessionModel.isPresent()){
             userSessionModel.get().setActive(true);

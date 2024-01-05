@@ -8,22 +8,23 @@ import com.Koupag.dtos.donation.CompleteDonationDTO;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface DonationRequestService {
-   public DonationRequest getRespondedDonationOfVolunteer(long id);
+   public DonationRequest getRespondedDonationOfVolunteer(UUID id);
    public void createNewDonationRequest(CreateDonationDTO request) throws NullPointerException, NoSuchElementException, Exception;
-   public Optional<DonationRequest> getDonationRequestById(long id);
+   public Optional<DonationRequest> getDonationRequestById(UUID id);
    public void updateVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception;
    public void removeVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception;
    public void updateVolunteerEngagedTime(EngagedDonationDTO engagedDonationDTO) throws Exception;
    public void updateRecipientByDonationRequest(CompleteDonationDTO completeDonationDTO) throws Exception;
-   public List<DonationRequest> getAllSuccessfulDonationRequestByDonorId(Long donorId);
-   public DonationRequest getActiveDonationRequestByDonorId(Long donorId) throws Exception;
-   public List<DonationRequest> getAllSuccessfulDonationRequestByVolunteerId(Long volunteerId);
-   public List<DonationRequest> getActiveDonationRequestByVolunteerId(Long volunteerId);
-   public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId);
-   public List<DonationRequest> getAllActiveDonationRequestByRecipientId(Long recipientId);
+   public List<DonationRequest> getAllSuccessfulDonationRequestByDonorId(UUID donorId);
+   public DonationRequest getActiveDonationRequestByDonorId(UUID donorId) throws Exception;
+   public List<DonationRequest> getAllSuccessfulDonationRequestByVolunteerId(UUID volunteerId);
+   public List<DonationRequest> getActiveDonationRequestByVolunteerId(UUID volunteerId);
+   public List<DonationRequest> getAllDonationRequestByRecipientId(UUID recipientId);
+   public List<DonationRequest> getAllActiveDonationRequestByRecipientId(UUID recipientId);
 
-   public  void closeActiveDonationById(Long id) throws Exception;
+   public  void closeActiveDonationById(UUID id) throws Exception;
    public List<DonationRequest> getAllActiveDonation();
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -74,12 +75,12 @@ public class UserServicesImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(Long Id) {
+    public Optional<User> getUserById(UUID Id) {
         return userRepository.findById(Id);
     }
 
     @Override
-    public void updateUserById(Long id,User user) {
+    public void updateUserById(UUID id, User user) {
         User userToBeUpdated = userRepository.getReferenceById(id);
         userToBeUpdated.setName(user.getName());
         userToBeUpdated.setEmail(user.getEmail());

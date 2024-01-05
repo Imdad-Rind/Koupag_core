@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -16,7 +17,7 @@ import java.util.List;
 public class SurplusMaterial{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    UUID id;
     String name;
     String description;
     @ManyToMany(mappedBy = "surplusMaterial", fetch = FetchType.LAZY,

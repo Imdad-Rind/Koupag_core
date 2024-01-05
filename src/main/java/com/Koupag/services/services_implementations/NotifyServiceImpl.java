@@ -6,6 +6,7 @@ import com.Koupag.models.Donor;
 import com.Koupag.models.Recipient;
 import com.Koupag.models.User;
 import com.Koupag.models.Volunteer;
+import com.Koupag.repositories.UserSessionRepo;
 import com.Koupag.services.FCMService;
 import com.Koupag.services.NotifyService;
 import com.Koupag.services.UserSessionService;
@@ -22,7 +23,7 @@ public class NotifyServiceImpl implements NotifyService {
     private final UserSessionService userSessionService;
     private final FCMService fcmService;
 
-    public NotifyServiceImpl(UserSessionService userSessionService, FCMService fcmService) {
+    public NotifyServiceImpl(UserSessionService userSessionService, FCMService fcmService, UserSessionRepo userSessionRepo) {
         this.userSessionService = userSessionService;
         this.fcmService = fcmService;
     }

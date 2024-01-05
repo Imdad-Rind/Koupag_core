@@ -1,7 +1,6 @@
 package com.Koupag.services.services_implementations;
 
 import com.Koupag.AvailableNotifications;
-import com.Koupag.dtos.NotificationDto;
 import com.Koupag.dtos.donation.CreateDonationDTO;
 import com.Koupag.models.*;
 import com.Koupag.dtos.donation.EngagedDonationDTO;
@@ -12,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DonationRequestServiceImpl implements DonationRequestService {
@@ -49,7 +45,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
-    public DonationRequest getRespondedDonationOfVolunteer(long id) {
+    public DonationRequest getRespondedDonationOfVolunteer(UUID id) {
         return donationRequestRepository.findByVolunteerIdAndIsDonationActiveTrueAndVolunteerPickupTimeNotNull(id);
     }
 
@@ -93,7 +89,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
     
     @Override
-    public Optional<DonationRequest> getDonationRequestById(long id) {
+    public Optional<DonationRequest> getDonationRequestById(UUID id) {
         return donationRequestRepository.findById(id);
     }
 
@@ -201,37 +197,37 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
     
     @Override
-    public List<DonationRequest> getAllSuccessfulDonationRequestByDonorId(Long donorId) {
+    public List<DonationRequest> getAllSuccessfulDonationRequestByDonorId(UUID donorId) {
 	    return donationRequestRepository.findByDonorIdAndIsDonationActiveFalse(donorId);
     }
     // New Methods - Start
     @Override
-    public DonationRequest getActiveDonationRequestByDonorId(Long donorId) throws Exception {
+    public DonationRequest getActiveDonationRequestByDonorId(UUID donorId) throws Exception {
         return donationRequestRepository.findByDonorIdAndIsDonationActiveTrue(donorId);
     }
 
     @Override
-    public List<DonationRequest> getAllSuccessfulDonationRequestByVolunteerId(Long volunteerId) {
+    public List<DonationRequest> getAllSuccessfulDonationRequestByVolunteerId(UUID volunteerId) {
         return donationRequestRepository.findByVolunteerIdAndIsDonationActiveFalse(volunteerId);
     }
 
     @Override
-    public List<DonationRequest> getActiveDonationRequestByVolunteerId(Long volunteerId) {
+    public List<DonationRequest> getActiveDonationRequestByVolunteerId(UUID volunteerId) {
         return null;
     }
 
     @Override
-    public List<DonationRequest> getAllDonationRequestByRecipientId(Long recipientId) {
+    public List<DonationRequest> getAllDonationRequestByRecipientId(UUID recipientId) {
         return donationRequestRepository.findByRecipientDonationsRecipientIdAndIsDonationActiveFalse(recipientId);
     }
 
     @Override
-    public List<DonationRequest> getAllActiveDonationRequestByRecipientId(Long recipientId) {
+    public List<DonationRequest> getAllActiveDonationRequestByRecipientId(UUID recipientId) {
         return donationRequestRepository.findByRecipientDonationsRecipientIdAndIsDonationActiveTrueAndEngagedDateTimeNotNull(recipientId);
     }
 
     @Override
-    public void closeActiveDonationById(Long id) throws Exception {
+    public void closeActiveDonationById(UUID id) throws Exception {
         DonationRequest activeDonation = getActiveDonationRequestByDonorId(id);
         activeDonation.setIsDonationActive(false);
         donationRequestRepository.save(activeDonation);

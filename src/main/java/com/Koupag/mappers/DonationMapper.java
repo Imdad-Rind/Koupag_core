@@ -9,11 +9,12 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class DonationMapper {
-    Long id;
+    UUID id;
     UserMap donor;
     List<RecipientDonationMap> RecipientDonations;
     UserMap volunteer;

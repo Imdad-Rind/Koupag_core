@@ -7,14 +7,13 @@ import com.Koupag.models.Volunteer;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class UserMap {
-    long id;
+    UUID id;
     private String CNIC;
     private String phoneNumber;
     private String email;

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Setter
@@ -13,7 +15,7 @@ public  class RequestItem {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long Id;
+    UUID Id;
     
     public RequestItem(int count, SurplusMaterial surplusMaterial) {
         this.count = count;
