@@ -7,6 +7,7 @@ import com.Koupag.services.RecipientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/recipient/")
@@ -23,13 +24,13 @@ public class RecipientController {
 	
 	
 	@GetMapping("donations/{id}")
-	public List<DonationMapper> getAllDonationRequestByRecipient(@PathVariable(name = "id") Long id){
+	public List<DonationMapper> getAllDonationRequestByRecipient(@PathVariable(name = "id") UUID id){
 		List<DonationRequest> donationList = donationRequestService.getAllDonationRequestByRecipientId(id);
 		return donationList.stream().map(DonationMapper::new).toList();
 	}
 
 	@GetMapping("active-donations/{id}")
-	public List<DonationMapper> getAllActiveDonationRequestByRecipient(@PathVariable(name = "id") Long id){
+	public List<DonationMapper> getAllActiveDonationRequestByRecipient(@PathVariable(name = "id") UUID id){
 		List<DonationRequest> donationList = donationRequestService.getAllActiveDonationRequestByRecipientId(id);
 		return donationList.stream().map(DonationMapper::new).toList();
 	}

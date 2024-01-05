@@ -1,10 +1,9 @@
 package com.Koupag.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.UUID;
 
 
 @Getter
@@ -16,7 +15,7 @@ import java.time.LocalDate;
 public class UserProfile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long ID;
+	UUID ID;
 
 	@OneToOne(targetEntity = User.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "User_Column")

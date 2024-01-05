@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/volunteer/")
@@ -25,7 +26,7 @@ public class VolunteerController {
 	}
 
 	@GetMapping("responded-donations/{id}")
-	public ResponseEntity<DonationMapper> getRespondedDonations(@PathVariable(name = "id") Long id){
+	public ResponseEntity<DonationMapper> getRespondedDonations(@PathVariable(name = "id") UUID id){
 		DonationRequest donationList = donationRequestService.getRespondedDonationOfVolunteer(id);
 		return new ResponseEntity<>(new DonationMapper(donationList), donationList == null ? HttpStatus.NO_CONTENT: HttpStatus.OK);
 	}
@@ -81,7 +82,7 @@ public class VolunteerController {
     }
 	
 	@GetMapping("donations/{id}")
-	public ResponseEntity<List<DonationMapper>> getAllDonations(@PathVariable(name = "id") Long id){
+	public ResponseEntity<List<DonationMapper>> getAllDonations(@PathVariable(name = "id") UUID id){
 		List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByVolunteerId(id);
 		return new ResponseEntity<>(donationList.stream().map(DonationMapper::new).toList(), donationList.isEmpty() ? HttpStatus.NO_CONTENT: HttpStatus.OK);
 	}

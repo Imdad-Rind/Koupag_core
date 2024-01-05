@@ -42,14 +42,14 @@ public class DonorController {
 
     // Previous Donations
     @GetMapping("donations/{id}")
-    public ResponseEntity<List<DonationMapper>>getAllDonations(@PathVariable(name = "id") Long id){
+    public ResponseEntity<List<DonationMapper>>getAllDonations(@PathVariable(name = "id") UUID id){
         final List<DonationRequest> donationList = donationRequestService.getAllSuccessfulDonationRequestByDonorId(id);
         final List<DonationMapper> data = donationList.stream().map(DonationMapper::new).toList();
         return new ResponseEntity<>( data,HttpStatus.OK);
     }
     // closes an opened donation request
     @PostMapping("close_donation/{id}")
-    public ResponseEntity<Void> closeActiveDonation(@PathVariable(name = "id") Long id){
+    public ResponseEntity<Void> closeActiveDonation(@PathVariable(name = "id") UUID id){
         try {
             donationRequestService.closeActiveDonationById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -61,7 +61,7 @@ public class DonorController {
 
     // Get the opened donation requests
     @GetMapping("active_donation/{id}")
-    public ResponseEntity<DonationMapper> activeDonation(@PathVariable(name = "id") Long id){
+    public ResponseEntity<DonationMapper> activeDonation(@PathVariable(name = "id") UUID id){
         try{
             DonationMapper donationRequest = new DonationMapper(donationRequestService.getActiveDonationRequestByDonorId(id));
             return new ResponseEntity<>(donationRequest,HttpStatus.OK);

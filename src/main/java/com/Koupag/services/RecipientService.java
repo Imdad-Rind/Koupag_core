@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface RecipientService {
-    //List<DonationRequest> getPreviousRequests(Long id);
+    //List<DonationRequest> getPreviousRequests(UUID id);
 }

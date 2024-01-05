@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("api/user/")
@@ -58,19 +59,19 @@ public class UserController {
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
     }
     @GetMapping("/get-profile/{id}")
-    public ResponseEntity<UserMap> getUser(@PathVariable(name = "id")Long id){
+    public ResponseEntity<UserMap> getUser(@PathVariable(name = "id") UUID id){
         UserMap updateUser = new UserMap(userService.getUserById(id).get());
         return new ResponseEntity<>(updateUser,HttpStatus.OK);
     }
     @PostMapping("/update-profile/{id}")
-    public ResponseEntity<UserDOS> updateUserProfile(@PathVariable(name = "id")Long id, @RequestBody User user){
+    public ResponseEntity<UserDOS> updateUserProfile(@PathVariable(name = "id") UUID id, @RequestBody User user){
         userService.updateUserById(id,user);
         UserDOS updatedUser = new UserDOS(userService.getUserById(id).get());
         return new ResponseEntity<>(updatedUser,HttpStatus.OK);
     }
 
     @GetMapping("turn-off-notifications/{id}")
-    public ResponseEntity turnOffNotifications(@PathVariable(name = "id")Long id){
+    public ResponseEntity turnOffNotifications(@PathVariable(name = "id") UUID id){
         if(!userSessionService.turnOffNotification(id)){
             return new ResponseEntity(HttpStatus.OK);
         }
@@ -78,7 +79,7 @@ public class UserController {
     }
 
     @GetMapping("turn-on-notifications/{id}")
-    public ResponseEntity turnOnNotifications(@PathVariable(name = "id")Long id){
+    public ResponseEntity turnOnNotifications(@PathVariable(name = "id") UUID id){
         if(userSessionService.turnOnNotification(id)){
             return new ResponseEntity(HttpStatus.OK);
         }

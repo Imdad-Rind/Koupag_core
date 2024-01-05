@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.io.Serializable;
 public class CompleteDonationDTO implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
-	long requestId;
-	long volunteerId;
-	long recipientId;
+	UUID requestId;
+	UUID volunteerId;
+	UUID recipientId;
 }

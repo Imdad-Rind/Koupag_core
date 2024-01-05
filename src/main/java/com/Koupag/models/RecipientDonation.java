@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class RecipientDonation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    UUID id;
     LocalDateTime donationDateTime;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_id")

@@ -6,6 +6,7 @@ import com.Koupag.services.CitiesServices;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CitiesServicesImpl implements CitiesServices {
@@ -27,7 +28,7 @@ public class CitiesServicesImpl implements CitiesServices {
 	}
 	
 	@Override
-	public City getCityById(Long id) {
+	public City getCityById(UUID id) {
 		return citiesRepository.findById(id).get();
 	}
 }

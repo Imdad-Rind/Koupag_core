@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -23,7 +24,7 @@ public class UserSessionModel  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private UUID id;
 
     @JsonProperty("cnic")
     @Column(unique = true)

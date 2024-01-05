@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -17,7 +17,7 @@ import java.util.Set;
 public class OrganizationDonationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long Id;
+    UUID Id;
     int numberOfDonationsNeeded;
    /* @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "set_of_Organization_Donation_Id")

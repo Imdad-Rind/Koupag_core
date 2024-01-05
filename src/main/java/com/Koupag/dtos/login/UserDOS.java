@@ -10,8 +10,8 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class UserDOS implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private long id;
+    private UUID id;
     private String cnic;
     private String phoneNumber;
     private String email;

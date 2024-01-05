@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Setter
@@ -15,7 +16,7 @@ public class DonationRequest{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long Id;
+    UUID Id;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "donor_id", nullable = false)
