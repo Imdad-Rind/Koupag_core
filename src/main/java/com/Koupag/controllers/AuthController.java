@@ -3,6 +3,10 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.dtos.verify.otpAndEmail;
+import com.Koupag.execptions.AlreadyVerified;
+import com.Koupag.execptions.NotVerified;
+import com.Koupag.execptions.UnknownError;
+import com.Koupag.execptions.UserAlreadyRegistered;
 import com.Koupag.models.User;
 import com.Koupag.models.UserSessionModel;
 import com.Koupag.models.VerifiedUser;
@@ -38,7 +42,7 @@ public class  AuthController {
 
     
     @PostMapping("request_register")
-    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) throws Exception {
+    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) {
         String userEmail = verifiedUser.getEmail();
         if(!verifiedUserService.isUserVerified(verifiedUser.getEmail())){
             String otp = otpService.generateAndSendOtp(userEmail);
@@ -46,7 +50,7 @@ public class  AuthController {
             System.out.println(otp);
             verifiedUserService.NewVerifiedUser(verifiedUser);
         }else {
-            throw new Exception("user already verified");
+            throw new AlreadyVerified("User Already Verified");
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -59,15 +63,14 @@ public class  AuthController {
                     authenticationService.registerUser(user);
                     return login(new LoginDTO(user.getCNIC(),user.getPassword()));
                 }else{
-                    throw new Exception("user already registered");
+                    throw new UserAlreadyRegistered("User already is Registered");
                 }
 
             }else {
-                throw new Exception("user not verified");
+                throw new NotVerified(" User Not Verified");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(Optional.empty(),HttpStatus.UNAUTHORIZED);
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 
@@ -89,11 +92,10 @@ public class  AuthController {
                verifiedUserService.verifyUserByEmail(otpAndEmail.getEmail());
                
            }else {
-               throw new Exception("otp not verified");
+               throw new NotVerified("OTP not Verified");
            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
