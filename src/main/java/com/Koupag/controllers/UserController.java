@@ -1,6 +1,8 @@
 package com.Koupag.controllers;
 
 import com.Koupag.dtos.login.UserDOS;
+import com.Koupag.execptions.NoSuchUserExist;
+import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.models_map.UserMap;
 import com.Koupag.models.User;
 import com.Koupag.models.UserSessionModel;
@@ -46,7 +48,7 @@ public class UserController {
             }
             return new ResponseEntity<>(Optional.empty(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e){
-            return new ResponseEntity<>(Optional.empty(), HttpStatus.ALREADY_REPORTED);
+            throw new UnknownError("Unknown Error : " + e.getMessage());
         }
     }
 
@@ -60,14 +62,28 @@ public class UserController {
     }
     @GetMapping("/get-profile/{id}")
     public ResponseEntity<UserMap> getUser(@PathVariable(name = "id") UUID id){
-        UserMap updateUser = new UserMap(userService.getUserById(id).get());
+        User user;
+        if(userService.getUserById(id).isPresent()){
+            user = userService.getUserById(id).get();
+        }
+        else {
+            throw new NoSuchUserExist("this user Does not exist");
+        }
+        UserMap updateUser = new UserMap(user);
         return new ResponseEntity<>(updateUser,HttpStatus.OK);
     }
     @PostMapping("/update-profile/{id}")
     public ResponseEntity<UserDOS> updateUserProfile(@PathVariable(name = "id") UUID id, @RequestBody User user){
         userService.updateUserById(id,user);
-        UserDOS updatedUser = new UserDOS(userService.getUserById(id).get());
-        return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+        User u;
+        if(userService.getUserById(id).isPresent()){
+            u = userService.getUserById(id).get();
+        }
+        else {
+            throw new NoSuchUserExist("this user Does not exist");
+        }
+        UserDOS updatedUser = new UserDOS(u);
+        return new ResponseEntity<>(updatedUser,HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("turn-off-notifications/{id}")

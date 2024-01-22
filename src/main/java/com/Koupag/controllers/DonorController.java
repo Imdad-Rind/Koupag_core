@@ -1,6 +1,7 @@
 package com.Koupag.controllers;
 
 import com.Koupag.dtos.donation.CreateDonationDTO;
+import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.DonationMapper;
 import com.Koupag.models.DonationRequest;
 import com.Koupag.services.DonationRequestService;
@@ -31,13 +32,14 @@ public class DonorController {
             donationRequestService.createNewDonationRequest(request);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        catch (NullPointerException | NoSuchElementException e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
-        } catch(Exception e){
-            System.out.println(e.getMessage());
+        catch (NullPointerException e){
+            throw new NullPointerException("Requested Content is Null");
+        } catch ( NoSuchElementException e){
+            throw new NoSuchElementException(" Requested Content is nonexistent ");
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        catch(Exception e){
+            throw new UnknownError("Unknown Error : " + e.getMessage());
+        }
     }
 
     // Previous Donations
@@ -54,8 +56,7 @@ public class DonorController {
             donationRequestService.closeActiveDonationById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("The Error is: "+e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UnknownError("Unknown Error : " + e.getMessage());
         }
     }
 
@@ -67,9 +68,10 @@ public class DonorController {
             return new ResponseEntity<>(donationRequest,HttpStatus.OK);
 //            return new ResponseEntity<>(new DonationRequest(),HttpStatus.OK);
         } catch (NullPointerException e) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            throw new NullPointerException("Requested Content is Null");
         } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UnknownError("Unknown Error : " + e.getMessage());
         }
     }
 }
