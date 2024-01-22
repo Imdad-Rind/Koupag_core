@@ -48,7 +48,7 @@ public class UserController {
             }
             return new ResponseEntity<>(Optional.empty(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e){
-            throw new UnknownError("Unknown Error : " + e.getMessage());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 

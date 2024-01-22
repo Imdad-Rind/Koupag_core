@@ -2,6 +2,7 @@ package com.Koupag.controllers;
 
 import com.Koupag.dtos.donation.EngagedDonationDTO;
 import com.Koupag.dtos.donation.CompleteDonationDTO;
+import com.Koupag.execptions.NoSuchElementExceptionWrapper;
 import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.DonationMapper;
 import com.Koupag.models.DonationRequest;
@@ -39,9 +40,9 @@ public class VolunteerController {
 			donationRequestService.updateVolunteerPickupByDonationRequest(engagedDonationDTO);
 			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (NoSuchElementException e){
-			throw new NoSuchElementException(" Requested Content is nonexistent ");
+			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e){
-			throw new UnknownError("Unknown Error : " + e.getMessage());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
 		}
 	}
 
@@ -51,9 +52,9 @@ public class VolunteerController {
 			donationRequestService.removeVolunteerPickupByDonationRequest(engagedDonationDTO);
 			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (NoSuchElementException e){
-			throw new NoSuchElementException(" Requested Content is nonexistent ");
+			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e){
-			throw new UnknownError("Unknown Error : " + e.getMessage());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
 		}
 	}
 	
@@ -63,9 +64,9 @@ public class VolunteerController {
 			donationRequestService.updateVolunteerEngagedTime(engagedDonationDTO);
 			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (NoSuchElementException e){
-			throw new NoSuchElementException(" Requested Content is nonexistent ");
+			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e) {
-			throw new UnknownError("Unknown Error : " + e.getMessage());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 
@@ -75,10 +76,9 @@ public class VolunteerController {
 			donationRequestService.updateRecipientByDonationRequest(completeDonationDTO);
 			return new ResponseEntity<>( HttpStatus.OK);
 		} catch (NoSuchElementException e){
-			throw new NoSuchElementException(" Requested Content is nonexistent ");
+			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e) {
-			System.out.println("Exception: "+e.toString());
-			throw new UnknownError("Unknown Error : " + e.getMessage());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 	

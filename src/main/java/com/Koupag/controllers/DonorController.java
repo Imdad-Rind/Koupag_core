@@ -1,6 +1,8 @@
 package com.Koupag.controllers;
 
 import com.Koupag.dtos.donation.CreateDonationDTO;
+import com.Koupag.execptions.NoSuchElementExceptionWrapper;
+import com.Koupag.execptions.NullPointerExceptionWrapper;
 import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.DonationMapper;
 import com.Koupag.models.DonationRequest;
@@ -33,12 +35,12 @@ public class DonorController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (NullPointerException e){
-            throw new NullPointerException("Requested Content is Null");
+            throw new NullPointerExceptionWrapper("Requested Content is Null");
         } catch ( NoSuchElementException e){
-            throw new NoSuchElementException(" Requested Content is nonexistent ");
+            throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
         }
         catch(Exception e){
-            throw new UnknownError("Unknown Error : " + e.getMessage());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 
@@ -56,7 +58,7 @@ public class DonorController {
             donationRequestService.closeActiveDonationById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            throw new UnknownError("Unknown Error : " + e.getMessage());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 
@@ -69,9 +71,9 @@ public class DonorController {
 //            return new ResponseEntity<>(new DonationRequest(),HttpStatus.OK);
         } catch (NullPointerException e) {
 
-            throw new NullPointerException("Requested Content is Null");
+            throw new NullPointerExceptionWrapper("Requested Content is Null");
         } catch (Exception e){
-            throw new UnknownError("Unknown Error : " + e.getMessage());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 }

@@ -42,7 +42,7 @@ public class  AuthController {
 
     
     @PostMapping("request_register")
-    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) throws Exception {
+    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) {
         String userEmail = verifiedUser.getEmail();
         if(!verifiedUserService.isUserVerified(verifiedUser.getEmail())){
             String otp = otpService.generateAndSendOtp(userEmail);
@@ -70,7 +70,7 @@ public class  AuthController {
                 throw new NotVerified(" User Not Verified");
             }
         } catch (Exception e) {
-            throw new UnknownError("Unknown Error : " + e.getMessage());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
     }
 
@@ -95,7 +95,7 @@ public class  AuthController {
                throw new NotVerified("OTP not Verified");
            }
         } catch (Exception e) {
-            throw new UnknownError("Unknown Error : " + e.getMessage());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
