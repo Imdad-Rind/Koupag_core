@@ -28,6 +28,12 @@ public class ExceptionsController {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserRoleNotFound.class)
+    public ResponseEntity<errorResponse> UserRoleNotFound(final UserRoleNotFound ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(NoSuchUserExist.class)
     public ResponseEntity<errorResponse> NoSuchUserExist(final NoSuchUserExist ex, WebRequest webRequest){
         errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());

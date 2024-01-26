@@ -31,6 +31,7 @@ public class DonorController {
     @PostMapping("create-donation")
     public ResponseEntity<Void> donationRequest(@RequestBody CreateDonationDTO request){
         try {
+//            UUID.fromString(String.valueOf(request.getDonorId()));
             donationRequestService.createNewDonationRequest(request);
             return new ResponseEntity<>(HttpStatus.OK);
         }
