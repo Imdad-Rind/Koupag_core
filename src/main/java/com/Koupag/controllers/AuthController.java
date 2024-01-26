@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/auth/")
@@ -99,12 +100,12 @@ public class  AuthController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/logout")
-    public ResponseEntity<Void>LogOut(@Autowired HttpServletRequest httpServletRequest,@Autowired HttpServletResponse httpServletResponse, @RequestBody UserSessionModel userSessionModel){
+    @GetMapping("/logout/{id}")
+    public ResponseEntity<Void>LogOut(@Autowired HttpServletRequest httpServletRequest,@Autowired HttpServletResponse httpServletResponse,@PathVariable(name = "id") UUID id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null){
             new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse, auth);
-            userSessionService.turnOffNotification(userSessionModel.getId());
+            userSessionService.turnOffNotification(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

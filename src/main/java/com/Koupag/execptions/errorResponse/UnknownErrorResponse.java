@@ -8,7 +8,6 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class UnknownErrorResponse {
     Integer StatusCode;
     String Message;

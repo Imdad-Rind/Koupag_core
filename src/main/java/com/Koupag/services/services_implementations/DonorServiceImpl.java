@@ -43,6 +43,6 @@ public class DonorServiceImpl implements DonorService {
             recipientDonationRepository.save(new RecipientDonation(recipient));
         }
         if(recipients.size() < count) return recipients;
-        return recipients.subList(-1,count);
+        return recipients.subList(0,count -1);
     }
 }
