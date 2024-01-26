@@ -12,11 +12,5 @@ public class NotModified extends RuntimeException{
         super(message);
     }
 
-    public NotModified(String message, Throwable cause) {
-        super(message, cause);
-    }
 
-    public NotModified(Throwable cause) {
-        super(cause);
-    }
 }

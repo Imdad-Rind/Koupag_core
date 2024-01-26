@@ -13,11 +13,5 @@ public class NoSuchUserExist extends RuntimeException{
         super(message);
     }
 
-    public NoSuchUserExist(String message, Throwable cause) {
-        super(message, cause);
-    }
 
-    public NoSuchUserExist(Throwable cause) {
-        super(cause);
-    }
 }

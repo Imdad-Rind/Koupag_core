@@ -13,7 +13,5 @@ public class NoSuchElementExceptionWrapper extends NoSuchElementException {
         super(s, cause);
     }
 
-    public NoSuchElementExceptionWrapper(Throwable cause) {
-        super(cause);
-    }
+
 }

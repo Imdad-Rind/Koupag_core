@@ -12,11 +12,5 @@ public class UserAlreadyRegistered extends RuntimeException{
         super(message);
     }
 
-    public UserAlreadyRegistered(String message, Throwable cause) {
-        super(message, cause);
-    }
 
-    public UserAlreadyRegistered(Throwable cause) {
-        super(cause);
-    }
 }

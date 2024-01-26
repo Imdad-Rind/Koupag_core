@@ -17,7 +17,5 @@ public class UnknownError extends RuntimeException{
         super(message, cause);
     }
 
-    public UnknownError(Throwable cause) {
-        super(cause);
-    }
+
 }

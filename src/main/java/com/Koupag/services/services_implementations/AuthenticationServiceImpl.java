@@ -3,6 +3,8 @@ package com.Koupag.services.services_implementations;
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.dtos.login.UserDOS;
+import com.Koupag.execptions.UserNotFoundException;
+import com.Koupag.execptions.UserRoleNotFound;
 import com.Koupag.models.Address;
 import com.Koupag.models.Roles;
 import com.Koupag.models.User;
@@ -43,7 +45,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User registerUser(User user) throws Exception {
             Set<Roles> roles = new HashSet<>();
-            final var newUserRole = rolesService.getByName(user.getUserType()).get();
+            final Roles newUserRole;
+            if(rolesService.getByName(user.getUserType()).isPresent()){
+                newUserRole = rolesService.getByName(user.getUserType()).get();
+            }else {
+                throw new UserRoleNotFound("The Role : "+user.getUserType()+" is not Found");
+            }
+
             roles.add(newUserRole);
             String userTypeRole = user.getUserType();
 	    return userTypeService.createNewTypeUser(user,roles,userTypeRole);
@@ -58,7 +66,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String token = myTokenService.generateJwt(auth);
 
             // why this method gives a null userType => userService.getUserByCNIC(loginDTO.getCnic()).get()
-            return Optional.of(new LoginResponseDTO(new UserDOS(userService.getUserByCNIC(loginDTO.getCnic()).get()), token));
+            if (userService.getUserByCNIC(loginDTO.getCnic()).isPresent()){
+                return Optional.of(new LoginResponseDTO(new UserDOS(userService.getUserByCNIC(loginDTO.getCnic()).get()), token));
+            }else {
+                throw new UserNotFoundException("the user with CNIC : "+ loginDTO.getCnic()+" : trying to login is not Found" );
+            }
+
         } catch(AuthenticationException e){
             return Optional.empty();
         }

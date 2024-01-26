@@ -2,14 +2,13 @@ package com.Koupag.execptions;
 
 import java.io.Serial;
 
-public class AlreadyVerified extends RuntimeException {
+public class UserRoleNotFound extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1L;
-    public AlreadyVerified() {
+    public UserRoleNotFound() {
     }
 
-    public AlreadyVerified(String message) {
+    public UserRoleNotFound(String message) {
         super(message);
     }
-
 }
