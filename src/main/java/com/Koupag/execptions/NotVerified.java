@@ -12,11 +12,5 @@ public class NotVerified extends RuntimeException{
         super(message);
     }
 
-    public NotVerified(String message, Throwable cause) {
-        super(message, cause);
-    }
 
-    public NotVerified(Throwable cause) {
-        super(cause);
-    }
 }

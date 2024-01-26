@@ -12,11 +12,4 @@ public class AlreadyVerified extends RuntimeException {
         super(message);
     }
 
-    public AlreadyVerified(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public AlreadyVerified(Throwable cause) {
-        super(cause);
-    }
 }
