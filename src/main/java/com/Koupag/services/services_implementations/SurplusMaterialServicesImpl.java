@@ -21,7 +21,7 @@ public class SurplusMaterialServicesImpl implements SurplusMaterialServices {
     }
 
     @Override
-    public List<String> getAllSurplusMaterialsName() {
-        return surplusRepo.findAll().stream().map(SurplusMaterial::getName).toList();
+    public List<SurplusMaterial> getAllSurplusMaterialsName() {
+        return surplusRepo.findAll();
     }
 }

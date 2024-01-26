@@ -4,6 +4,7 @@ import com.Koupag.dtos.login.UserDOS;
 import com.Koupag.execptions.NoSuchUserExist;
 import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.models_map.UserMap;
+import com.Koupag.models.SurplusMaterial;
 import com.Koupag.models.User;
 import com.Koupag.models.UserSessionModel;
 import com.Koupag.services.SurplusMaterialServices;
@@ -53,8 +54,8 @@ public class UserController {
     }
 
     @GetMapping("/get-surplus-materials")
-    public ResponseEntity<List<String>> allSurplusMaterials(){
-        List<String> surplusMaterials = surplusMaterialServices.getAllSurplusMaterialsName();
+    public ResponseEntity<List<SurplusMaterial>> allSurplusMaterials(){
+        List<SurplusMaterial> surplusMaterials = surplusMaterialServices.getAllSurplusMaterialsName();
         if(!surplusMaterials.isEmpty()){
             return new ResponseEntity<>(surplusMaterials, HttpStatus.OK);
         }
