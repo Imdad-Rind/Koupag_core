@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("api/user/")
+@RequestMapping(path = "api/user/",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
 
@@ -49,7 +49,7 @@ public class UserController {
             }
             return new ResponseEntity<>(Optional.empty(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e){
-            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
         }
     }
 

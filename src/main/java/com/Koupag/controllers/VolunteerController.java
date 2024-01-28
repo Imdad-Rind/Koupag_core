@@ -8,6 +8,7 @@ import com.Koupag.mappers.DonationMapper;
 import com.Koupag.models.DonationRequest;
 import com.Koupag.services.DonationRequestService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/volunteer/")
+@RequestMapping(path = "api/volunteer/",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //@PreAuthorize("hasRole('ROLE_VOLUNTEER')")
 public class VolunteerController {
 	private final DonationRequestService donationRequestService;
@@ -42,7 +43,7 @@ public class VolunteerController {
 		} catch (NoSuchElementException e){
 			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e){
-			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
 		}
 	}
 
@@ -54,7 +55,7 @@ public class VolunteerController {
 		} catch (NoSuchElementException e){
 			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e){
-			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
 		}
 	}
 	
@@ -66,7 +67,8 @@ public class VolunteerController {
 		} catch (NoSuchElementException e){
 			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e) {
-			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
+
         }
     }
 
@@ -78,7 +80,7 @@ public class VolunteerController {
 		} catch (NoSuchElementException e){
 			throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
 		} catch (Exception e) {
-			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+			throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
         }
     }
 	
