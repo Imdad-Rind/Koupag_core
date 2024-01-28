@@ -9,13 +9,14 @@ import com.Koupag.models.DonationRequest;
 import com.Koupag.services.DonationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
-@RequestMapping(value = "api/donor/")
+@RequestMapping(value = "api/donor/",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //@PreAuthorize("hasRole('ROLE_DONOR')")
 public class DonorController {
     
@@ -41,7 +42,7 @@ public class DonorController {
             throw new NoSuchElementExceptionWrapper(" Requested Content is nonexistent ",e.getCause());
         }
         catch(Exception e){
-            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
         }
     }
 
@@ -59,7 +60,7 @@ public class DonorController {
             donationRequestService.closeActiveDonationById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
         }
     }
 
@@ -74,7 +75,7 @@ public class DonorController {
 
             throw new NullPointerExceptionWrapper("Requested Content is Null");
         } catch (Exception e){
-            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause());
+            throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
         }
     }
 }

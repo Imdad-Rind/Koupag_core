@@ -5,6 +5,7 @@ import com.Koupag.models.City;
 import com.Koupag.models.Roles;
 import com.Koupag.services.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/home")
+@RequestMapping(path = "api/home",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class HomeController {
     private final CitiesServices citiesServices;
     private final cityMapper cityMapper;

@@ -4,13 +4,14 @@ import com.Koupag.mappers.DonationMapper;
 import com.Koupag.models.DonationRequest;
 import com.Koupag.services.DonationRequestService;
 import com.Koupag.services.RecipientService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/recipient/")
+@RequestMapping(path = "api/recipient/",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //@PreAuthorize("hasRole('ROLE_RECIPIENT')")
 public class RecipientController {
 

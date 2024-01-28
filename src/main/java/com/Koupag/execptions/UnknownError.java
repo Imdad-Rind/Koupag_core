@@ -18,4 +18,6 @@ public class UnknownError extends RuntimeException{
     }
 
 
+    public UnknownError(String s, Throwable cause, StackTraceElement[] stackTrace) {
+    }
 }

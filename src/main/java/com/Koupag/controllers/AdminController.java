@@ -4,11 +4,12 @@ import com.Koupag.models.SurplusMaterial;
 import com.Koupag.services.CitiesServices;
 import com.Koupag.services.SurplusMaterialServices;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/admin")
+@RequestMapping(path = "api/admin",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminController {
 private final SurplusMaterialServices materialServices;
 
