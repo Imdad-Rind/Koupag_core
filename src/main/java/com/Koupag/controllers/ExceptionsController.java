@@ -15,8 +15,6 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ExceptionsController {
-
-
     @ExceptionHandler(UserAlreadyRegistered.class)
     public ResponseEntity<errorResponse> UserAlreadyRegistered(final UserAlreadyRegistered ex, WebRequest webRequest){
         errorResponse response = new errorResponse(HttpStatus.BAD_REQUEST.value(),ex.getMessage(), new Date());

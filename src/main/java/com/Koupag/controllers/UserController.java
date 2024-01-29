@@ -3,6 +3,7 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.login.UserDOS;
 import com.Koupag.execptions.NoSuchUserExist;
 import com.Koupag.execptions.UnknownError;
+import com.Koupag.mappers.models_map.SurplusMaterialMap;
 import com.Koupag.mappers.models_map.UserMap;
 import com.Koupag.models.SurplusMaterial;
 import com.Koupag.models.User;
@@ -16,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping(path = "api/user/",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,8 +52,8 @@ public class UserController {
     }
 
     @GetMapping("/get-surplus-materials")
-    public ResponseEntity<List<SurplusMaterial>> allSurplusMaterials(){
-        List<SurplusMaterial> surplusMaterials = surplusMaterialServices.getAllSurplusMaterialsName();
+    public ResponseEntity<List<SurplusMaterialMap>> allSurplusMaterials(){
+        List<SurplusMaterialMap> surplusMaterials = surplusMaterialServices.getAllSurplusMaterialsName().stream().map(SurplusMaterialMap::new).toList();
         if(!surplusMaterials.isEmpty()){
             return new ResponseEntity<>(surplusMaterials, HttpStatus.OK);
         }
