@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 .requestMatchers(toH2Console()).permitAll()
                                 .requestMatchers(
                                         "/api/auth/**",
-//                                        "/api/donor/**",
+                                        "/api/donor/**",
                                         "api/volunteer/**",
                                         "api/recipient/**",
                                         "api/admin/**",
