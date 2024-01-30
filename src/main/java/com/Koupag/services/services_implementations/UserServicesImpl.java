@@ -1,7 +1,8 @@
 package com.Koupag.services.services_implementations;
 
-import com.Koupag.execptions.NoSuchUserExist;
+import com.Koupag.models.Notification;
 import com.Koupag.models.User;
+import com.Koupag.repositories.NotificationRepository;
 import com.Koupag.repositories.UserRepository;
 import com.Koupag.services.CitiesServices;
 import com.Koupag.services.UserService;
@@ -11,6 +12,7 @@ import com.google.common.cache.LoadingCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -21,12 +23,14 @@ public class UserServicesImpl implements UserService {
     private final UserRepository userRepository;
     private final CitiesServices citiesServices;
     private final LoadingCache<String, User> cache;
+    private final NotificationRepository notificationRepository;
     
     @Autowired
-    public UserServicesImpl(UserRepository userRepository, CitiesServices citiesServices) {
+    public UserServicesImpl(UserRepository userRepository, CitiesServices citiesServices, NotificationRepository notificationRepository) {
         this.userRepository = userRepository;
         this.citiesServices = citiesServices;
-        
+        this.notificationRepository = notificationRepository;
+
         cache = CacheBuilder.newBuilder()
                         .expireAfterAccess(20, TimeUnit.MINUTES)
                         .maximumSize(1000)
@@ -93,6 +97,16 @@ public class UserServicesImpl implements UserService {
         userRepository.save(userToBeUpdated);
 
 
+    }
+
+    @Override
+    public List<Notification> getUserNotifications(UUID userId) {
+        return notificationRepository.findLatestNotificationsByUserId(userId);
+    }
+
+    @Override
+    public void deleteUserNotification(UUID notificationId) {
+        notificationRepository.deleteById(notificationId);
     }
 
 

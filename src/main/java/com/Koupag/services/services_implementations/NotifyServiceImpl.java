@@ -1,11 +1,8 @@
 package com.Koupag.services.services_implementations;
 
-import com.Koupag.AvailableNotifications;
 import com.Koupag.dtos.NotificationDto;
-import com.Koupag.models.Donor;
-import com.Koupag.models.Recipient;
-import com.Koupag.models.User;
-import com.Koupag.models.Volunteer;
+import com.Koupag.models.*;
+import com.Koupag.repositories.NotificationRepository;
 import com.Koupag.repositories.UserSessionRepo;
 import com.Koupag.services.FCMService;
 import com.Koupag.services.NotifyService;
@@ -13,7 +10,6 @@ import com.Koupag.services.UserSessionService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -21,11 +17,13 @@ import java.util.NoSuchElementException;
 public class NotifyServiceImpl implements NotifyService {
 
     private final UserSessionService userSessionService;
+    private final NotificationRepository notificationRepository;
     private final FCMService fcmService;
 
-    public NotifyServiceImpl(UserSessionService userSessionService, FCMService fcmService, UserSessionRepo userSessionRepo) {
+    public NotifyServiceImpl(UserSessionService userSessionService, FCMService fcmService, UserSessionRepo userSessionRepo, NotificationRepository notificationRepository) {
         this.userSessionService = userSessionService;
         this.fcmService = fcmService;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
@@ -38,8 +36,7 @@ public class NotifyServiceImpl implements NotifyService {
                         notification,
                         tokens
                 );
-            } catch (FirebaseMessagingException e) {
-                return;
+                volunteers.forEach(e -> notificationRepository.save(new Notification(notification, e.getId())));
             } catch (Exception e){
                 return;
             }
@@ -55,6 +52,7 @@ public class NotifyServiceImpl implements NotifyService {
                     notification,
                     fcmToken
             );
+            notificationRepository.save(new Notification(notification, donor.getId()));
         } catch (FirebaseMessagingException e) {
             return;
         } catch (Exception e){
@@ -71,6 +69,7 @@ public class NotifyServiceImpl implements NotifyService {
                     notification,
                     fcmToken
             );
+            notificationRepository.save(new Notification(notification, donor.getId()));
         } catch (FirebaseMessagingException e){
             return;
         } catch (Exception e){
@@ -87,6 +86,7 @@ public class NotifyServiceImpl implements NotifyService {
                     notification,
                     fcmTokens
             );
+            recipients.forEach(e -> notificationRepository.save(new Notification(notification, e.getId())));
         } catch (FirebaseMessagingException e){
             return;
         } catch (Exception e){
@@ -103,6 +103,7 @@ public class NotifyServiceImpl implements NotifyService {
                     notification,
                     fcmToken
             );
+            notificationRepository.save(new Notification(notification, donor.getId()));
         } catch (FirebaseMessagingException e){
             throw new NoSuchElementException("No Recipient Found");
         } catch (Exception e){
