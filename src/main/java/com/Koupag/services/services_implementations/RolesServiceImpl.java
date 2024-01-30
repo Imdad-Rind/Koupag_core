@@ -5,9 +5,7 @@ import com.Koupag.repositories.RolesRepository;
 import com.Koupag.services.RolesService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class RolesServiceImpl implements RolesService {
@@ -30,6 +28,17 @@ public class RolesServiceImpl implements RolesService {
     @Override
     public List<Roles> getAllRoles() {
         return rolesRepository.findAll();
+    }
+
+    @Override
+    public List<Roles> getOnlyMainThreeRoles() {
+        List<Roles> roles = new ArrayList<>();
+
+            roles.add(getByName("DONOR").get());
+            roles.add(getByName("VOLUNTEER").get());
+            roles.add(getByName("RECIPIENT").get());
+
+        return roles;
     }
 
     @Override

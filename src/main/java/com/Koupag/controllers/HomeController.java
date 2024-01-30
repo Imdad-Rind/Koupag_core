@@ -37,7 +37,7 @@ public class HomeController {
 
 
     @GetMapping("/userTypes")
-    public ResponseEntity<List<Roles>> roles(){
-        return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
+    public ResponseEntity<List<String>> roles(){
+        return new ResponseEntity<>(rolesService.getOnlyMainThreeRoles(),HttpStatus.OK);
     }
 }

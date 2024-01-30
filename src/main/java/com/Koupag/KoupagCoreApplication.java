@@ -99,6 +99,7 @@ public class KoupagCoreApplication {
 			auth.registerUser(user1);
 			loginUser = auth.loginUser(new LoginDTO("5220358009155","recipient"));
 			System.out.println("The Recipient JWT Token ["+loginUser.get().getJwt()+"]");
+
 		} catch (Exception e){
 
 		}
