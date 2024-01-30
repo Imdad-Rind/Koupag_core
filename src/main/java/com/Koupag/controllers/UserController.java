@@ -1,11 +1,11 @@
 package com.Koupag.controllers;
 
+import com.Koupag.dtos.NotificationDto;
 import com.Koupag.dtos.login.UserDOS;
 import com.Koupag.execptions.NoSuchUserExist;
 import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.models_map.SurplusMaterialMap;
 import com.Koupag.mappers.models_map.UserMap;
-import com.Koupag.models.SurplusMaterial;
 import com.Koupag.models.User;
 import com.Koupag.models.UserSessionModel;
 import com.Koupag.services.SurplusMaterialServices;
@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -101,4 +102,23 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/get-notifications/{id}")
+    public ResponseEntity<List<NotificationDto>> getNotifications(@PathVariable(name = "id") UUID id){
+        List<NotificationDto> notifications = userService.getUserNotifications(id).stream().map(NotificationDto::new).toList();
+        if(!notifications.isEmpty()){
+            return new ResponseEntity<>(notifications, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/delete-notification/{id}")
+    public ResponseEntity deleteNotifications(@PathVariable(name = "id") UUID id){
+        try {
+            userService.deleteUserNotification(id);
+            return new ResponseEntity<>( HttpStatus.OK);
+        } catch (Exception ignored){
+
+        }
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+    }
 }

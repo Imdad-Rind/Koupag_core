@@ -19,7 +19,6 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
-    @Column(name = "to_user")
     UUID userId;
     String title;
     String body;
