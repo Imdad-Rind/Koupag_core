@@ -115,10 +115,10 @@ public class UserController {
     public ResponseEntity deleteNotifications(@PathVariable(name = "id") UUID id){
         try {
             userService.deleteUserNotification(id);
-            return new ResponseEntity<>( HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ignored){
 
         }
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

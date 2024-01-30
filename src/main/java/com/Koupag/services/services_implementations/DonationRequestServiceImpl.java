@@ -165,7 +165,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             if(request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
             if(request.getEngagedDateTime() == null) return;  // The donation already engaged by another one
              // The donation had donated already
-            if(request.getVolunteer().getId() != completeDonationDTO.getVolunteerId()) return; // The case another volunteer is trying to donate donation
+            if(request.getVolunteer() != volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get()) return; // The case another volunteer is trying to donate donation
 
 
             Volunteer volunteer = volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get();
@@ -174,10 +174,8 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 //            Recipient recipient = recipientRepository.findById(completeDonationDTO.getRecipientId()).get();
 //            recipient.setLastServed(LocalDateTime.now());
 //            recipientRepository.save(recipient);
-            Optional<Recipient> recipient = Optional.empty();
             for(RecipientDonation rd: request.getRecipientDonations()){
-                if(rd.getRecipient().getId() == completeDonationDTO.getRecipientId()){
-                    recipient = Optional.of(rd.getRecipient());
+                if( rd.getRecipient() == recipientRepository.findById(completeDonationDTO.getRecipientId()).get()){
                     rd.setDonationDateTime(LocalDateTime.now());
                     rd.getRecipient().setLastServed(LocalDateTime.now());
                     recipientRepository.save(rd.getRecipient());
