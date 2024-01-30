@@ -1,8 +1,10 @@
 package com.Koupag.services;
 
+import com.Koupag.models.Notification;
 import com.Koupag.models.User;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +23,6 @@ public interface UserService {
     User getUserByEmail(String email);
     Optional<User> getUserById(UUID Id);
     void updateUserById(UUID id, User user);
-    
-    
+    List<Notification> getUserNotifications(UUID userId);
+    void deleteUserNotification(UUID notificationId);
 }
