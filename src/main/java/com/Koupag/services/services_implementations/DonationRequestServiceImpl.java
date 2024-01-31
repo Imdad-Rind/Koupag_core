@@ -64,12 +64,12 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             dr.setRecipientDonations(
                     recipientDonationRepository.findAllByDonationRequestId(dr.getId())
             );
-            requestItemTemp.getSurplusMaterial().setRequestItems(null);
+            requestItemTemp.getSurplusMaterial().setRequestItemList(null);
             requestItemRepository.save(requestItemTemp);
             dr.setDescription(request.getDescription());
             dr.setExpectedPickupTime(request.getExpectedPickupTime());
             dr.setLocation(request.getLocation());
-            dr.setRequestItem(requestItemTemp);
+            dr.setItem(requestItemTemp);
             dr.setCreationDateAndTime(LocalDateTime.now());
             dr.setIsDonationActive(true);
             // the nearest volunteer will be determined here

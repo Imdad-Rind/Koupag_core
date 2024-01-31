@@ -1,9 +1,7 @@
 package com.Koupag.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -11,31 +9,32 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public  class RequestItem {
+@AllArgsConstructor
+public class RequestItem {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     UUID Id;
-    
-    public RequestItem(int count, SurplusMaterial surplusMaterial) {
-        this.count = count;
-        this.surplusMaterial = surplusMaterial;
-    }
-    
+
     int count;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surplus_Material")
     SurplusMaterial surplusMaterial;
     
-    @OneToOne(fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = "item", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     DonationRequest request;
-    @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
+
+   /* @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     OrganizationDonation donation;
-
-    @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
+*/
+   /* @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    OrganizationDonationRequest organizationDonationRequest;
-    
+    OrganizationDonationRequest organizationDonationRequest;*/
+   public RequestItem(int count, SurplusMaterial surplusMaterial) {
+       this.count = count;
+       this.surplusMaterial = surplusMaterial;
+   }
 }

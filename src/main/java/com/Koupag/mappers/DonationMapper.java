@@ -35,7 +35,7 @@ public class DonationMapper {
         this.donor = new UserMap(request.getDonor());
         this.volunteer = new UserMap(request.getVolunteer());
         this.RecipientDonations = request.getRecipientDonations().stream().map(RecipientDonationMap::new).toList();
-        this.requestItem = new RequestedMaterialMap(request.getRequestItem());
+        this.requestItem = new RequestedMaterialMap(request.getItem());
         this.description = request.getDescription();
         this.location = new LocationMap(request.getLocation());
         this.expectedPickupTime = request.getExpectedPickupTime();
