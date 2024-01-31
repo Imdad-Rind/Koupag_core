@@ -16,7 +16,7 @@ public class AvailableNotifications {
     static public NotificationDto notifyDonationCreationToVolunteer(DonationRequest donationRequest) {
         data.put("route_to","/home");
         return new NotificationDto(
-                donationRequest.getRequestItem().getSurplusMaterial().getName() + " Created",
+                donationRequest.getRequestItem().getSurplusMaterial().getName() + " Donation Created",
                 donationRequest.getDonor().getName() + " has created the Donation",
                 "<imageUrl>",
                 data
