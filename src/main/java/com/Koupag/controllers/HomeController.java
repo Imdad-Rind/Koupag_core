@@ -40,4 +40,8 @@ public class HomeController {
     public ResponseEntity<List<Roles>> roles(){
         return new ResponseEntity<>(rolesService.getOnlyMainThreeRoles(),HttpStatus.OK);
     }
+    @GetMapping("/allRoles")
+    public ResponseEntity<List<Roles>> allRoles(){
+        return new ResponseEntity<>(rolesService.getAllRoles(),HttpStatus.OK);
+    }
 }
