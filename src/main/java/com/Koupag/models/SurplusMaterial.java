@@ -22,7 +22,7 @@ public class SurplusMaterial{
     String description;
     @ManyToMany(mappedBy = "surplusMaterial", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    List<RequestItem> requestItems;
+    List<RequestItem> requestItemList;
 
     public SurplusMaterial(String name, String description) {
         this.name = name;

@@ -54,13 +54,14 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/api/auth/**",
                                         "/api/donor/**",
-                                        "api/volunteer/**",
-                                        "api/recipient/**",
-                                        "api/admin/**",
-                                        "api/home/**",
-                                        "/api/user/**"
+                                        "/api/volunteer/**",
+                                        "/api/recipient/**",
+                                        "/api/admin/**",
+                                        "/api/home/**",
+                                        "/api/user/**",
+                                        "/web/dashboard/login"
                                 ).permitAll()
-                                .requestMatchers("admin/**").hasRole("ADMIN")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/donor").hasRole("DONOR")
                                 .requestMatchers("/api/volunteer").hasRole("VOLUNTEER")
                                 .requestMatchers("/api/recipient").hasRole("RECIPIENT")

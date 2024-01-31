@@ -11,6 +11,7 @@ public interface RolesService {
     Optional<Roles> getRolesById(UUID id);
 
     List<Roles> getAllRoles();
+    List<Roles> getOnlyMainThreeRoles();
 
     Roles CreateNewRole(Roles roles);
 }

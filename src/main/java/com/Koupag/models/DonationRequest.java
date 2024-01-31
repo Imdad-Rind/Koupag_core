@@ -32,7 +32,7 @@ public class DonationRequest{
     
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_Item_Id", nullable = true)
-    RequestItem requestItem;
+    RequestItem item;
     
     String description;
     Boolean isDonationActive;
@@ -46,11 +46,11 @@ public class DonationRequest{
     LocalDateTime volunteerPickupTime;                  // The time a Volunteer announces to pick that donation
     LocalDateTime engagedDateTime;                   // The time a Volunteer Actually pickup the donation
 
-    public DonationRequest(Donor donor, List<RecipientDonation> recipientDonations, Volunteer volunteer, RequestItem requestItem, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime) {
+    public DonationRequest(Donor donor, List<RecipientDonation> recipientDonations, Volunteer volunteer, RequestItem item, String description, Boolean isDonationActive, Location location, LocalDateTime creationDateAndTime, String expectedPickupTime, LocalDateTime volunteerPickupTime, LocalDateTime engagedDateTime) {
         this.donor = donor;
         this.recipientDonations = recipientDonations;
         this.volunteer = volunteer;
-        this.requestItem = requestItem;
+        this.item = item;
         this.description = description;
         this.isDonationActive = isDonationActive;
         this.location = location;

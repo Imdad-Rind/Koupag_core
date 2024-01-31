@@ -58,7 +58,7 @@ public class UserController {
         if(!surplusMaterials.isEmpty()){
             return new ResponseEntity<>(surplusMaterials, HttpStatus.OK);
         }
-        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.OK);
     }
     @GetMapping("/get-profile/{id}")
     public ResponseEntity<UserMap> getUser(@PathVariable(name = "id") UUID id){
@@ -83,7 +83,7 @@ public class UserController {
             throw new NoSuchUserExist("this user Does not exist");
         }
         UserDOS updatedUser = new UserDOS(u);
-        return new ResponseEntity<>(updatedUser,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(updatedUser,HttpStatus.OK);
     }
 
     @GetMapping("turn-off-notifications/{id}")
