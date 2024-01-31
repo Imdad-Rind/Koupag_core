@@ -47,6 +47,7 @@ public class KoupagCoreApplication {
 	}
 
 	// For debugging purposes
+
 	void addDummyUser(AuthenticationService auth){
 		try{
 			User user1 = new User();
