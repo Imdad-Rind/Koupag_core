@@ -2,6 +2,7 @@ package com.Koupag.services.services_implementations;
 
 import com.Koupag.AvailableNotifications;
 import com.Koupag.dtos.donation.CreateDonationDTO;
+import com.Koupag.execptions.*;
 import com.Koupag.models.*;
 import com.Koupag.dtos.donation.EngagedDonationDTO;
 import com.Koupag.dtos.donation.CompleteDonationDTO;
@@ -50,20 +51,36 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
-    public void createNewDonationRequest(CreateDonationDTO request) throws  Exception {
+    public void createNewDonationRequest(CreateDonationDTO request){
 //        System.out.println(LocalDateTime.parse(request.getExpectedPickupTime() , DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")));
         if(donationRequestRepository.findByDonorIdAndIsDonationActiveTrue(request.getDonorId()) == null){
             DonationRequest dr = new DonationRequest();
-            final Donor donor = donorRepository.findById(request.getDonorId()).get();
+
+            final Donor donor;
+            if (donorRepository.findById(request.getDonorId()).isPresent()){
+                donor  = donorRepository.findById(request.getDonorId()).get();
+            }
+            else {
+                throw new DonorNotFound("Donor with id : " + request.getDonorId() + "  not Found :: Error Thrown from \" createNewDonationRequest \"");
+            }
             dr.setDonor(donor);
+
+
+            final SurplusMaterial surplusMaterial;
+            if(surplusMaterialRepository.findById(request.getSurplusMaterialId()).isPresent()){
+                surplusMaterial = surplusMaterialRepository.findById(request.getSurplusMaterialId()).get();
+            }else {
+                throw new SurplusMaterialNotFound("SurplusMaterial with id : " + request.getSurplusMaterialId() + "  not Found :: Error Thrown from \" createNewDonationRequest \"");
+            }
             final RequestItem requestItemTemp = new RequestItem(
-                    request.getCount(),
-                    surplusMaterialRepository.findById(request.getSurplusMaterialId()).get()
+                    request.getCount(),surplusMaterial
             );
+
             donorService.findMostPoor(request.getCount(), dr.getDonor().getAddress().getCity());
             dr.setRecipientDonations(
                     recipientDonationRepository.findAllByDonationRequestId(dr.getId())
             );
+
             requestItemTemp.getSurplusMaterial().setRequestItemList(null);
             requestItemRepository.save(requestItemTemp);
             dr.setDescription(request.getDescription());
@@ -85,7 +102,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 
             return;
         }
-        throw new Exception("Already exists an donation");
+        throw new DonationAlreadyExists("Already exists an donation :: Error thrown from \" createNewDonationRequest \"");
     }
     
     @Override
@@ -94,25 +111,32 @@ public class DonationRequestServiceImpl implements DonationRequestService {
     }
 
     @Override
-    public void updateVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws NoSuchElementException, Exception  {
+    public void updateVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO)   {
         Optional<DonationRequest> requestToBeUpdated = donationRequestRepository.findById(engagedDonationDTO.getRequestId());
         if(requestToBeUpdated.isPresent())      // Can throw self-made Exception here...
         {
             DonationRequest request = requestToBeUpdated.get();
             if (!request.getIsDonationActive()) return;    // The donation was closed by donor
             if (request.getVolunteerPickupTime() != null) return; // The donation isn't picked yet.
-            Volunteer volunteer = volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get();
+
+            Volunteer volunteer;
+            if (volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).isPresent()){
+                volunteer = volunteerRepository.findById(engagedDonationDTO.getVolunteerId()).get();
+            }else {
+                throw new VolunteerNotFound(" Volunteer with id : "  + engagedDonationDTO.getVolunteerId() + " not Found :: Error thrown from \" updateVolunteerPickupByDonationRequest \"");
+            }
+
             request.setVolunteer(volunteer);
             request.setVolunteerPickupTime(LocalDateTime.now());
             notifyService.pickupNotification(request.getDonor(), AvailableNotifications.notifyPickupToDonor(request));
             donationRequestRepository.save(request);
         } else {
-            throw new Exception("Donation Not Found");
+            throw new DonorNotFound("Donation Not Found :: Error thrown from  \" updateVolunteerPickupByDonationRequest \" ");
         }
     }
 
     @Override
-    public void removeVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO) throws Exception {
+    public void removeVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO){
         Optional<DonationRequest> requestToBeUpdated = donationRequestRepository.findById(engagedDonationDTO.getRequestId());
         if(requestToBeUpdated.isPresent())      // Can throw self-made Exception here...
         {
@@ -127,12 +151,12 @@ public class DonationRequestServiceImpl implements DonationRequestService {
                 donationRequestRepository.save(request);
             }
         } else {
-            throw new Exception("Donation Not Found");
+            throw new DonationRequestNotFound("Donation Not Found with id : " + engagedDonationDTO.getRequestId() + " not Found :: Error Thrown from \" removeVolunteerPickupByDonationRequest \"");
         }
     }
 
     @Override
-    public void updateVolunteerEngagedTime(EngagedDonationDTO engagedDonationDTO) throws Exception  {
+    public void updateVolunteerEngagedTime(EngagedDonationDTO engagedDonationDTO) {
         Optional<DonationRequest> requestToBeUpdated = donationRequestRepository.findById(engagedDonationDTO.getRequestId());
         if(requestToBeUpdated.isPresent())      // Can throw self-made Exception here...
         {
@@ -141,7 +165,13 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             if(request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
             if(request.getEngagedDateTime() != null) return;  // The donation already engaged by another one
 
-            Donor donor = donorRepository.findById(request.getDonor().getId()).get();
+            Donor donor;
+            if (donorRepository.findById(request.getDonor().getId()).isPresent()){
+                donor = donorRepository.findById(request.getDonor().getId()).get();
+            }else {
+                throw new DonorNotFound("Donor with id : " + request.getDonor().getId()+ " Not Found :: Error Throw from  \" updateVolunteerEngagedTime \"" );
+            }
+
             donor.setLastServed(LocalDateTime.now());
             donorRepository.save(donor);
             request.setEngagedDateTime(LocalDateTime.now());
@@ -150,7 +180,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             notifyService.engageNotification(recipientList, AvailableNotifications.notifyDonationCreationToVolunteer(request));
             donationRequestRepository.save(request);
         } else {
-            throw new Exception("Donation Not Found");
+            throw new DonationRequestNotFound("Donation Not Found with id : " + engagedDonationDTO.getRequestId() + " not Found :: Error Thrown from \" updateVolunteerEngagedTime \"");
         }
     }
     
@@ -164,23 +194,37 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             if(!request.getIsDonationActive()) return;    // The donation was closed by donor
             if(request.getVolunteerPickupTime() == null) return; // The donation isn't picked yet.
             if(request.getEngagedDateTime() == null) return;  // The donation already engaged by another one
+
              // The donation had donated already
-            if(request.getVolunteer() != volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get()) return; // The case another volunteer is trying to donate donation
+            Volunteer volunteer;
+            if (volunteerRepository.findById(completeDonationDTO.getVolunteerId()).isPresent()){
+                if(request.getVolunteer() != volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get()) return; // The case another volunteer is trying to donate donation
+            }else {
+                throw new VolunteerNotFound("Volunteer not found  with id "+ completeDonationDTO.getVolunteerId() + ":: Error from the if statement with comment\" The case another volunteer is trying to donate donation \" : in method \" updateRecipientByDonationRequest \" ");
+            }
 
+            if (volunteerRepository.findById(completeDonationDTO.getVolunteerId()).isPresent()){
+                volunteer = volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get();
+            }else {
+                throw new VolunteerNotFound("Volunteer Not Found with ID : " + completeDonationDTO.getVolunteerId() + "Error Thrown from \" updateRecipientByDonationRequest \" ");
+            }
 
-            Volunteer volunteer = volunteerRepository.findById(completeDonationDTO.getVolunteerId()).get();
             volunteer.setLastServed(LocalDateTime.now());
             volunteerRepository.save(volunteer);
 //            Recipient recipient = recipientRepository.findById(completeDonationDTO.getRecipientId()).get();
 //            recipient.setLastServed(LocalDateTime.now());
 //            recipientRepository.save(recipient);
             for(RecipientDonation rd: request.getRecipientDonations()){
-                if( rd.getRecipient() == recipientRepository.findById(completeDonationDTO.getRecipientId()).get()){
-                    rd.setDonationDateTime(LocalDateTime.now());
-                    rd.getRecipient().setLastServed(LocalDateTime.now());
-                    recipientRepository.save(rd.getRecipient());
-                    recipientDonationRepository.save(rd);
+                if (recipientRepository.findById(completeDonationDTO.getRecipientId()).isPresent()){
+                    if( rd.getRecipient() == recipientRepository.findById(completeDonationDTO.getRecipientId()).get()){
+                        rd.setDonationDateTime(LocalDateTime.now());
+                        rd.getRecipient().setLastServed(LocalDateTime.now());
+                        recipientRepository.save(rd.getRecipient());
+                        recipientDonationRepository.save(rd);
+                    }
                 }
+                else throw new RecipientNotFound("Recipient wit id "+ completeDonationDTO.getRecipientId() + " Not Found :: error from foreach loop in \" updateRecipientByDonationRequest \"");
+
             }
             boolean isAnyRecipientLeft = recipientDonationRepository.existsByDonationRequestIdAndDonationDateTimeIsNull(request.getId());
             request.setIsDonationActive(isAnyRecipientLeft);
@@ -190,7 +234,8 @@ public class DonationRequestServiceImpl implements DonationRequestService {
             );
             donationRequestRepository.save(request);
         } else {
-            throw new Exception("Donation Not Found");
+            throw new DonationRequestNotFound("Donation Not Found with id : " + completeDonationDTO.getRequestId() + " not Found :: Error Thrown from \" updateRecipientByDonationRequest \"");
+
         }
     }
     
