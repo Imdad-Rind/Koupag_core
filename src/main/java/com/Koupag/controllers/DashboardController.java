@@ -23,10 +23,12 @@ public class DashboardController {
     public String login(){
         return "admin/login";
     }
+    @GetMapping("/home")
+    public String dashboard(){return "admin/dashboard";}
 
     @PostMapping("/login")
-    public String loginProcess(@ModelAttribute LoginDTO loginDTO){
+    public String loginProcess(@RequestBody LoginDTO loginDTO){
         authenticationService.loginUser(loginDTO);
-        return "redirect:/admin/dashboard";
+        return "redirect:web/dashboard/home";
     }
 }
