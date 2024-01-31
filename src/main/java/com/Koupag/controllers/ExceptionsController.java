@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ExceptionsController {
@@ -22,6 +21,34 @@ public class ExceptionsController {
     }
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<errorResponse> UserNotFound(final UserNotFoundException ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(DonorNotFound.class)
+    public ResponseEntity<errorResponse> DonorNotFound(final DonorNotFound ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(VolunteerNotFound.class)
+    public ResponseEntity<errorResponse> VolunteerNotFound(final VolunteerNotFound ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RecipientNotFound.class)
+    public ResponseEntity<errorResponse> RecipientNotFound(final RecipientNotFound ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DonationRequestNotFound.class)
+    public ResponseEntity<errorResponse> DonationNotFound(final DonationRequestNotFound ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(SurplusMaterialNotFound.class)
+    public ResponseEntity<errorResponse> SurplusMaterialNotFound(final SurplusMaterialNotFound ex, WebRequest webRequest){
         errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -40,6 +67,11 @@ public class ExceptionsController {
 
     @ExceptionHandler(AlreadyVerified.class)
     public ResponseEntity<errorResponse> AlreadyVerified(final AlreadyVerified ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.CONFLICT.value(),ex.getMessage(), new Date());
+        return  new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(DonationAlreadyExists.class)
+    public ResponseEntity<errorResponse> DonationAlreadyExists(final DonationAlreadyExists ex, WebRequest webRequest){
         errorResponse response = new errorResponse(HttpStatus.CONFLICT.value(),ex.getMessage(), new Date());
         return  new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }

@@ -62,6 +62,7 @@ public class SecurityConfig {
                                         "/web/dashboard/login"
                                 ).permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/web/dashboard/**").hasRole("ADMIN")
                                 .requestMatchers("/api/donor").hasRole("DONOR")
                                 .requestMatchers("/api/volunteer").hasRole("VOLUNTEER")
                                 .requestMatchers("/api/recipient").hasRole("RECIPIENT")
