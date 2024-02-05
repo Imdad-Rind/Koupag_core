@@ -1,5 +1,7 @@
 package com.Koupag.services.services_implementations;
 
+import com.Koupag.execptions.OldPasswordDoNotMatch;
+import com.Koupag.execptions.UserNotFoundException;
 import com.Koupag.models.Notification;
 import com.Koupag.models.User;
 import com.Koupag.repositories.NotificationRepository;
@@ -20,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServicesImpl implements UserService {
 
+
     private final UserRepository userRepository;
     private final CitiesServices citiesServices;
     private final LoadingCache<String, User> cache;
@@ -27,6 +30,7 @@ public class UserServicesImpl implements UserService {
     
     @Autowired
     public UserServicesImpl(UserRepository userRepository, CitiesServices citiesServices, NotificationRepository notificationRepository) {
+
         this.userRepository = userRepository;
         this.citiesServices = citiesServices;
         this.notificationRepository = notificationRepository;
@@ -80,6 +84,23 @@ public class UserServicesImpl implements UserService {
     }
 
     @Override
+    public Void updateUserPassword(UUID id, String oldPass, String newPass) {
+        if (userRepository.findById(id).isPresent()){
+            User u = userRepository.getReferenceById(id);
+            if (u.getPassword().equals(oldPass)){
+                u.setPassword(newPass);
+                userRepository.save(u);
+            }else {
+                throw new OldPasswordDoNotMatch("Old password for user with id : " + id +" does not match");
+            }
+
+        }else {
+            throw new UserNotFoundException("Request to Update password of user with id : "+id+" Not Found :: Error thrown From Services");
+        }
+        return null;
+    }
+
+    @Override
     public Optional<User> getUserById(UUID Id) {
         return userRepository.findById(Id);
     }
@@ -107,6 +128,11 @@ public class UserServicesImpl implements UserService {
     @Override
     public void deleteUserNotification(UUID notificationId) {
         notificationRepository.deleteById(notificationId);
+    }
+
+    @Override
+    public void deleteUserByID(UUID id) {
+        userRepository.deleteById(id);
     }
 
 
