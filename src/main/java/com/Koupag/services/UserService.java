@@ -21,8 +21,11 @@ public interface UserService {
     void cacheNewUser(String email, User user);
     User getCachedUser(String email);
     User getUserByEmail(String email);
+
+    Void updateUserPassword(UUID id, String oldPass, String newPass);
     Optional<User> getUserById(UUID Id);
     void updateUserById(UUID id, User user);
     List<Notification> getUserNotifications(UUID userId);
     void deleteUserNotification(UUID notificationId);
+    void deleteUserByID(UUID id);
 }

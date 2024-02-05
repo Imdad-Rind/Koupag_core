@@ -41,6 +41,11 @@ public class ExceptionsController {
         errorResponse response = new errorResponse(HttpStatus.NOT_FOUND.value(),ex.getMessage(), new Date());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(OldPasswordDoNotMatch.class)
+    public ResponseEntity<errorResponse> OldPasswordDoNotMatch(final OldPasswordDoNotMatch ex, WebRequest webRequest){
+        errorResponse response = new errorResponse(HttpStatus.BAD_REQUEST.value(),ex.getMessage(), new Date());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(DonationRequestNotFound.class)
     public ResponseEntity<errorResponse> DonationNotFound(final DonationRequestNotFound ex, WebRequest webRequest){

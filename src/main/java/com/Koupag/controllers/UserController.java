@@ -2,8 +2,10 @@ package com.Koupag.controllers;
 
 import com.Koupag.dtos.NotificationDto;
 import com.Koupag.dtos.login.UserDOS;
+import com.Koupag.dtos.passwordUpdate;
 import com.Koupag.execptions.NoSuchUserExist;
 import com.Koupag.execptions.UnknownError;
+import com.Koupag.execptions.UserNotFoundException;
 import com.Koupag.mappers.models_map.SurplusMaterialMap;
 import com.Koupag.mappers.models_map.UserMap;
 import com.Koupag.models.User;
@@ -14,6 +16,7 @@ import com.Koupag.services.UserSessionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +30,15 @@ public class UserController {
 
     private final UserService userService;
     private final SurplusMaterialServices surplusMaterialServices;
+    private final PasswordEncoder encoder;
 
 
-    public UserController(UserService userService, SurplusMaterialServices surplusMaterialServices, UserSessionService userSessionService) {
+    public UserController(UserService userService, SurplusMaterialServices surplusMaterialServices, PasswordEncoder encoder, UserSessionService userSessionService) {
         this.userService = userService;
         this.surplusMaterialServices = surplusMaterialServices;
+        this.encoder = encoder;
         this.userSessionService = userSessionService;
+
     }
 
     private final UserSessionService userSessionService;
@@ -112,7 +118,7 @@ public class UserController {
     }
 
     @GetMapping("/delete-notification/{id}")
-    public ResponseEntity deleteNotifications(@PathVariable(name = "id") UUID id){
+    public ResponseEntity<?> deleteNotifications(@PathVariable(name = "id") UUID id){
         try {
             userService.deleteUserNotification(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -120,5 +126,22 @@ public class UserController {
 
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("delete-user/{id}")
+    public ResponseEntity<?> deleteUserByID(@PathVariable(name = "id") UUID id){
+        if(userService.getUserById(id).isPresent()){
+            userService.deleteUserByID(id);
+        }else {
+            throw new UserNotFoundException("Request to delete user with : " + id + " Not Found :: Error Thrown from Controller");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("update-password/{id}")
+    public ResponseEntity<?> changeUserPassword(@PathVariable(name = "id") UUID id, @RequestBody passwordUpdate passwordUpdate){
+        userService.updateUserPassword(id, encoder.encode(passwordUpdate.getOldPassword()), encoder.encode(passwordUpdate.getNewPassword()));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
