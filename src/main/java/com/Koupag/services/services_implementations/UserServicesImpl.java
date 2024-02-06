@@ -6,12 +6,12 @@ import com.Koupag.models.Notification;
 import com.Koupag.models.User;
 import com.Koupag.repositories.NotificationRepository;
 import com.Koupag.repositories.UserRepository;
-import com.Koupag.services.CitiesServices;
 import com.Koupag.services.UserService;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,15 +24,16 @@ public class UserServicesImpl implements UserService {
 
 
     private final UserRepository userRepository;
-    private final CitiesServices citiesServices;
     private final LoadingCache<String, User> cache;
     private final NotificationRepository notificationRepository;
+    private PasswordEncoder encoder;
+
+
     
     @Autowired
-    public UserServicesImpl(UserRepository userRepository, CitiesServices citiesServices, NotificationRepository notificationRepository) {
+    public UserServicesImpl(UserRepository userRepository, NotificationRepository notificationRepository) {
 
         this.userRepository = userRepository;
-        this.citiesServices = citiesServices;
         this.notificationRepository = notificationRepository;
 
         cache = CacheBuilder.newBuilder()
@@ -52,11 +53,6 @@ public class UserServicesImpl implements UserService {
         userRepository.save(user);
         return user;
     }
-
-   /* @Override
-    public Optional<User> getUserByUserName(String username) {
-
-    }*/
     
     @Override
     public Optional<User> getUserByCNIC(String cnic) {
@@ -84,15 +80,12 @@ public class UserServicesImpl implements UserService {
     }
 
     @Override
-    public Void updateUserPassword(UUID id, String oldPass, String newPass) {
+    public Void updateUserPassword(UUID id, String newPass) {
         if (userRepository.findById(id).isPresent()){
+
             User u = userRepository.getReferenceById(id);
-            if (u.getPassword().equals(oldPass)){
-                u.setPassword(newPass);
-                userRepository.save(u);
-            }else {
-                throw new OldPasswordDoNotMatch("Old password for user with id : " + id +" does not match");
-            }
+            u.setPassword(newPass);
+            userRepository.save(u);
 
         }else {
             throw new UserNotFoundException("Request to Update password of user with id : "+id+" Not Found :: Error thrown From Services");

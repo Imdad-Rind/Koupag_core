@@ -6,4 +6,6 @@ public interface OTPService {
 	String getOtp(String email);
 	
 	boolean verifyOtp(String email, String otp);
+
+	void ExpireOTP(String otp);
 }

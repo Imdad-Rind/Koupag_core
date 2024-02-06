@@ -44,4 +44,9 @@ public class OTPServiceImpl implements OTPService {
 	public boolean verifyOtp(String email, String otp) {
 		return Objects.equals(otpCache.getIfPresent(email), otp);
 	}
+
+	@Override
+	public void ExpireOTP(String otp) {
+		otpCache.invalidate(otp);
+	}
 }
