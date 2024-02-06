@@ -3,16 +3,13 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.NotificationDto;
 import com.Koupag.dtos.login.UserDOS;
 import com.Koupag.dtos.passwordUpdate;
-import com.Koupag.execptions.NoSuchUserExist;
+import com.Koupag.execptions.*;
 import com.Koupag.execptions.UnknownError;
-import com.Koupag.execptions.UserNotFoundException;
 import com.Koupag.mappers.models_map.SurplusMaterialMap;
 import com.Koupag.mappers.models_map.UserMap;
 import com.Koupag.models.User;
 import com.Koupag.models.UserSessionModel;
-import com.Koupag.services.SurplusMaterialServices;
-import com.Koupag.services.UserService;
-import com.Koupag.services.UserSessionService;
+import com.Koupag.services.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +28,16 @@ public class UserController {
     private final UserService userService;
     private final SurplusMaterialServices surplusMaterialServices;
     private final PasswordEncoder encoder;
+    private final EmailService emailService;
+    private final OTPService otpService;
 
 
-    public UserController(UserService userService, SurplusMaterialServices surplusMaterialServices, PasswordEncoder encoder, UserSessionService userSessionService) {
+    public UserController(UserService userService, SurplusMaterialServices surplusMaterialServices, PasswordEncoder encoder, EmailService emailService, OTPService otpService, UserSessionService userSessionService) {
         this.userService = userService;
         this.surplusMaterialServices = surplusMaterialServices;
         this.encoder = encoder;
+        this.emailService = emailService;
+        this.otpService = otpService;
         this.userSessionService = userSessionService;
 
     }
@@ -141,7 +142,56 @@ public class UserController {
 
     @PutMapping("update-password/{id}")
     public ResponseEntity<?> changeUserPassword(@PathVariable(name = "id") UUID id, @RequestBody passwordUpdate passwordUpdate){
-        userService.updateUserPassword(id, encoder.encode(passwordUpdate.getOldPassword()), encoder.encode(passwordUpdate.getNewPassword()));
+        if (userService.getUserById(id).isPresent()){
+            User u = userService.getUserById(id).get();
+            if (encoder.matches(passwordUpdate.getOldPassword(), u.getPassword())){
+                userService.updateUserPassword(id, encoder.encode(passwordUpdate.getNewPassword()));
+            }
+            else {
+                throw  new OldPasswordDoNotMatch("Request to update user password with is  : "+ id + " : Old passwords Does not match with. \n\n Check your password :: Error Thrown From Controller ");
+            }
+
+        }else {
+            throw new UserNotFoundException("Request to update password of user with : " + id + " Not Found :: Error Thrown from Controller");
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping("forget-password-request")
+    public ResponseEntity<?> forgetPasswordRequest(@RequestBody String cnic){
+
+        if (userService.getUserByCNIC(cnic).isPresent()){
+
+
+            User u = userService.getUserByCNIC(cnic).get();
+            String otp = otpService.generateAndSendOtp(u.getEmail());
+            //emailService.sendOTP(u.getEmail(),otp);
+            System.out.println(otp);
+
+        }else {
+            throw new UserNotFoundException("User Not Found of Forgot Password Request :: check CNIC :: Error Thrown From Controller");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("forget-password-process/{cnic}")
+    public ResponseEntity<?>forgetPasswordProcess(@PathVariable(name = "cnic") String cnic,@RequestBody String otp){
+        if (userService.getUserByCNIC(cnic).isPresent()){
+
+            User u = userService.getUserByCNIC(cnic).get();
+
+            if(otpService.verifyOtp(u.getEmail(), otp)) {
+
+                otpService.verifyOtp(u.getEmail(), otp);
+                otpService.ExpireOTP(otp);
+
+            }else {
+                throw new AlreadyVerified("OTP is already Used");
+            }
+        }else {
+            throw new UserNotFoundException("User Not Found of Forgot Password Request while verifying OTP :: check CNIC :: Error Thrown From Controller");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

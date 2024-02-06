@@ -90,11 +90,12 @@ public class  AuthController {
         User user;
         try {
            if(otpService.verifyOtp(otpAndEmail.getEmail(), otpAndEmail.getOtp())) {
-              
+
+               otpService.verifyOtp(otpAndEmail.getEmail(), otpAndEmail.getOtp());
                verifiedUserService.verifyUserByEmail(otpAndEmail.getEmail());
-               
+               otpService.ExpireOTP(otpAndEmail.getOtp());
            }else {
-               throw new NotVerified("OTP not Verified");
+               throw new AlreadyVerified("OTP is already Used");
            }
         } catch (Exception e) {
             throw new UnknownError("Unknown Error : " + e.getMessage(),e.getCause(),e.getStackTrace());
