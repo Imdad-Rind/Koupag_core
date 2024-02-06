@@ -3,14 +3,12 @@ package com.Koupag.controllers;
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.dtos.verify.otpAndEmail;
-import com.Koupag.execptions.AlreadyVerified;
-import com.Koupag.execptions.NotVerified;
+import com.Koupag.execptions.*;
 import com.Koupag.execptions.UnknownError;
-import com.Koupag.execptions.UserAlreadyRegistered;
 import com.Koupag.models.User;
-import com.Koupag.models.UserSessionModel;
 import com.Koupag.models.VerifiedUser;
 import com.Koupag.services.*;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,22 +31,24 @@ public class  AuthController {
     private final OTPService otpService;
     private final VerifiedUserService verifiedUserService;
     private final UserSessionService userSessionService;
+    private final UserService userService;
     public AuthController(AuthenticationService authenticationService, RolesService rolesService,
-                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService, UserSessionService userSessionService) {
+                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService, UserSessionService userSessionService, UserService userService) {
         this.authenticationService = authenticationService;
         this.emailService = emailService;
         this.otpService = otpService;
         this.verifiedUserService = verifiedUserService;
         this.userSessionService = userSessionService;
+        this.userService = userService;
     }
 
     
     @PostMapping("request_register")
-    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) {
+    public ResponseEntity<Void> requestRegister(@RequestBody VerifiedUser verifiedUser) throws MessagingException {
         String userEmail = verifiedUser.getEmail();
         if(!verifiedUserService.isUserVerified(verifiedUser.getEmail())){
             String otp = otpService.generateAndSendOtp(userEmail);
-            //emailService.sendOTP(userEmail,otp);
+            emailService.sendOTP(userEmail,otp);
             System.out.println(otp);
             verifiedUserService.NewVerifiedUser(verifiedUser);
         }else {
@@ -113,5 +113,43 @@ public class  AuthController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+
+    @PostMapping("forget-password-request")
+    public ResponseEntity<?> forgetPasswordRequest(@RequestBody String cnic) throws MessagingException {
+
+        if (userService.getUserByCNIC(cnic).isPresent()){
+
+
+            User u = userService.getUserByCNIC(cnic).get();
+            String otp = otpService.generateAndSendOtp(u.getEmail());
+            emailService.sendOTP(u.getEmail(),otp);
+
+        }else {
+            throw new UserNotFoundException("User Not Found of Forgot Password Request :: check CNIC :: Error Thrown From Controller");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("forget-password-process/{cnic}")
+    public ResponseEntity<?>forgetPasswordProcess(@PathVariable(name = "cnic") String cnic,@RequestBody String otp){
+        if (userService.getUserByCNIC(cnic).isPresent()){
+
+            User u = userService.getUserByCNIC(cnic).get();
+
+            if(otpService.verifyOtp(u.getEmail(), otp)) {
+
+                otpService.verifyOtp(u.getEmail(), otp);
+                otpService.ExpireOTP(otp);
+
+            }else {
+                throw new AlreadyVerified("OTP is already Used");
+            }
+        }else {
+            throw new UserNotFoundException("User Not Found of Forgot Password Request while verifying OTP :: check CNIC :: Error Thrown From Controller");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
 

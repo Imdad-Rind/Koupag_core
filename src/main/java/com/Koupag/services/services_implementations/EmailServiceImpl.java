@@ -24,10 +24,24 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public void sendOTP(String email, String otp) throws MessagingException {
 		SimpleMailMessage simpleOTPMail = new SimpleMailMessage();
-		simpleOTPMail.setFrom(String.valueOf(new InternetAddress(" ")));
+		simpleOTPMail.setFrom(String.valueOf(new InternetAddress("Koupag_Org")));
 		simpleOTPMail.setTo(String.valueOf(new InternetAddress(email)));
 		simpleOTPMail.setSubject("Koupag OTP Verification");
-		simpleOTPMail.setText("Your OTP for Koupag is: " + otp + "\n\nnote this OTP will expire after 5 minutes");
+		simpleOTPMail.setText("Subject: Your Koupag OTP\n" +
+				"\n" +
+				"Dear User,\n" +
+				"\n" +
+				"This email contains your one-time password (OTP) to verify your account. Please use this code within the next 5 minutes for it to be valid.\n" +
+				"\n" +
+				"Your OTP is: "+otp+"\n" +
+				"\n" +
+				"Please do not share this OTP with anyone.\n" +
+				"\n" +
+				"If you did not request an OTP, please disregard this email.\n" +
+				"\n" +
+				"Sincerely,\n" +
+				"\n" +
+				"The Koupag Team");
 		
 		javaMailSender.send(simpleOTPMail);
 	
