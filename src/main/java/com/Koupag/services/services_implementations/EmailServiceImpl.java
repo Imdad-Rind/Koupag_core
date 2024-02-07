@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailServiceImpl implements EmailService {
-	
-	@Qualifier("gmail")
+
 	private final JavaMailSender javaMailSender;
 	
 	@Autowired
@@ -24,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public void sendOTP(String email, String otp) throws MessagingException {
 		SimpleMailMessage simpleOTPMail = new SimpleMailMessage();
-		simpleOTPMail.setFrom(String.valueOf(new InternetAddress("Koupag_Org")));
+		simpleOTPMail.setFrom("Koupag_org");
 		simpleOTPMail.setTo(String.valueOf(new InternetAddress(email)));
 		simpleOTPMail.setSubject("Koupag OTP Verification");
 		simpleOTPMail.setText("Subject: Your Koupag OTP\n" +
