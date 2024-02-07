@@ -80,7 +80,7 @@ public class UserServicesImpl implements UserService {
     }
 
     @Override
-    public Void updateUserPassword(UUID id, String newPass) {
+    public void  updateUserPassword(UUID id, String newPass) {
         if (userRepository.findById(id).isPresent()){
 
             User u = userRepository.getReferenceById(id);
@@ -90,7 +90,7 @@ public class UserServicesImpl implements UserService {
         }else {
             throw new UserNotFoundException("Request to Update password of user with id : "+id+" Not Found :: Error thrown From Services");
         }
-        return null;
+
     }
 
     @Override
@@ -126,6 +126,19 @@ public class UserServicesImpl implements UserService {
     @Override
     public void deleteUserByID(UUID id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void forgotPasswordUpdate(String cnic, String newPass) {
+        if (getUserByCNIC(cnic).isPresent()){
+            User u = userRepository.findByCNIC(cnic);
+            u.setPassword(newPass);
+            userRepository.save(u);
+        }else {
+            throw new UserNotFoundException("user Not Found of the Request to Update forgotten password :: Error thrown From Services");
+        }
+
+
     }
 
 

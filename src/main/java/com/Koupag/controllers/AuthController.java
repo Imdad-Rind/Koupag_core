@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,14 +33,16 @@ public class  AuthController {
     private final VerifiedUserService verifiedUserService;
     private final UserSessionService userSessionService;
     private final UserService userService;
+    private final PasswordEncoder encoder;
     public AuthController(AuthenticationService authenticationService, RolesService rolesService,
-                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService, UserSessionService userSessionService, UserService userService) {
+                          EmailService emailService, OTPService otpService, VerifiedUserService verifiedUserService, UserSessionService userSessionService, UserService userService, PasswordEncoder encoder) {
         this.authenticationService = authenticationService;
         this.emailService = emailService;
         this.otpService = otpService;
         this.verifiedUserService = verifiedUserService;
         this.userSessionService = userSessionService;
         this.userService = userService;
+        this.encoder = encoder;
     }
 
     
@@ -147,6 +150,16 @@ public class  AuthController {
             }
         }else {
             throw new UserNotFoundException("User Not Found of Forgot Password Request while verifying OTP :: check CNIC :: Error Thrown From Controller");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("update-forgotten-pass/{cnic}")
+    public ResponseEntity<?> updateForgottenPassword(@PathVariable(name = "cnic") String cnic,@RequestBody String pass){
+        if (userService.getUserByCNIC(cnic).isPresent()){
+            userService.forgotPasswordUpdate(cnic,encoder.encode(pass));
+        }else {
+            throw new UserNotFoundException("User Not Found of Forgot Password update Request while processing :: check CNIC :: Error Thrown From Controller");
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

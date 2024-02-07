@@ -28,16 +28,13 @@ public class UserController {
     private final UserService userService;
     private final SurplusMaterialServices surplusMaterialServices;
     private final PasswordEncoder encoder;
-    private final EmailService emailService;
-    private final OTPService otpService;
 
 
-    public UserController(UserService userService, SurplusMaterialServices surplusMaterialServices, PasswordEncoder encoder, EmailService emailService, OTPService otpService, UserSessionService userSessionService) {
+
+    public UserController(UserService userService, SurplusMaterialServices surplusMaterialServices, PasswordEncoder encoder,UserSessionService userSessionService) {
         this.userService = userService;
         this.surplusMaterialServices = surplusMaterialServices;
         this.encoder = encoder;
-        this.emailService = emailService;
-        this.otpService = otpService;
         this.userSessionService = userSessionService;
 
     }
