@@ -1,5 +1,6 @@
 package com.Koupag.controllers;
 
+import com.Koupag.dtos.forgottenPasswordOBJ;
 import com.Koupag.dtos.login.LoginDTO;
 import com.Koupag.dtos.login.LoginResponseDTO;
 import com.Koupag.dtos.verify.otpAndEmail;
@@ -118,14 +119,16 @@ public class  AuthController {
     }
 
     @PostMapping("forget-password-request")
-    public ResponseEntity<?> forgetPasswordRequest(@RequestBody String cnic) throws MessagingException {
+    public ResponseEntity<?> forgetPasswordRequest(@RequestBody forgottenPasswordOBJ obj) throws MessagingException {
 
-        if (userService.getUserByCNIC(cnic).isPresent()){
+        if (userService.getUserByCNIC(obj.getCnic()).isPresent()){
 
 
-            User u = userService.getUserByCNIC(cnic).get();
-            String otp = otpService.generateAndSendOtp(u.getEmail());
-            emailService.sendOTP(u.getEmail(),otp);
+            User u = userService.getUserByCNIC(obj.getCnic()).get();
+            String email = u.getEmail();
+            String otp = otpService.generateAndSendOtp(email);
+            emailService.sendOTP(email,otp);
+            System.out.println(otp);
 
         }else {
             throw new UserNotFoundException("User Not Found of Forgot Password Request :: check CNIC :: Error Thrown From Controller");
@@ -135,15 +138,15 @@ public class  AuthController {
     }
 
     @PostMapping("forget-password-process/{cnic}")
-    public ResponseEntity<?>forgetPasswordProcess(@PathVariable(name = "cnic") String cnic,@RequestBody String otp){
+    public ResponseEntity<?>forgetPasswordProcess(@PathVariable(name = "cnic") String cnic,@RequestBody forgottenPasswordOBJ obj){
         if (userService.getUserByCNIC(cnic).isPresent()){
 
             User u = userService.getUserByCNIC(cnic).get();
 
-            if(otpService.verifyOtp(u.getEmail(), otp)) {
+            if(otpService.verifyOtp(u.getEmail(), obj.getOtp())) {
 
-                otpService.verifyOtp(u.getEmail(), otp);
-                otpService.ExpireOTP(otp);
+                otpService.verifyOtp(u.getEmail(), obj.getOtp());
+                otpService.ExpireOTP(obj.getOtp());
 
             }else {
                 throw new AlreadyVerified("OTP is already Used");
@@ -155,9 +158,9 @@ public class  AuthController {
     }
 
     @PostMapping("update-forgotten-pass/{cnic}")
-    public ResponseEntity<?> updateForgottenPassword(@PathVariable(name = "cnic") String cnic,@RequestBody String pass){
+    public ResponseEntity<?> updateForgottenPassword(@PathVariable(name = "cnic") String cnic,@RequestBody forgottenPasswordOBJ obj){
         if (userService.getUserByCNIC(cnic).isPresent()){
-            userService.forgotPasswordUpdate(cnic,encoder.encode(pass));
+            userService.forgotPasswordUpdate(cnic,encoder.encode(obj.getPass()));
         }else {
             throw new UserNotFoundException("User Not Found of Forgot Password update Request while processing :: check CNIC :: Error Thrown From Controller");
         }
