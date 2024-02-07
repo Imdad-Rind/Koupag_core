@@ -67,7 +67,7 @@ public class KoupagCoreApplication {
 			user1.setName("Baloch");
 			user1.setCNIC("5220358009153");
 			user1.setPhoneNumber("03232579202");
-			user1.setEmail("balochrasheed@gmail.com");
+			user1.setEmail("balochrasheed888@gmail.com");
 			user1.setPassword("donor");
 			user1.setUserType("DONOR");
 			user1.setAddress(user1address);

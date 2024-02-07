@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.net.UnknownHostException;
 import java.util.Date;
 
 @RestControllerAdvice
@@ -113,6 +114,13 @@ public class ExceptionsController {
 
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<ErrorResponse>messagingException(final MessagingException ex, WebRequest webRequest){
+        ErrorResponse response = new ErrorResponse(HttpStatus.REQUEST_TIMEOUT.value(),  ex.getMessage(), new Date());
+        return  new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
+    }
+
+    //UnknownHostException
+    @ExceptionHandler(UnknownHostException.class)
+    public ResponseEntity<ErrorResponse>messagingException(final UnknownHostException ex, WebRequest webRequest){
         ErrorResponse response = new ErrorResponse(HttpStatus.REQUEST_TIMEOUT.value(),  ex.getMessage(), new Date());
         return  new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
     }
