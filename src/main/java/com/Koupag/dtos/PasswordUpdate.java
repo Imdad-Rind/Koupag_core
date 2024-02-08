@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class passwordUpdate {
+public class PasswordUpdate {
     @JsonProperty("newPassword")
     String newPassword;
     @JsonProperty("oldPassword")
