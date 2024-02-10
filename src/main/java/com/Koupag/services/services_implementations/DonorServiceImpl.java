@@ -7,8 +7,6 @@ import com.Koupag.services.DonorService;
 import com.Koupag.services.NearbyService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -40,7 +38,7 @@ public class DonorServiceImpl implements DonorService {
     @Override
     public List<Recipient> findMostPoor(int count, String city, Location donorLocation) {
         List<Recipient> recipients = recipientRepository.findAllByAddressCityOrderByLastServedAsc(city);
-        recipients = NearbyService.findNearestUser(recipients, donorLocation, 0.015000);
+        recipients = NearbyService.findNearestRecipients(recipients, donorLocation, 0.015000);
         for(Recipient recipient: recipients){
             recipientDonationRepository.save(new RecipientDonation(recipient));
         }

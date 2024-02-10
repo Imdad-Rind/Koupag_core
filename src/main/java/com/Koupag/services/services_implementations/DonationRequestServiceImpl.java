@@ -94,6 +94,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
 
             // Sending Notifications
             List<Volunteer> nearestVolunteers = volunteerRepository.findByAddressCity(donor.getAddress().getCity());
+            nearestVolunteers = NearbyService.findNearestVolunteers(nearestVolunteers,donor.getAddress().getLocation(),0.015000);
             notifyService.donationCreationNotification(
                     nearestVolunteers,
                     AvailableNotifications.notifyDonationCreationToVolunteer(dr)
