@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LocationMap {
-    String latitude;
-    String longitude;
+    double latitude;
+    double longitude;
 
     public LocationMap(Location location){
         if(location == null) return;

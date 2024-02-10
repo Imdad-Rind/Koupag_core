@@ -18,9 +18,9 @@ public class Location {
 	private UUID id;
 	
 	@JsonProperty("latitude")
-	private String latitude;
+	private double latitude;
 	@JsonProperty("longitude")
-	private String longitude;
+	private double longitude;
 	
 	@JsonBackReference
 	@OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "location")
@@ -31,13 +31,13 @@ public class Location {
 	@OneToOne(targetEntity = DonationRequest.class, mappedBy = "location",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private DonationRequest donationRequest;
 	
-	public Location(String latitude, String longitude, Address address) {
+	public Location(double latitude, double longitude, Address address) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.home_address = address;
 	}
 	
-	public Location(String latitude, String longitude) {
+	public Location(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}

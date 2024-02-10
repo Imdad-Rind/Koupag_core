@@ -58,8 +58,8 @@ public class KoupagCoreApplication {
 					user1
 			);
 			Location user1addressLocation = new Location(
-					"23.3234",
-					"12.2343",
+					26.037093,
+					63.0249617,
 					user1address
 			);
 			// dummy donor
@@ -75,6 +75,12 @@ public class KoupagCoreApplication {
 			Optional<LoginResponseDTO> loginUser = auth.loginUser(new LoginDTO("5220358009153","donor"));
 			System.out.println("The Donor JWT Token ["+loginUser.get().getJwt()+"]");
 			// dummy volunteer
+
+			user1addressLocation = new Location(
+					26.033177,
+					63.025608,
+					user1address
+			);
 			user1address.setAreaName("Dabbok");
 			user1address.setLocation(user1addressLocation);
 			user1.setName("Komar");
@@ -88,6 +94,12 @@ public class KoupagCoreApplication {
 			loginUser = auth.loginUser(new LoginDTO("5220358009154","volunteer"));
 			System.out.println("The Volunteer JWT Token ["+loginUser.get().getJwt()+"]");
 			// dummy recipient
+			user1addressLocation = new Location(
+					26.036531,
+					63.029483,
+					user1address
+			);
+
 			user1address.setAreaName("Gebon");
 			user1address.setLocation(user1addressLocation);
 			user1.setName("Javid");
@@ -99,6 +111,26 @@ public class KoupagCoreApplication {
 			user1.setAddress(user1address);
 			auth.registerUser(user1);
 			loginUser = auth.loginUser(new LoginDTO("5220358009155","recipient"));
+			System.out.println("The Recipient JWT Token ["+loginUser.get().getJwt()+"]");
+
+			//recipient 2
+			user1addressLocation = new Location(
+					26.005002,
+					63.054615,
+					user1address
+			);
+
+			user1address.setAreaName("Gebon");
+			user1address.setLocation(user1addressLocation);
+			user1.setName("Zahoor");
+			user1.setCNIC("5220358009156");
+			user1.setPhoneNumber("03232579206");
+			user1.setEmail("balochrasheed6@gmail.com");
+			user1.setPassword("recipient");
+			user1.setUserType("RECIPIENT");
+			user1.setAddress(user1address);
+			auth.registerUser(user1);
+			loginUser = auth.loginUser(new LoginDTO("5220358009156","recipient"));
 			System.out.println("The Recipient JWT Token ["+loginUser.get().getJwt()+"]");
 
 		} catch (Exception e){
