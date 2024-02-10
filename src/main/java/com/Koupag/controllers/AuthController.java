@@ -86,7 +86,7 @@ public class  AuthController {
         {
             return new ResponseEntity<>(Optional.of(authenticationService.loginUser(loginDto).get()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(Optional.empty(), HttpStatus.UNAUTHORIZED);
+        throw new WrongCredsException("Wrong username or password");
     }
     
     @PostMapping("verify-otp")

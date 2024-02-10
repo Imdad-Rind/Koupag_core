@@ -28,6 +28,8 @@ public interface DonationRequestRepository extends JpaRepository<DonationRequest
 
 	// Donation Request
 	List<DonationRequest> findByIsDonationActiveTrue();
+
+	List<DonationRequest> findAllByDonorAddressCityAndIsDonationActiveTrueAndVolunteerPickupTimeNull(String city);
 	
 	
 }

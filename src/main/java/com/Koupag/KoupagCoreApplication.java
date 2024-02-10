@@ -76,9 +76,14 @@ public class KoupagCoreApplication {
 			System.out.println("The Donor JWT Token ["+loginUser.get().getJwt()+"]");
 			// dummy volunteer
 
+//			user1addressLocation = new Location(
+//					26.033177,
+//					63.025608,
+//					user1address
+//			);
 			user1addressLocation = new Location(
-					26.033177,
-					63.025608,
+					26.005002,
+					63.054615,
 					user1address
 			);
 			user1address.setAreaName("Dabbok");

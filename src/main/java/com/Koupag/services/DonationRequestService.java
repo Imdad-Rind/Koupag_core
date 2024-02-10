@@ -27,4 +27,6 @@ public interface DonationRequestService {
 
    public  void closeActiveDonationById(UUID id) throws Exception;
    public List<DonationRequest> getAllActiveDonation();
+
+   public List<DonationRequest> getAllActiveDonationsForVolunteer(UUID volunteerId);
 }

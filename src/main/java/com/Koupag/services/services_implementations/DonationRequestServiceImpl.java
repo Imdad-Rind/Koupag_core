@@ -281,4 +281,15 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         return donationRequestRepository.findByIsDonationActiveTrue();
     }
     // New Methods - End
+
+    public List<DonationRequest> getAllActiveDonationsForVolunteer(UUID volunteerId){
+        Optional<Volunteer> foundVolunteer = volunteerRepository.findById(volunteerId);
+        if(foundVolunteer.isPresent()) {
+            List<DonationRequest> donations = donationRequestRepository.findAllByDonorAddressCityAndIsDonationActiveTrueAndVolunteerPickupTimeNull(foundVolunteer.get().getAddress().getCity());
+            // Find nearest donations
+
+            return NearbyService.findNearestDonation(donations,foundVolunteer.get().getAddress().getLocation(), 0.015000);
+        }
+        return new ArrayList<>();
+    }
 }

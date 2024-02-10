@@ -124,4 +124,10 @@ public class ExceptionsController {
         ErrorResponse response = new ErrorResponse(HttpStatus.REQUEST_TIMEOUT.value(),  ex.getMessage(), new Date());
         return  new ResponseEntity<>(response, HttpStatus.REQUEST_TIMEOUT);
     }
+
+    @ExceptionHandler(WrongCredsException.class)
+    public ResponseEntity<ErrorResponse>wrongCreds(final WrongCredsException ex, WebRequest webRequest){
+        ErrorResponse response = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(),  ex.getMessage(), new Date());
+        return  new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
 }
