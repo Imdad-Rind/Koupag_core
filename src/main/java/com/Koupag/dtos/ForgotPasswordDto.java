@@ -6,13 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class passwordUpdate {
-    @JsonProperty("newPassword")
-    String newPassword;
-    @JsonProperty("oldPassword")
-    String oldPassword;
+public class ForgotPasswordDto {
+    @JsonProperty("cnic")
+    String cnic;
+    @JsonProperty("otp")
+    String otp;
+    @JsonProperty("password")
+    String password;
+    @JsonProperty("userId")
+    UUID userId;
 }

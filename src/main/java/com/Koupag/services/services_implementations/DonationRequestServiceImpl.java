@@ -76,7 +76,7 @@ public class DonationRequestServiceImpl implements DonationRequestService {
                     request.getCount(),surplusMaterial
             );
 
-            donorService.findMostPoor(request.getCount(), dr.getDonor().getAddress().getCity());
+            donorService.findMostPoor(request.getCount(), dr.getDonor().getAddress().getCity(), request.getLocation());
             dr.setRecipientDonations(
                     recipientDonationRepository.findAllByDonationRequestId(dr.getId())
             );

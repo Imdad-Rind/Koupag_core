@@ -2,7 +2,7 @@ package com.Koupag.controllers;
 
 import com.Koupag.dtos.NotificationDto;
 import com.Koupag.dtos.login.UserDOS;
-import com.Koupag.dtos.passwordUpdate;
+import com.Koupag.dtos.PasswordUpdate;
 import com.Koupag.execptions.*;
 import com.Koupag.execptions.UnknownError;
 import com.Koupag.mappers.models_map.SurplusMaterialMap;
@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -137,14 +136,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("update-password/{id}")
-    public ResponseEntity<?> changeUserPassword(@PathVariable(name = "id") UUID id, @RequestBody passwordUpdate passwordUpdate) {
+    @PostMapping("update-password/{id}")
+    public ResponseEntity<?> changeUserPassword(@PathVariable(name = "id") UUID id, @RequestBody PasswordUpdate passwordUpdate) {
         if (userService.getUserById(id).isPresent()) {
             User u = userService.getUserById(id).get();
             if (encoder.matches(passwordUpdate.getOldPassword(), u.getPassword())) {
                 userService.updateUserPassword(id, encoder.encode(passwordUpdate.getNewPassword()));
             } else {
-                throw new OldPasswordDoNotMatch("Request to update user password with is  : " + id + " : Old passwords Does not match with. \n\n Check your password :: Error Thrown From Controller ");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
         } else {

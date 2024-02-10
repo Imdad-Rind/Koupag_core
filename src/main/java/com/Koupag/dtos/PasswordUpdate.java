@@ -10,11 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class forgottenPasswordOBJ {
-    @JsonProperty("cnic")
-    String cnic;
-    @JsonProperty("otp")
-    String otp;
-    @JsonProperty("pass")
-    String pass;
+public class PasswordUpdate {
+    @JsonProperty("newPassword")
+    String newPassword;
+    @JsonProperty("oldPassword")
+    String oldPassword;
 }
