@@ -90,10 +90,11 @@ public class VolunteerController {
 		return new ResponseEntity<>(donationList.stream().map(DonationMapper::new).toList(), donationList.isEmpty() ? HttpStatus.NO_CONTENT: HttpStatus.OK);
 	}
 
-	@GetMapping("active_donations")
-	public ResponseEntity<List<DonationMapper>>getAllActiveDonation(){
+	@GetMapping("active_donations/{id}")
+	public ResponseEntity<List<DonationMapper>>getAllActiveDonation(@PathVariable(name = "id") UUID id){
+		List<DonationRequest> foundDonations = donationRequestService.getAllActiveDonationsForVolunteer(id);
 		return new ResponseEntity<>(
-				donationRequestService.getAllActiveDonation().stream().map(DonationMapper::new).toList(),
+				foundDonations.stream().map(DonationMapper::new).toList(),
 				HttpStatus.OK
 		);
 	}
