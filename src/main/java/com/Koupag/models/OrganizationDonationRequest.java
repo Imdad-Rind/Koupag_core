@@ -19,16 +19,11 @@ public class OrganizationDonationRequest {
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID Id;
     int numberOfDonationsNeeded;
-   /* @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "set_of_Organization_Donation_Id")
-    Set<OrganizationDonation> setOfOrganizationDonationId;
-    Long recipientOrganizationId;*/
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "request_Item_Id", nullable = false)
     RequestItem requestItemId;
     int status;
     LocalDateTime creationDateAndTime;
-    //LocalDateTime engagedDateAndTime;
     LocalDateTime successfulDonationDateAndTime;
 
 }

@@ -38,9 +38,6 @@ public class VerifiedUser {
 		VerificationTime = verificationTime;
 	}
 
-	public boolean isUserVerified() {
-		return isUserVerified;
-	}
 
 	public void setUserVerified(boolean userVerified) {
 		isUserVerified = userVerified;

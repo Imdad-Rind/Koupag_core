@@ -32,7 +32,6 @@ public class DonorController {
     @PostMapping("create-donation")
     public ResponseEntity<Void> donationRequest(@RequestBody CreateDonationDTO request){
         try {
-//            UUID.fromString(String.valueOf(request.getDonorId()));
             donationRequestService.createNewDonationRequest(request);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -70,7 +69,6 @@ public class DonorController {
         try{
             DonationMapper donationRequest = new DonationMapper(donationRequestService.getActiveDonationRequestByDonorId(id));
             return new ResponseEntity<>(donationRequest,HttpStatus.OK);
-//            return new ResponseEntity<>(new DonationRequest(),HttpStatus.OK);
         } catch (NullPointerException e) {
 
             throw new NullPointerExceptionWrapper("Requested Content is Null");

@@ -26,13 +26,6 @@ public class RequestItem {
             cascade = CascadeType.ALL)
     DonationRequest request;
 
-   /* @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    OrganizationDonation donation;
-*/
-   /* @OneToOne(mappedBy = "requestItemId", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    OrganizationDonationRequest organizationDonationRequest;*/
    public RequestItem(int count, SurplusMaterial surplusMaterial) {
        this.count = count;
        this.surplusMaterial = surplusMaterial;

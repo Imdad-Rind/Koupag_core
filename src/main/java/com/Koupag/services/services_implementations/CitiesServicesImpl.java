@@ -27,8 +27,4 @@ public class CitiesServicesImpl implements CitiesServices {
 		return citiesRepository.findAll();
 	}
 	
-	@Override
-	public City getCityById(UUID id) {
-		return citiesRepository.findById(id).get();
-	}
 }

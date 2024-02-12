@@ -31,7 +31,4 @@ public class OrganizationDonation {
     LocalDateTime engagedDateAndTime;
     LocalDateTime successfulDonationDateAndTime;
 
-    /*@OneToOne(mappedBy = "setOfOrganizationDonationId", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    OrganizationDonationRequest organizationDonationRequest;*/
 }

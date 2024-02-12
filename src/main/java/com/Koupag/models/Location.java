@@ -24,7 +24,6 @@ public class Location {
 	
 	@JsonBackReference
 	@OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "location")
-//	@JoinColumn(referencedColumnName = "LOCATION_ID")
 	@JoinColumn(name = "home_address")
 	private Address home_address;
 	

@@ -20,10 +20,6 @@ public class RolesServiceImpl implements RolesService {
         return rolesRepository.findByAuthority(name);
     }
 
-    @Override
-    public Optional<Roles> getRolesById(UUID id) {
-        return rolesRepository.findById(id);
-    }
 
     @Override
     public List<Roles> getAllRoles() {
