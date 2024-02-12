@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public interface RolesService {
     Optional<Roles> getByName(String name);
-    Optional<Roles> getRolesById(UUID id);
 
     List<Roles> getAllRoles();
     List<Roles> getOnlyMainThreeRoles();

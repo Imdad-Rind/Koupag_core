@@ -17,11 +17,7 @@ public class City {
 	UUID Id;
 	String name;
 
-	
-	public City(String name, List<Address> address) {
-		this.name = name;
-	}
-	
+
 	public City(String name) {
 		this.name = name;
 	}

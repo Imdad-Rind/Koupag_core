@@ -13,13 +13,8 @@ import java.util.UUID;
 public interface UserService {
 
     User creteNewUser(User user);
-//    UserModel getUserById(UUID id);
-//    Optional<User> getUserByUserName(String username);
     Optional<User> getUserByCNIC(String cnic);
-//    Boolean existsByUsername(String username);
     public Boolean existsByEmail(String email);
-    void cacheNewUser(String email, User user);
-    User getCachedUser(String email);
     User getUserByEmail(String email);
     void updateUserPassword(UUID id, String newPass);
     Optional<User> getUserById(UUID Id);

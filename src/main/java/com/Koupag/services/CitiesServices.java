@@ -9,5 +9,4 @@ public interface CitiesServices {
 	
 	void addNewCity(City city);
 	List<City> getAllCities();
-	City getCityById(UUID id);
 }

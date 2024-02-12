@@ -53,7 +53,6 @@ public class  AuthController {
         if(!verifiedUserService.isUserVerified(verifiedUser.getEmail())){
             String otp = otpService.generateAndSendOtp(userEmail);
             emailService.sendOTP(userEmail,otp);
-            System.out.println(otp);
             verifiedUserService.NewVerifiedUser(verifiedUser);
         }else {
             throw new AlreadyVerified("User Already Verified");
@@ -91,10 +90,8 @@ public class  AuthController {
     
     @PostMapping("verify-otp")
     public ResponseEntity<Void>verifyOTP(@RequestBody otpAndEmail otpAndEmail){
-        User user;
         try {
            if(otpService.verifyOtp(otpAndEmail.getEmail(), otpAndEmail.getOtp())) {
-
                otpService.verifyOtp(otpAndEmail.getEmail(), otpAndEmail.getOtp());
                verifiedUserService.verifyUserByEmail(otpAndEmail.getEmail());
                otpService.ExpireOTP(otpAndEmail.getOtp());
@@ -125,9 +122,7 @@ public class  AuthController {
             User u = userService.getUserByCNIC(obj.getCnic()).get();
             String email = u.getEmail();
             String otp = otpService.generateAndSendOtp(email);
-            System.out.printf(otp);
             emailService.sendOTP(email,otp);
-            System.out.println(otp);
 
         }else {
             throw new UserNotFoundException("User Not Found of Forgot Password Request :: check CNIC :: Error Thrown From Controller");

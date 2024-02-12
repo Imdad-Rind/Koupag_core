@@ -106,10 +106,6 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         throw new DonationAlreadyExists("Already exists an donation :: Error thrown from \" createNewDonationRequest \"");
     }
     
-    @Override
-    public Optional<DonationRequest> getDonationRequestById(UUID id) {
-        return donationRequestRepository.findById(id);
-    }
 
     @Override
     public void updateVolunteerPickupByDonationRequest(EngagedDonationDTO engagedDonationDTO)   {
@@ -255,10 +251,6 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         return donationRequestRepository.findByVolunteerIdAndIsDonationActiveFalse(volunteerId);
     }
 
-    @Override
-    public List<DonationRequest> getActiveDonationRequestByVolunteerId(UUID volunteerId) {
-        return null;
-    }
 
     @Override
     public List<DonationRequest> getAllDonationRequestByRecipientId(UUID recipientId) {
@@ -277,10 +269,6 @@ public class DonationRequestServiceImpl implements DonationRequestService {
         donationRequestRepository.save(activeDonation);
     }
     
-    @Override
-    public List<DonationRequest> getAllActiveDonation() {
-        return donationRequestRepository.findByIsDonationActiveTrue();
-    }
     // New Methods - End
 
     public List<DonationRequest> getAllActiveDonationsForVolunteer(UUID volunteerId){

@@ -63,16 +63,6 @@ public class UserServicesImpl implements UserService {
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
-
-    @Override
-    public void cacheNewUser(String email, User user) {
-        cache.put(email, user);
-    }
-    
-    @Override
-    public User getCachedUser(String email) {
-        return cache.getIfPresent(email);
-    }
     
     @Override
     public User getUserByEmail(String email) {
